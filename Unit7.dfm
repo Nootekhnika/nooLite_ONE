@@ -38,7 +38,7 @@ object Form7: TForm7
       Top = 4
       Width = 125
       Height = 19
-      Caption = 'nooLite ONE v1.8'
+      Caption = 'nooLite ONE v1.9'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -51,7 +51,7 @@ object Form7: TForm7
       Top = 29
       Width = 184
       Height = 19
-      Caption = #1059#1055' "'#1053#1054#1054#1058#1045#1061#1053#1048#1050#1040'" 2018'
+      Caption = #1059#1055' "'#1053#1054#1054#1058#1045#1061#1053#1048#1050#1040'" 2020'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16

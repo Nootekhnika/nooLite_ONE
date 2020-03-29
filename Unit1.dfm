@@ -5,8 +5,8 @@ object Form1: TForm1
   BorderStyle = bsSingle
   BorderWidth = 1
   Caption = 'nooLite ONE'
-  ClientHeight = 439
-  ClientWidth = 978
+  ClientHeight = 658
+  ClientWidth = 1094
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -407,7 +407,7 @@ object Form1: TForm1
       'B_CMD_WRITE'
       'B_CMD_RESET_OK'
       'B_CMD_EXIT_BOOT'
-      '-'
+      #1052#1072#1088#1096#1088#1091#1090#1080#1079#1072#1094#1080#1103' noolite-F'
       '-'
       '-')
   end
@@ -865,6 +865,7 @@ object Form1: TForm1
     Width = 114
     Height = 59
     TabOrder = 18
+    Visible = False
     object RadioButton1: TRadioButton
       Left = 3
       Top = 3
@@ -874,6 +875,7 @@ object Form1: TForm1
       Checked = True
       TabOrder = 0
       TabStop = True
+      Visible = False
     end
     object RadioButton2: TRadioButton
       Left = 3
@@ -882,6 +884,7 @@ object Form1: TForm1
       Height = 17
       Caption = #1044#1086#1087#1086#1083#1085#1080#1090#1077#1083#1100#1085#1086#1077
       TabOrder = 1
+      Visible = False
     end
     object RadioButton3: TRadioButton
       Left = 3
@@ -890,6 +893,7 @@ object Form1: TForm1
       Height = 17
       Caption = #1056#1077#1089#1091#1088#1089#1099' '#1087#1088#1080#1074#1103#1079#1082#1080
       TabOrder = 2
+      Visible = False
     end
   end
   object AdvGlassButton7: TAdvGlassButton
@@ -1418,6 +1422,9 @@ object Form1: TForm1
       object N19: TMenuItem
         Caption = #1058#1077#1088#1084#1086#1089#1090#1072#1090
         OnClick = N19Click
+      end
+      object nooLite2: TMenuItem
+        Caption = #1047#1072#1076#1077#1088#1078#1082#1072' '#1088#1077#1090#1088#1072#1085#1089#1083#1103#1094#1080#1080' nooLite'
       end
     end
     object N10: TMenuItem

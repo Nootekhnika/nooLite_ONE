@@ -116,6 +116,7 @@ type
     N17: TMenuItem;
     N18: TMenuItem;
     N19: TMenuItem;
+    nooLite2: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ComPort1RxChar(Sender: TObject; Count: Integer);
@@ -213,6 +214,7 @@ const
   DEV_TYPE_5 = 'SUF-1-300';
   DEV_TYPE_6 = 'SRF-1-3000-T';
   DEV_TYPE_7 = 'SRF-1-1000-R';
+  DEV_TYPE_8 = 'SRF-1-1000-N';
   DEV_TYPE_UNKNOWN = 'Неизвестно';
 
   CMD_RECIVE_API = 1;
@@ -857,7 +859,82 @@ begin
       begin
         settings_set := 0;
 
+        Form2.Label1.Caption := 'Настройка устройства: ' + settings_name;
 
+        settings_data := (readdata[8] shl 8) + readdata[7];
+        Form2.Show;
+
+        if testbit(settings_data, 0) then
+        begin
+          Form2.RadioGroup1.ItemIndex := 0;
+          Form2.RadioGroup5.Enabled := false;
+        end
+        else
+        begin
+          Form2.RadioGroup1.ItemIndex := 1;
+          Form2.RadioGroup5.Enabled := true;
+        end;
+
+        if testbit(settings_data, 1) then
+          Form2.RadioGroup2.ItemIndex := 1
+        else
+          Form2.RadioGroup2.ItemIndex := 0;
+
+        if testbit(settings_data, 2) then
+          Form2.RadioGroup3.ItemIndex := 1
+        else
+          Form2.RadioGroup3.ItemIndex := 0;
+
+
+          if (settings_type=6) then begin
+
+        if testbit(settings_data, 1) then
+          Form2.RadioGroup7.ItemIndex := 2
+        else if testbit(settings_data, 3) then
+          Form2.RadioGroup7.ItemIndex := 1
+          else
+          Form2.RadioGroup7.ItemIndex := 0;
+
+          end
+          else begin
+        if testbit(settings_data, 3) then
+          state_temp := 1
+        else
+          state_temp := 0;
+
+        if testbit(settings_data, 4) then
+          state_temp := state_temp + 2;
+        Form2.RadioGroup4.ItemIndex := state_temp;
+
+        end;
+
+        if testbit(settings_data, 5) then
+          Form2.RadioGroup5.ItemIndex := 0
+        else
+          Form2.RadioGroup5.ItemIndex := 1;
+
+        if testbit(settings_data, 6) then
+          Form2.RadioGroup6.ItemIndex := 0
+        else
+          Form2.RadioGroup6.ItemIndex := 1;
+
+      end;
+
+    end
+
+      else  if (readdata[6] = 1) then  //300n
+    begin // настройка устройства
+
+      if settings_set = 2 then
+      begin
+        settings_set := 0;
+        wait_update_off;
+        showmessage('Настройка устройства завершена!');
+        Form1.AdvGlassButton12.Click;
+      end
+      else
+      begin
+        settings_set := 0;
 
         Form2.Label1.Caption := 'Настройка устройства: ' + settings_name;
 
@@ -921,6 +998,7 @@ begin
       end;
 
     end
+
     else  if (readdata[6] = 17) then //коррекция диммирования
     begin // настройка устройства
 
@@ -1052,6 +1130,8 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_6
       else if (readdata[7] = 7) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
+      else if (readdata[7] = 15) then
+        Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_UNKNOWN;
 
@@ -1130,6 +1210,8 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_6
       else if (readdata[7] = 7) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
+      else if (readdata[7] = 15) then
+        Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_UNKNOWN;
 
@@ -1187,6 +1269,8 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_6
       else if (readdata[7] = 7) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
+      else if (readdata[7] = 15) then
+        Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_UNKNOWN;
 
@@ -1225,6 +1309,9 @@ begin
         ' - Нет ответа '
     else if (readdata[7] = 7) then
       Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7 +
+        ' - Нет ответа '
+    else if (readdata[7] = 15) then
+      Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8 +
         ' - Нет ответа '
     else
       Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_UNKNOWN +
@@ -2564,6 +2651,8 @@ begin
                 name_device := DEV_TYPE_6
               else if (readdata[7] = 7) then
                 name_device := DEV_TYPE_7
+              else if (readdata[7] = 15) then
+                name_device := DEV_TYPE_8
               else
                 name_device := DEV_TYPE_UNKNOWN;
 
@@ -2596,6 +2685,8 @@ begin
                 name_device := DEV_TYPE_6
               else if (readdata[7] = 7) then
                 name_device := DEV_TYPE_7
+              else if (readdata[7] = 15) then
+                name_device := DEV_TYPE_8
               else
                 name_device := DEV_TYPE_UNKNOWN;
               adapter_name.Add(name_device);
@@ -2719,6 +2810,9 @@ begin
                         else if (readdata[7] = 7) then
                           Form1.Label6.Caption := Form1.Label6.Caption +
                             DEV_TYPE_7
+                        else if (readdata[7] = 15) then
+                          Form1.Label6.Caption := Form1.Label6.Caption +
+                            DEV_TYPE_8
                         else
                           Form1.Label6.Caption := Form1.Label6.Caption +
                             DEV_TYPE_UNKNOWN;
@@ -3479,7 +3573,7 @@ begin
     if (ListBox1.ItemIndex > -1) then
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
-    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=4)or (dev_type_temp=5)or (dev_type_temp=6)or (dev_type_temp=7)) then begin
+    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=4)or (dev_type_temp=5)or (dev_type_temp=6)or (dev_type_temp=7)or (dev_type_temp=15)) then begin
 
         settings_type:=dev_type_temp;
 
@@ -3516,13 +3610,15 @@ begin
         Form2.RadioGroup6.Visible:=false;
         Form2.RadioGroup2.ItemIndex:=1;
         Form2.RadioGroup7.Visible:=true;
-
         end
         else begin
         Form2.RadioGroup4.Visible:=true;
         Form2.RadioGroup6.Visible:=true;
         Form2.RadioGroup7.Visible:=false;
         end;
+
+
+
 
         if (dev_type_temp=7) then
           begin
@@ -3555,6 +3651,9 @@ begin
 
         senddata[7] := 0; // data0
 
+         if (dev_type_temp=15) then
+         senddata[6] := 1 // suf-300-n
+           else
         senddata[6] := 16; // формат=16, чтение настройки
 
         clear_result(senddata[6]); // подготовить верхнюю строчку страницы
@@ -3592,7 +3691,7 @@ begin
     if (ListBox1.ItemIndex > -1) then
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
-    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=5)) then begin
+    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=5)or (dev_type_temp=15)) then begin
 
       if (send_enable) then
       begin
@@ -4090,7 +4189,17 @@ begin
     N4.Enabled := true;
     N11.Enabled := true;
     N12.Enabled := true;
+
      if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_5 then begin
+      N17.Visible:=true;
+      N18.Visible:=true;
+     end
+     else begin
+      N17.Visible:=false;
+      N18.Visible:=false;
+     end;
+
+     if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_8 then begin
       N17.Visible:=true;
       N18.Visible:=true;
      end
