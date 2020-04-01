@@ -1,0 +1,31 @@
+unit Unit10;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Spin, AdvGlassButton, ExtCtrls;
+
+type
+  TForm10 = class(TForm)
+    Label1: TLabel;
+    Shape2: TShape;
+    Shape1: TShape;
+    Label3: TLabel;
+    AdvGlassButton12: TAdvGlassButton;
+    AdvGlassButton1: TAdvGlassButton;
+    SpinEdit1: TSpinEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form10: TForm10;
+
+implementation
+
+{$R *.dfm}
+
+end.

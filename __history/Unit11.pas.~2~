@@ -1,0 +1,70 @@
+unit Unit11;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Spin, AdvGlassButton, ExtCtrls;
+
+type
+  TForm11 = class(TForm)
+    Label1: TLabel;
+    Shape2: TShape;
+    Shape1: TShape;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label6: TLabel;
+    AdvGlassButton12: TAdvGlassButton;
+    AdvGlassButton1: TAdvGlassButton;
+    SpinEdit1: TSpinEdit;
+    SpinEdit2: TSpinEdit;
+    SpinEdit3: TSpinEdit;
+    procedure SpinEdit1Change(Sender: TObject);
+    procedure SpinEdit3Change(Sender: TObject);
+    procedure SpinEdit2Change(Sender: TObject);
+    procedure AdvGlassButton12Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form11: TForm11;
+
+implementation
+
+uses Unit1;
+
+{$R *.dfm}
+
+procedure TForm11.AdvGlassButton12Click(Sender: TObject);
+begin
+settings_mask:=$FF;
+if (settings_mode=18) then begin
+settings_data_ext :=round(Form11.SpinEdit1.Value);
+Form11.Close;
+send_new_settings_ext(18);
+end;
+end;
+
+procedure TForm11.SpinEdit1Change(Sender: TObject);
+begin
+SpinEdit3.MinValue:=SpinEdit1.Value;
+if SpinEdit1.Value>SpinEdit3.Value then
+SpinEdit3.Value:=SpinEdit1.Value;
+end;
+
+procedure TForm11.SpinEdit2Change(Sender: TObject);
+begin
+SpinEdit1.MaxValue:=SpinEdit2.Value-1;
+SpinEdit3.MaxValue:=SpinEdit2.Value-1;
+end;
+
+procedure TForm11.SpinEdit3Change(Sender: TObject);
+begin
+SpinEdit2.MinValue:=SpinEdit3.Value+1;
+end;
+
+end.

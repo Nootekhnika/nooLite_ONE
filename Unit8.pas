@@ -23,6 +23,7 @@ type
     Label6: TLabel;
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure AdvGlassButton1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -56,6 +57,10 @@ end;
 procedure TForm8.AdvGlassButton1Click(Sender: TObject);
 begin
   Form8.Close;
+end;
+
+procedure TForm8.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
   Form1.AdvGlassButton12.Click;
 end;
 

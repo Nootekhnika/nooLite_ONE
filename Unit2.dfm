@@ -4,8 +4,8 @@ object Form2: TForm2
   BorderIcons = [biSystemMenu]
   BorderStyle = bsToolWindow
   Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1091#1089#1090#1088#1086#1081#1089#1090#1074#1072
-  ClientHeight = 336
-  ClientWidth = 612
+  ClientHeight = 388
+  ClientWidth = 646
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,6 +14,7 @@ object Form2: TForm2
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -32,15 +33,15 @@ object Form2: TForm2
   object Shape2: TShape
     Left = -6
     Top = 42
-    Width = 623
+    Width = 659
     Height = 3
     Pen.Color = clGray
     Pen.Width = 2
   end
   object Shape1: TShape
     Left = -6
-    Top = 263
-    Width = 623
+    Top = 303
+    Width = 659
     Height = 3
     Pen.Color = clGray
     Pen.Width = 2
@@ -66,7 +67,7 @@ object Form2: TForm2
   object RadioGroup2: TRadioGroup
     Left = 213
     Top = 51
-    Width = 162
+    Width = 188
     Height = 65
     Caption = #1058#1080#1087' '#1074#1099#1093#1086#1076#1072
     Enabled = False
@@ -85,7 +86,7 @@ object Form2: TForm2
   object RadioGroup3: TRadioGroup
     Left = 213
     Top = 122
-    Width = 163
+    Width = 188
     Height = 65
     Hint = 
       #1047#1072#1087#1088#1077#1097#1072#1077#1090#1089#1103' '#1087#1088#1080#1105#1084' '#1082#1086#1084#1072#1085#1076' '#1086#1090' '#1091#1089#1090#1088#1086#1081#1089#1090#1074' '#1089#1090#1072#1088#1086#1081' '#1074#1077#1088#1089#1080#1080' '#1087#1088#1086#1090#1086#1082#1086#1083#1072' no' +
@@ -105,7 +106,7 @@ object Form2: TForm2
     TabOrder = 2
   end
   object RadioGroup4: TRadioGroup
-    Left = 382
+    Left = 414
     Top = 51
     Width = 219
     Height = 136
@@ -124,8 +125,8 @@ object Form2: TForm2
     TabOrder = 3
   end
   object AdvGlassButton12: TAdvGlassButton
-    Left = 355
-    Top = 272
+    Left = 384
+    Top = 320
     Width = 140
     Height = 56
     BackColor = 10012773
@@ -146,8 +147,8 @@ object Form2: TForm2
     OnClick = AdvGlassButton12Click
   end
   object AdvGlassButton1: TAdvGlassButton
-    Left = 501
-    Top = 272
+    Left = 530
+    Top = 320
     Width = 108
     Height = 56
     BackColor = 9276896
@@ -202,7 +203,7 @@ object Form2: TForm2
     TabOrder = 7
   end
   object RadioGroup7: TRadioGroup
-    Left = 382
+    Left = 414
     Top = 51
     Width = 163
     Height = 86
@@ -223,6 +224,54 @@ object Form2: TForm2
     ParentShowHint = False
     ShowHint = True
     TabOrder = 8
+    Visible = False
+  end
+  object RadioGroup8: TRadioGroup
+    Left = 213
+    Top = 193
+    Width = 188
+    Height = 65
+    Hint = 
+      #1047#1072#1087#1088#1077#1097#1072#1077#1090#1089#1103' '#1087#1088#1080#1105#1084' '#1082#1086#1084#1072#1085#1076' '#1086#1090' '#1091#1089#1090#1088#1086#1081#1089#1090#1074' '#1089#1090#1072#1088#1086#1081' '#1074#1077#1088#1089#1080#1080' '#1087#1088#1086#1090#1086#1082#1086#1083#1072' no' +
+      'oLite'
+    Caption = #1047#1072#1087#1088#1077#1090' '#1082#1086#1084#1072#1085#1076#1099' Temporary_On'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Items.Strings = (
+      #1047#1072#1087#1088#1077#1090#1080#1090#1100
+      #1056#1072#1079#1088#1077#1096#1080#1090#1100)
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 9
+    Visible = False
+  end
+  object RadioGroup9: TRadioGroup
+    Left = 414
+    Top = 193
+    Width = 219
+    Height = 104
+    Hint = 
+      #1047#1072#1087#1088#1077#1097#1072#1077#1090#1089#1103' '#1087#1088#1080#1105#1084' '#1082#1086#1084#1072#1085#1076' '#1086#1090' '#1091#1089#1090#1088#1086#1081#1089#1090#1074' '#1089#1090#1072#1088#1086#1081' '#1074#1077#1088#1089#1080#1080' '#1087#1088#1086#1090#1086#1082#1086#1083#1072' no' +
+      'oLite'
+    Caption = #1063#1091#1074#1089#1090#1074#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' '#1090#1088#1072#1085#1089#1080#1074#1077#1088#1072
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Items.Strings = (
+      '0 dB'
+      '6 dB'
+      '12 dB'
+      '18 dB')
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 10
     Visible = False
   end
 end

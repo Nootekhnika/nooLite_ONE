@@ -20,9 +20,12 @@ type
     Shape1: TShape;
     RadioGroup6: TRadioGroup;
     RadioGroup7: TRadioGroup;
+    RadioGroup8: TRadioGroup;
+    RadioGroup9: TRadioGroup;
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -56,10 +59,24 @@ begin
     settings_data := settings_data + (1 shl 5);
   if RadioGroup6.ItemIndex = 0 then
     settings_data := settings_data + (1 shl 6);
-  settings_mask := 127; // 0...6 бит
+
+  
+
+   if settings_type=15 then begin
+   settings_mask := 1023; // 0...9 бит
+   if RadioGroup8.ItemIndex = 0 then
+   settings_data := settings_data + (1 shl 7);
+   settings_data := settings_data + ((RadioGroup9.ItemIndex and 3) shl 8);
+   end
+   else begin
+   settings_mask := 127; // 0...6 бит
+   end;
+
   Form2.Close;
   send_new_settings(16);
   end;
+
+
   end
   else begin
    settings_data := 0;
@@ -70,7 +87,7 @@ begin
   if RadioGroup3.ItemIndex = 1 then
     settings_data := settings_data + (1 shl 2);
 
-    if (settings_type=6) then begin
+  if (settings_type=6) then begin
   if RadioGroup7.ItemIndex = 1 then
   settings_data := settings_data + (1 shl 3)
   else  if RadioGroup7.ItemIndex = 2 then
@@ -85,7 +102,17 @@ begin
     settings_data := settings_data + (1 shl 5);
   if RadioGroup6.ItemIndex = 0 then
     settings_data := settings_data + (1 shl 6);
-  settings_mask := 127; // 0...6 бит
+
+   if settings_type=15 then begin
+   settings_mask := 1023; // 0...9 бит
+   if RadioGroup8.ItemIndex = 0 then
+   settings_data := settings_data + (1 shl 7);
+   settings_data := settings_data + ((RadioGroup9.ItemIndex and 3) shl 8);
+   end
+   else begin
+   settings_mask := 127; // 0...6 бит
+   end;
+
   Form2.Close;
   send_new_settings(16);
   end;
@@ -94,13 +121,21 @@ end;
 procedure TForm2.AdvGlassButton1Click(Sender: TObject);
 begin
   Form2.Close;
+
+end;
+
+procedure TForm2.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
   Form1.AdvGlassButton12.Click;
 end;
 
 procedure TForm2.RadioGroup1Click(Sender: TObject);
 begin
-  if RadioGroup1.ItemIndex = 0 then
-    RadioGroup5.Enabled := false
+  if RadioGroup1.ItemIndex = 0 then begin
+    RadioGroup5.Enabled := false;
+     RadioGroup5.ItemIndex:=1;
+  end
+
   else
     RadioGroup5.Enabled := true;
 end;

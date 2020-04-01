@@ -2,7 +2,7 @@ object Form8: TForm8
   Left = 0
   Top = 0
   BorderStyle = bsToolWindow
-  Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072
+  Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1091#1089#1090#1088#1086#1081#1089#1090#1074#1072
   ClientHeight = 316
   ClientWidth = 617
   Color = 16250871
@@ -13,6 +13,7 @@ object Form8: TForm8
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -98,7 +99,7 @@ object Form8: TForm8
   end
   object Label6: TLabel
     Left = 8
-    Top = 128
+    Top = 131
     Width = 320
     Height = 19
     Caption = #1052#1080#1085#1080#1084#1072#1083#1100#1085#1099#1081' '#1091#1088#1086#1074#1077#1085#1100' '#1074#1082#1083#1102#1095#1077#1085#1080#1103', %'
@@ -187,7 +188,7 @@ object Form8: TForm8
   end
   object SpinEdit3: TSpinEdit
     Left = 372
-    Top = 125
+    Top = 128
     Width = 61
     Height = 29
     Font.Charset = DEFAULT_CHARSET

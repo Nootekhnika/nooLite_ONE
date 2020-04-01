@@ -185,6 +185,7 @@ type
     procedure N17Click(Sender: TObject);
     procedure N18Click(Sender: TObject);
     procedure N19Click(Sender: TObject);
+    procedure nooLite2Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -194,7 +195,7 @@ type
 
 procedure send_termo_data(cmd,pos,dt0,dt1,dt2,dt3:integer);
 procedure send_new_settings(write_pos_settings:integer);
-
+procedure send_new_settings_ext(write_pos_settings:integer);
 procedure send_active();
 
 const
@@ -214,11 +215,10 @@ const
   DEV_TYPE_5 = 'SUF-1-300';
   DEV_TYPE_6 = 'SRF-1-3000-T';
   DEV_TYPE_7 = 'SRF-1-1000-R';
-  DEV_TYPE_8 = 'SRF-1-1000-N';
+  DEV_TYPE_8 = 'SUF-1-300-N';
   DEV_TYPE_UNKNOWN = 'Неизвестно';
 
   CMD_RECIVE_API = 1;
-
 var
   Form1: TForm1;
   readdata: array [0 .. 100] of byte;
@@ -244,6 +244,7 @@ var
   boot_mode_set: Integer;
   settings_name: string;
   settings_data: word;
+  settings_data_ext: cardinal;
   settings_mask: word;
   settings_address, boot_send_address: Cardinal;
   settings_channel: Integer;
@@ -303,7 +304,8 @@ var
   settings_type: Integer;
 implementation
 
-uses Unit2, Unit3, Crc32, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9;
+uses Unit2, Unit3, Crc32, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10,
+  Unit11;
 
 {$R *.dfm}
 
@@ -830,13 +832,15 @@ begin
   step_recive := 0;
 end;
 
-function testbit(inbyte, inbit: byte): boolean;
+function testbit(inbyte, inbit: word): boolean;
 begin
   if (inbyte and (1 shl inbit)) <> 0 then
     result := true
   else
     result := false;
 end;
+
+
 
 procedure draw_settings();
 var
@@ -918,87 +922,30 @@ begin
         else
           Form2.RadioGroup6.ItemIndex := 1;
 
-      end;
-
-    end
-
-      else  if (readdata[6] = 1) then  //300n
-    begin // настройка устройства
-
-      if settings_set = 2 then
-      begin
-        settings_set := 0;
-        wait_update_off;
-        showmessage('Настройка устройства завершена!');
-        Form1.AdvGlassButton12.Click;
-      end
-      else
-      begin
-        settings_set := 0;
-
-        Form2.Label1.Caption := 'Настройка устройства: ' + settings_name;
-
-        settings_data := (readdata[8] shl 8) + readdata[7];
-        Form2.Show;
-
-        if testbit(settings_data, 0) then
-        begin
-          Form2.RadioGroup1.ItemIndex := 0;
-          Form2.RadioGroup5.Enabled := false;
-        end
-        else
-        begin
-          Form2.RadioGroup1.ItemIndex := 1;
-          Form2.RadioGroup5.Enabled := true;
-        end;
-
-        if testbit(settings_data, 1) then
-          Form2.RadioGroup2.ItemIndex := 1
-        else
-          Form2.RadioGroup2.ItemIndex := 0;
-
-        if testbit(settings_data, 2) then
-          Form2.RadioGroup3.ItemIndex := 1
-        else
-          Form2.RadioGroup3.ItemIndex := 0;
-
-
-          if (settings_type=6) then begin
-
-        if testbit(settings_data, 1) then
-          Form2.RadioGroup7.ItemIndex := 2
-        else if testbit(settings_data, 3) then
-          Form2.RadioGroup7.ItemIndex := 1
-          else
-          Form2.RadioGroup7.ItemIndex := 0;
-
-          end
-          else begin
-        if testbit(settings_data, 3) then
-          state_temp := 1
-        else
-          state_temp := 0;
-
-        if testbit(settings_data, 4) then
-          state_temp := state_temp + 2;
-        Form2.RadioGroup4.ItemIndex := state_temp;
-
-        end;
-
-        if testbit(settings_data, 5) then
-          Form2.RadioGroup5.ItemIndex := 0
-        else
-          Form2.RadioGroup5.ItemIndex := 1;
-
         if testbit(settings_data, 6) then
           Form2.RadioGroup6.ItemIndex := 0
         else
           Form2.RadioGroup6.ItemIndex := 1;
 
+          if (settings_type=15) then begin
+        if testbit(settings_data, 7) then
+          Form2.RadioGroup8.ItemIndex := 0
+        else
+          Form2.RadioGroup8.ItemIndex := 1;
+
+        if testbit(settings_data, 8) then
+          state_temp := 1
+        else
+          state_temp := 0;
+        if testbit(settings_data, 9) then
+          state_temp := state_temp + 2;
+        Form2.RadioGroup9.ItemIndex := state_temp;
+
+          end;
+
       end;
 
     end
-
     else  if (readdata[6] = 17) then //коррекция диммирования
     begin // настройка устройства
 
@@ -1012,6 +959,29 @@ begin
       else
       begin
         settings_set := 0;
+       if (settings_type = 15) then begin
+
+        Form11.Label1.Caption := 'Настройка устройства: ' + settings_name;
+
+        settings_data_ext := (readdata[9] shl 16) +(readdata[8] shl 8) + readdata[7];
+
+
+        settings_mode:=17;
+        Form11.SpinEdit1.Value:= readdata[9];  //min
+        Form11.SpinEdit3.Value:= readdata[8];  //start
+        Form11.SpinEdit2.Value:= readdata[7];  //max
+
+        Form11.SpinEdit1.MaxValue:=Form11.SpinEdit2.Value-1;
+        Form11.SpinEdit3.MaxValue:=Form11.SpinEdit2.Value-1;
+        Form11.SpinEdit3.MinValue:=Form11.SpinEdit1.Value;
+        if Form11.SpinEdit1.Value>Form11.SpinEdit3.Value then
+        Form11.SpinEdit3.Value:=Form11.SpinEdit1.Value;
+        Form11.SpinEdit2.MinValue:=Form11.SpinEdit3.Value+1;
+
+        Form11.Show;
+       end
+       else begin
+
         Form8.Label1.Caption := 'Настройка устройства: ' + settings_name;
 
         settings_data := (readdata[8] shl 8) + readdata[7];
@@ -1032,6 +1002,7 @@ begin
         Form8.Label2.Visible:=true;
 
 
+       end;
 
       end;
 
@@ -1048,16 +1019,27 @@ begin
       else
       begin
         settings_set := 0;
-        Form8.Label1.Caption := 'Настройка устройства: ' + settings_name;
+
+        if (settings_type = 15) then begin
+        Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
+
+        settings_data := (readdata[8] shl 8) + readdata[7];
+        Form10.Show;
+        settings_mode:=18;
+        Form10.SpinEdit1.Value:= round(readdata[7]*10);
+
+        end
+        else begin
+
+
+        Form8.Label1.Caption := 'Настройка устройства: ' + settings_name+inttostr(settings_type);
 
         settings_data := (readdata[8] shl 8) + readdata[7];
         Form8.Show;
         settings_mode:=18;
-
         Form8.Label6.Visible:=true;
         Form8.Label5.Visible:=true;
         Form8.SpinEdit3.Visible:=true;
-
         Form8.SpinEdit1.Visible:=false;
         Form8.SpinEdit2.Visible:=false;
         Form8.Label4.Visible:=false;
@@ -1066,6 +1048,7 @@ begin
 
         Form8.SpinEdit3.Value:= round(readdata[7]/2.55);
 
+         end;
       end;
 
     end
@@ -1177,7 +1160,10 @@ begin
       begin
         Form1.AdvStringGrid1.Cells[2, step_recive] := inttostr(round(100 * readdata[10] / 255))+ ' %';
       end
-
+      else if (readdata[7] = 15) then
+      begin
+        Form1.AdvStringGrid1.Cells[2, step_recive] := 'Яркость '+inttostr(readdata[10])+ ' %';
+      end
       else begin
          // яркость на выходе
       Form1.AdvStringGrid1.Cells[2, step_recive] := 'Яркость '+inttostr(round(100 * readdata[10] / 255))+ ' %';
@@ -3318,6 +3304,45 @@ begin
 
 end;
 
+
+procedure send_new_settings_ext(write_pos_settings:integer);
+var
+  id_f: Integer;
+begin
+
+  if (send_enable) then
+  begin
+    Form1.RadioButton1.Checked := true;
+    senddata[1] := 2; // nooLiteF_TX
+
+    senddata[2] := 8; // send_to_address
+    senddata[3] := 0; // reserved
+    senddata[5] := 129; // запись в память
+    id_f := settings_address;
+    senddata[11] := LO(id_f shr 24);
+    senddata[12] := LO(id_f shr 16);
+    senddata[13] := LO(id_f shr 8);
+    senddata[14] := LO(id_f);
+
+    senddata[7] := (settings_data_ext and 255); // data0
+    senddata[8] := ((settings_data_ext shr 8) and 255); // data1
+    senddata[9] := ((settings_data_ext shr 16) and 255); // data2
+    senddata[10] := 0; // data3
+
+    senddata[6] := write_pos_settings; // формат=16, чтение настройки
+
+    clear_result(senddata[6]); // подготовить верхнюю строчку страницы
+    senddata[4] := settings_channel; // номер канала
+    crc := 0;
+    poswrite := 0;
+    Form1.memo1.Clear;
+    settings_set := 2;
+    hide_update;
+    send_command;
+  end;
+
+end;
+
 procedure send_termo_data(cmd,pos,dt0,dt1,dt2,dt3:integer);
 var
   id_f: Integer;
@@ -3588,7 +3613,7 @@ begin
         Form2.RadioGroup6.Visible:=true;
         end;
 
-        if (dev_type_temp=5) then begin   //SUF-1-300
+        if ((dev_type_temp=5)or(dev_type_temp=15))  then begin   //SUF-1-300   or SUF-1-300-N
         Form2.RadioGroup2.Enabled:=true;
         end
         else begin
@@ -3617,9 +3642,6 @@ begin
         Form2.RadioGroup7.Visible:=false;
         end;
 
-
-
-
         if (dev_type_temp=7) then
           begin
           Form2.RadioGroup4.Visible:=false;
@@ -3631,6 +3653,18 @@ begin
           Form2.RadioGroup4.Visible:=true;
           Form2.RadioGroup6.Visible:=false;
           Form2.RadioGroup7.Visible:=false;
+          end;
+
+       if (dev_type_temp=15) then
+          begin
+          Form2.RadioGroup8.Visible:=true;
+          Form2.RadioGroup9.Visible:=true;
+          Form2.RadioGroup6.Visible:=true;
+          end
+        else
+          begin
+          Form2.RadioGroup8.Visible:=false;
+          Form2.RadioGroup9.Visible:=false;
           end;
 
       if (send_enable) then
@@ -3651,9 +3685,6 @@ begin
 
         senddata[7] := 0; // data0
 
-         if (dev_type_temp=15) then
-         senddata[6] := 1 // suf-300-n
-           else
         senddata[6] := 16; // формат=16, чтение настройки
 
         clear_result(senddata[6]); // подготовить верхнюю строчку страницы
@@ -3691,6 +3722,7 @@ begin
     if (ListBox1.ItemIndex > -1) then
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
+     settings_type:=dev_type_temp;
     if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=5)or (dev_type_temp=15)) then begin
 
       if (send_enable) then
@@ -3748,6 +3780,7 @@ begin
     if (ListBox1.ItemIndex > -1) then
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
+     settings_type:=dev_type_temp;
     if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=5)) then begin
 
       if (send_enable) then
@@ -4178,6 +4211,64 @@ begin
   end;
 end;
 
+procedure TForm1.nooLite2Click(Sender: TObject);
+var
+  id_f: Integer;
+  dev_type_temp:integer;
+begin
+  if AdvStringGrid1.SelectedRow[0] > 0 then
+  begin
+    if (ListBox1.ItemIndex > -1) then
+    begin
+     dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
+     settings_type:=dev_type_temp;
+    if (dev_type_temp=15) then begin   //только 300-N блок
+
+      if (send_enable) then
+      begin
+        RadioButton1.Checked := true;
+        senddata[1] := 2; // nooLiteF_TX
+        senddata[2] := 8; // send_to_address
+        senddata[3] := 0; // reserved
+        senddata[5] := 128; // считать состояние
+        settings_name := Form1.AdvStringGrid1.Cells
+          [0, AdvStringGrid1.SelectedRow[0]];
+        id_f := HexToInt(Form1.AdvStringGrid1.Cells[4,
+          AdvStringGrid1.SelectedRow[0]]);
+        senddata[11] := LO(id_f shr 24);
+        senddata[12] := LO(id_f shr 16);
+        senddata[13] := LO(id_f shr 8);
+        senddata[14] := LO(id_f);
+
+        senddata[7] := 0; // data0
+
+        senddata[6] := 18; // формат=18, чтение настройки
+
+        clear_result(senddata[6]); // подготовить верхнюю строчку страницы
+        senddata[4] := ListBox1.ItemIndex; // номер канала
+        crc := 0;
+        poswrite := 0;
+        memo1.Clear;
+        settings_set := 1;
+        hide_update;
+        settings_address := id_f;
+        settings_channel := senddata[4];
+        send_command;
+      end;
+
+    end
+    else begin
+    ShowMessage('Выбранное устройство не имеет функции удалённой настройки!');
+    end;
+    end
+    else
+    begin
+      showmessage('Для данного действия нужно выбрать канал из списка!');
+    end;
+  end;
+
+end;
+
 procedure TForm1.PopupMenu1Popup(Sender: TObject);
 begin
   AdvStringGrid1.ShowSelection := true;
@@ -4200,12 +4291,12 @@ begin
      end;
 
      if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_8 then begin
-      N17.Visible:=true;
-      N18.Visible:=true;
+     nooLite2.Visible:=true;
+     N17.Visible:=true;
      end
      else begin
-      N17.Visible:=false;
-      N18.Visible:=false;
+     N17.Visible:=false;
+     nooLite2.Visible:=false;
      end;
 
     if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_6 then begin

@@ -5,8 +5,8 @@ object Form1: TForm1
   BorderStyle = bsSingle
   BorderWidth = 1
   Caption = 'nooLite ONE'
-  ClientHeight = 658
-  ClientWidth = 1094
+  ClientHeight = 438
+  ClientWidth = 975
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -1425,6 +1425,7 @@ object Form1: TForm1
       end
       object nooLite2: TMenuItem
         Caption = #1047#1072#1076#1077#1088#1078#1082#1072' '#1088#1077#1090#1088#1072#1085#1089#1083#1103#1094#1080#1080' nooLite'
+        OnClick = nooLite2Click
       end
     end
     object N10: TMenuItem
