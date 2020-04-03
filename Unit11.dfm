@@ -191,6 +191,6 @@ object Form11: TForm11
     ParentFont = False
     TabOrder = 4
     Value = 0
-    OnChange = SpinEdit3Change
+    OnExit = SpinEdit3Exit
   end
 end

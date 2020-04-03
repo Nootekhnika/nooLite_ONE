@@ -21,12 +21,12 @@ type
     SpinEdit2: TSpinEdit;
     SpinEdit3: TSpinEdit;
     procedure SpinEdit1Change(Sender: TObject);
-    procedure SpinEdit3Change(Sender: TObject);
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure SpinEdit2Change(Sender: TObject);
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
+    procedure SpinEdit3Exit(Sender: TObject);
   private
     send_cmd:bool;
   public
@@ -92,7 +92,7 @@ begin
 update_values();
 end;
 
-procedure TForm11.SpinEdit3Change(Sender: TObject);
+procedure TForm11.SpinEdit3Exit(Sender: TObject);
 begin
 update_values();
 end;
