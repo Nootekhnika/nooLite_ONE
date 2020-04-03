@@ -18,8 +18,9 @@ type
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
   private
-    { Private declarations }
+    send_cmd:bool;
   public
     { Public declarations }
   end;
@@ -38,6 +39,7 @@ begin
 settings_mask:=$FF;
 if (settings_mode=18) then begin
 settings_data :=round(Form10.SpinEdit1.Value/10);
+send_cmd:=true;
 Form10.Close;
 send_new_settings(18);
 end;
@@ -45,13 +47,20 @@ end;
 
 procedure TForm10.AdvGlassButton1Click(Sender: TObject);
 begin
+  send_cmd:=false;
   Form10.Close;
 
 end;
 
 procedure TForm10.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Form1.AdvGlassButton12.Click;
+  if   send_cmd=false then
+   Form1.AdvGlassButton12.Click;
+end;
+
+procedure TForm10.FormShow(Sender: TObject);
+begin
+send_cmd:=false;
 end;
 
 end.

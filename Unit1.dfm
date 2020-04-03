@@ -6,7 +6,7 @@ object Form1: TForm1
   BorderWidth = 1
   Caption = 'nooLite ONE'
   ClientHeight = 438
-  ClientWidth = 975
+  ClientWidth = 976
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -547,8 +547,8 @@ object Form1: TForm1
     OnClick = AdvGlassButton6Click
   end
   object AdvGlassButton8: TAdvGlassButton
-    Left = 210
-    Top = 159
+    Left = 213
+    Top = 166
     Width = 114
     Height = 50
     BackColor = 10012773
@@ -570,8 +570,8 @@ object Form1: TForm1
     OnClick = AdvGlassButton8Click
   end
   object AdvGlassButton9: TAdvGlassButton
-    Left = 210
-    Top = 215
+    Left = 213
+    Top = 222
     Width = 114
     Height = 50
     BackColor = 9276896
@@ -674,8 +674,8 @@ object Form1: TForm1
     OnClick = ListBox1Click
   end
   object AdvGlassButton10: TAdvGlassButton
-    Left = 210
-    Top = 327
+    Left = 213
+    Top = 334
     Width = 114
     Height = 50
     BackColor = 10012773
@@ -697,8 +697,8 @@ object Form1: TForm1
     OnClick = AdvGlassButton10Click
   end
   object AdvGlassButton11: TAdvGlassButton
-    Left = 210
-    Top = 271
+    Left = 213
+    Top = 278
     Width = 114
     Height = 50
     BackColor = 6940136
@@ -723,7 +723,7 @@ object Form1: TForm1
     Left = 213
     Top = 39
     Width = 114
-    Height = 49
+    Height = 66
     BackColor = 6940136
     Caption = #1057#1095#1080#1090#1072#1090#1100' '#1089#1086#1089#1090#1086#1103#1085#1080#1077
     Enabled = False
@@ -860,8 +860,8 @@ object Form1: TForm1
       127)
   end
   object GroupBox1: TGroupBox
-    Left = 210
-    Top = 94
+    Left = 213
+    Top = 101
     Width = 114
     Height = 59
     TabOrder = 18
@@ -898,7 +898,7 @@ object Form1: TForm1
   end
   object AdvGlassButton7: TAdvGlassButton
     Left = 8
-    Top = 390
+    Top = 393
     Width = 196
     Height = 40
     BackColor = 6940136
@@ -920,8 +920,8 @@ object Form1: TForm1
     OnClick = AdvGlassButton7Click
   end
   object AdvGlassButton13: TAdvGlassButton
-    Left = 210
-    Top = 390
+    Left = 213
+    Top = 393
     Width = 114
     Height = 40
     BackColor = 6940136

@@ -26,8 +26,9 @@ type
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
   private
-    { Private declarations }
+    send_cmd:bool;
   public
 
   end;
@@ -71,7 +72,7 @@ begin
    else begin
    settings_mask := 127; // 0...6 бит
    end;
-
+  send_cmd:=true;
   Form2.Close;
   send_new_settings(16);
   end;
@@ -111,8 +112,8 @@ begin
    end
    else begin
    settings_mask := 127; // 0...6 бит
-   end;
-
+  end;
+  send_cmd:=true;
   Form2.Close;
   send_new_settings(16);
   end;
@@ -120,13 +121,19 @@ end;
 
 procedure TForm2.AdvGlassButton1Click(Sender: TObject);
 begin
+  send_cmd:=false;
   Form2.Close;
-
 end;
 
 procedure TForm2.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Form1.AdvGlassButton12.Click;
+  if   send_cmd=false then
+   Form1.AdvGlassButton12.Click;
+end;
+
+procedure TForm2.FormShow(Sender: TObject);
+begin
+send_cmd:=false;
 end;
 
 procedure TForm2.RadioGroup1Click(Sender: TObject);

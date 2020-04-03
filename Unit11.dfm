@@ -14,6 +14,7 @@ object Form11: TForm11
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -155,7 +156,7 @@ object Form11: TForm11
     MinValue = 1
     ParentFont = False
     TabOrder = 2
-    Value = 0
+    Value = 1
     OnChange = SpinEdit1Change
   end
   object SpinEdit2: TSpinEdit

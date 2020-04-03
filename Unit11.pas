@@ -26,8 +26,9 @@ type
     procedure SpinEdit2Change(Sender: TObject);
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
   private
-    { Private declarations }
+    send_cmd:bool;
   public
     { Public declarations }
   end;
@@ -45,6 +46,7 @@ procedure TForm11.AdvGlassButton12Click(Sender: TObject);
 begin
 if (settings_mode=17) then begin
 settings_data_ext :=byte(Form11.SpinEdit2.Value) + ( byte(Form11.SpinEdit3.Value) shl 8)+ ( byte(Form11.SpinEdit1.Value) shl 16);
+send_cmd:=true;
 Form11.Close;
 send_new_settings_ext(17);
 end;
@@ -64,12 +66,19 @@ end;
 
 procedure TForm11.AdvGlassButton1Click(Sender: TObject);
 begin
+send_cmd:=false;
 Form11.Close;
 end;
 
 procedure TForm11.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Form1.AdvGlassButton12.Click;
+  if   send_cmd=false then
+   Form1.AdvGlassButton12.Click;
+end;
+
+procedure TForm11.FormShow(Sender: TObject);
+begin
+send_cmd:=false;
 end;
 
 procedure TForm11.SpinEdit1Change(Sender: TObject);
