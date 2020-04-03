@@ -2539,7 +2539,6 @@ begin
   senddata[8] := 0;
   senddata[9] := 0;
   senddata[10] := 0;
-
   senddata[6] := SpinEdit6.Value;
   senddata[7] := SpinEdit2.Value; // d0
   senddata[8] := SpinEdit3.Value; // d1
