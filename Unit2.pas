@@ -63,7 +63,7 @@ begin
 
   
 
-   if settings_type=15 then begin
+   if settings_type=9 then begin
    settings_mask := 1023; // 0...9 бит
    if RadioGroup8.ItemIndex = 0 then
    settings_data := settings_data + (1 shl 7);
@@ -72,6 +72,16 @@ begin
    else begin
    settings_mask := 127; // 0...6 бит
    end;
+
+   if settings_type=5 then begin
+   settings_mask := 255; // 0...9 бит
+   if RadioGroup8.ItemIndex = 0 then
+   settings_data := settings_data + (1 shl 7);
+   end
+   else begin
+   settings_mask := 127; // 0...6 бит
+   end;
+
   send_cmd:=true;
   Form2.Close;
   send_new_settings(16);
@@ -104,7 +114,7 @@ begin
   if RadioGroup6.ItemIndex = 0 then
     settings_data := settings_data + (1 shl 6);
 
-   if settings_type=15 then begin
+   if settings_type=9 then begin
    settings_mask := 1023; // 0...9 бит
    if RadioGroup8.ItemIndex = 0 then
    settings_data := settings_data + (1 shl 7);
@@ -113,6 +123,16 @@ begin
    else begin
    settings_mask := 127; // 0...6 бит
   end;
+
+   if settings_type=5 then begin
+   settings_mask := 255; // 0...9 бит
+   if RadioGroup8.ItemIndex = 0 then
+   settings_data := settings_data + (1 shl 7);
+   end
+   else begin
+   settings_mask := 127; // 0...6 бит
+  end;
+
   send_cmd:=true;
   Form2.Close;
   send_new_settings(16);
