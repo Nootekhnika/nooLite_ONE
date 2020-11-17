@@ -216,6 +216,7 @@ const
   DEV_TYPE_6 = 'SRF-1-3000-T';
   DEV_TYPE_7 = 'SRF-1-1000-R';
   DEV_TYPE_8 = 'SUF-1-300-N';
+  DEV_TYPE_9 = 'MTRF-64-A';
   DEV_TYPE_UNKNOWN = 'Неизвестно';
 
   CMD_RECIVE_API = 1;
@@ -1113,6 +1114,8 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_6
       else if (readdata[7] = 7) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
+      else if (readdata[7] = 8) then
+        Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_9
       else if (readdata[7] = 15) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
@@ -1196,6 +1199,8 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_6
       else if (readdata[7] = 7) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
+      else if (readdata[7] = 8) then
+        Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_9
       else if (readdata[7] = 15) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
@@ -1255,6 +1260,8 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_6
       else if (readdata[7] = 7) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
+      else if (readdata[7] = 8) then
+        Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_9
       else if (readdata[7] = 15) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
@@ -1295,6 +1302,9 @@ begin
         ' - Нет ответа '
     else if (readdata[7] = 7) then
       Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7 +
+        ' - Нет ответа '
+    else if (readdata[7] = 8) then
+      Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_9 +
         ' - Нет ответа '
     else if (readdata[7] = 15) then
       Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8 +
@@ -2636,6 +2646,8 @@ begin
                 name_device := DEV_TYPE_6
               else if (readdata[7] = 7) then
                 name_device := DEV_TYPE_7
+              else if (readdata[7] = 8) then
+                name_device := DEV_TYPE_9
               else if (readdata[7] = 15) then
                 name_device := DEV_TYPE_8
               else
@@ -2670,6 +2682,8 @@ begin
                 name_device := DEV_TYPE_6
               else if (readdata[7] = 7) then
                 name_device := DEV_TYPE_7
+              else if (readdata[7] = 8) then
+                name_device := DEV_TYPE_9
               else if (readdata[7] = 15) then
                 name_device := DEV_TYPE_8
               else
@@ -2795,6 +2809,9 @@ begin
                         else if (readdata[7] = 7) then
                           Form1.Label6.Caption := Form1.Label6.Caption +
                             DEV_TYPE_7
+                        else if (readdata[7] = 8) then
+                          Form1.Label6.Caption := Form1.Label6.Caption +
+                            DEV_TYPE_9
                         else if (readdata[7] = 15) then
                           Form1.Label6.Caption := Form1.Label6.Caption +
                             DEV_TYPE_8
