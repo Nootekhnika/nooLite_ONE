@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, jpeg, ExtCtrls, StdCtrls, shellapi;
+  Dialogs, jpeg, ExtCtrls, StdCtrls, shellapi, pngimage;
 
 type
   TForm7 = class(TForm)
@@ -38,12 +38,12 @@ end;
 
 procedure TForm7.Button2Click(Sender: TObject);
 begin
-ShellExecute(0,'open',pchar(extractFilepath(paramstr(0))+'MTRF-64-USB.pdf'),nil,nil,SW_SHOWNORMAL);
+//ShellExecute(0,'open',pchar(extractFilepath(paramstr(0))+'MTRF-64-USB.pdf'),nil,nil,SW_SHOWNORMAL);
 end;
 
 procedure TForm7.Label3Click(Sender: TObject);
 begin
-ShellExecute(0,'open',pchar('http://www.noo.com.by/'),nil,nil,SW_SHOWNORMAL);
+ShellExecute(0,'open',pchar('https://www.noo.by/'),nil,nil,SW_SHOWNORMAL);
 end;
 
 end.
