@@ -215,7 +215,7 @@ const
   DEV_TYPE_5 = 'SUF-1-300';
   DEV_TYPE_6 = 'SRF-1-3000-T';
   DEV_TYPE_7 = 'SRF-1-1000-R';
-  DEV_TYPE_8 = 'SUF-1-300-N';
+  DEV_TYPE_8 = 'SUF-1-300-A';
   DEV_TYPE_9 = 'MTRF-64-A';
   DEV_TYPE_UNKNOWN = 'Неизвестно';
 
@@ -928,7 +928,7 @@ begin
         else
           Form2.RadioGroup6.ItemIndex := 1;
 
-          if (settings_type=15) then begin
+          if (settings_type=9) then begin
         if testbit(settings_data, 7) then
           Form2.RadioGroup8.ItemIndex := 0
         else
@@ -960,7 +960,7 @@ begin
       else
       begin
         settings_set := 0;
-       if (settings_type = 15) then begin
+       if (settings_type = 9) then begin
 
         Form11.Label1.Caption := 'Настройка устройства: ' + settings_name;
 
@@ -1021,7 +1021,7 @@ begin
       begin
         settings_set := 0;
 
-        if (settings_type = 15) then begin
+        if (settings_type = 9) then begin
         Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
 
         settings_data := (readdata[8] shl 8) + readdata[7];
@@ -1116,7 +1116,7 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
       else if (readdata[7] = 8) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_9
-      else if (readdata[7] = 15) then
+      else if (readdata[7] = 9) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_UNKNOWN;
@@ -1163,7 +1163,7 @@ begin
       begin
         Form1.AdvStringGrid1.Cells[2, step_recive] := inttostr(round(100 * readdata[10] / 255))+ ' %';
       end
-      else if (readdata[7] = 15) then
+      else if (readdata[7] = 9) then
       begin
         Form1.AdvStringGrid1.Cells[2, step_recive] := 'Яркость '+inttostr(readdata[10])+ ' %';
       end
@@ -1201,7 +1201,7 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
       else if (readdata[7] = 8) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_9
-      else if (readdata[7] = 15) then
+      else if (readdata[7] = 9) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_UNKNOWN;
@@ -1262,7 +1262,7 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_7
       else if (readdata[7] = 8) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_9
-      else if (readdata[7] = 15) then
+      else if (readdata[7] = 9) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8
       else
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_UNKNOWN;
@@ -1306,7 +1306,7 @@ begin
     else if (readdata[7] = 8) then
       Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_9 +
         ' - Нет ответа '
-    else if (readdata[7] = 15) then
+    else if (readdata[7] = 9) then
       Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_8 +
         ' - Нет ответа '
     else
@@ -2648,7 +2648,7 @@ begin
                 name_device := DEV_TYPE_7
               else if (readdata[7] = 8) then
                 name_device := DEV_TYPE_9
-              else if (readdata[7] = 15) then
+              else if (readdata[7] = 9) then
                 name_device := DEV_TYPE_8
               else
                 name_device := DEV_TYPE_UNKNOWN;
@@ -2684,7 +2684,7 @@ begin
                 name_device := DEV_TYPE_7
               else if (readdata[7] = 8) then
                 name_device := DEV_TYPE_9
-              else if (readdata[7] = 15) then
+              else if (readdata[7] = 9) then
                 name_device := DEV_TYPE_8
               else
                 name_device := DEV_TYPE_UNKNOWN;
@@ -2812,7 +2812,7 @@ begin
                         else if (readdata[7] = 8) then
                           Form1.Label6.Caption := Form1.Label6.Caption +
                             DEV_TYPE_9
-                        else if (readdata[7] = 15) then
+                        else if (readdata[7] = 9) then
                           Form1.Label6.Caption := Form1.Label6.Caption +
                             DEV_TYPE_8
                         else
@@ -3614,7 +3614,7 @@ begin
     if (ListBox1.ItemIndex > -1) then
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
-    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=4)or (dev_type_temp=5)or (dev_type_temp=6)or (dev_type_temp=7)or (dev_type_temp=15)) then begin
+    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=4)or (dev_type_temp=5)or (dev_type_temp=6)or (dev_type_temp=7)or (dev_type_temp=9)) then begin
 
         settings_type:=dev_type_temp;
 
@@ -3629,7 +3629,7 @@ begin
         Form2.RadioGroup6.Visible:=true;
         end;
 
-        if ((dev_type_temp=5)or(dev_type_temp=15))  then begin   //SUF-1-300   or SUF-1-300-N
+        if ((dev_type_temp=5)or(dev_type_temp=9))  then begin   //SUF-1-300   or SUF-1-300-A
         Form2.RadioGroup2.Enabled:=true;
         end
         else begin
@@ -3671,7 +3671,7 @@ begin
           Form2.RadioGroup7.Visible:=false;
           end;
 
-       if (dev_type_temp=15) then
+       if (dev_type_temp=9) then
           begin
           Form2.RadioGroup8.Visible:=true;
           Form2.RadioGroup9.Visible:=true;
@@ -3739,7 +3739,7 @@ begin
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
      settings_type:=dev_type_temp;
-    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=5)or (dev_type_temp=15)) then begin
+    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=5)or (dev_type_temp=9)) then begin
 
       if (send_enable) then
       begin
@@ -4238,7 +4238,7 @@ begin
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
      settings_type:=dev_type_temp;
-    if (dev_type_temp=15) then begin   //только 300-N блок
+    if (dev_type_temp=9) then begin   //только 300-A блок
 
       if (send_enable) then
       begin
