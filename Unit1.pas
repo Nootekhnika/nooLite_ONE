@@ -944,6 +944,13 @@ begin
 
           end;
 
+           if (settings_type=5) then begin
+        if testbit(settings_data, 7) then
+          Form2.RadioGroup8.ItemIndex := 0
+        else
+          Form2.RadioGroup8.ItemIndex := 1;
+           end;
+
       end;
 
     end
@@ -1033,7 +1040,7 @@ begin
         else begin
 
 
-        Form8.Label1.Caption := 'Настройка устройства: ' + settings_name+inttostr(settings_type);
+        Form8.Label1.Caption := 'Настройка устройства: ' + settings_name;
 
         settings_data := (readdata[8] shl 8) + readdata[7];
         Form8.Show;
@@ -3681,6 +3688,17 @@ begin
           begin
           Form2.RadioGroup8.Visible:=false;
           Form2.RadioGroup9.Visible:=false;
+          end;
+
+        if (dev_type_temp=5) then
+          begin
+          Form2.RadioGroup6.Visible:=true;
+          Form2.RadioGroup8.Visible:=true;
+          end
+        else
+          begin
+          Form2.RadioGroup6.Visible:=false;
+          Form2.RadioGroup8.Visible:=false;
           end;
 
       if (send_enable) then
