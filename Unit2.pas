@@ -63,20 +63,11 @@ begin
 
   
 
-   if settings_type=9 then begin
+   if (settings_type=9) or (settings_type=5) then begin
    settings_mask := 1023; // 0...9 бит
    if RadioGroup8.ItemIndex = 0 then
    settings_data := settings_data + (1 shl 7);
    settings_data := settings_data + ((RadioGroup9.ItemIndex and 3) shl 8);
-   end
-   else begin
-   settings_mask := 127; // 0...6 бит
-   end;
-
-   if settings_type=5 then begin
-   settings_mask := 255; // 0...9 бит
-   if RadioGroup8.ItemIndex = 0 then
-   settings_data := settings_data + (1 shl 7);
    end
    else begin
    settings_mask := 127; // 0...6 бит
@@ -114,20 +105,11 @@ begin
   if RadioGroup6.ItemIndex = 0 then
     settings_data := settings_data + (1 shl 6);
 
-   if settings_type=9 then begin
+   if (settings_type=9) or (settings_type=5) then begin
    settings_mask := 1023; // 0...9 бит
    if RadioGroup8.ItemIndex = 0 then
    settings_data := settings_data + (1 shl 7);
    settings_data := settings_data + ((RadioGroup9.ItemIndex and 3) shl 8);
-   end
-   else begin
-   settings_mask := 127; // 0...6 бит
-  end;
-
-   if settings_type=5 then begin
-   settings_mask := 255; // 0...9 бит
-   if RadioGroup8.ItemIndex = 0 then
-   settings_data := settings_data + (1 shl 7);
    end
    else begin
    settings_mask := 127; // 0...6 бит

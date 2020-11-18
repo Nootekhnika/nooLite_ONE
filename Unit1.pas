@@ -928,7 +928,7 @@ begin
         else
           Form2.RadioGroup6.ItemIndex := 1;
 
-          if (settings_type=9) then begin
+          if (settings_type=9) or (settings_type=5) then begin
         if testbit(settings_data, 7) then
           Form2.RadioGroup8.ItemIndex := 0
         else
@@ -944,12 +944,7 @@ begin
 
           end;
 
-           if (settings_type=5) then begin
-        if testbit(settings_data, 7) then
-          Form2.RadioGroup8.ItemIndex := 0
-        else
-          Form2.RadioGroup8.ItemIndex := 1;
-           end;
+
 
       end;
 
@@ -1059,7 +1054,31 @@ begin
          end;
       end;
 
+    end else  if (readdata[6] = 19) then //коррекция уровня включения
+    begin // настройка устройства
+
+      if settings_set = 2 then
+      begin
+        settings_set := 0;
+        wait_update_off;
+        showmessage('Настройка устройства завершена!');
+        Form1.AdvGlassButton12.Click;
+      end
+      else
+      begin
+        settings_set := 0;
+        if (settings_type = 5) then begin  //SUF-1-300
+        Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
+        settings_data := (readdata[8] shl 8) + readdata[7];
+        Form10.Show;
+        settings_mode:=19;
+        Form10.SpinEdit1.Value:= round(readdata[7]*10);
+
+        end;
+
+      end;
     end
+
     else begin //остальные форматы
       if settings_set = 3 then begin
       termo_rx_data_0:=readdata[7];
@@ -3678,7 +3697,7 @@ begin
           Form2.RadioGroup7.Visible:=false;
           end;
 
-       if (dev_type_temp=9) then
+       if (dev_type_temp=9)or(dev_type_temp=5) then
           begin
           Form2.RadioGroup8.Visible:=true;
           Form2.RadioGroup9.Visible:=true;
@@ -3688,17 +3707,6 @@ begin
           begin
           Form2.RadioGroup8.Visible:=false;
           Form2.RadioGroup9.Visible:=false;
-          end;
-
-        if (dev_type_temp=5) then
-          begin
-          Form2.RadioGroup6.Visible:=true;
-          Form2.RadioGroup8.Visible:=true;
-          end
-        else
-          begin
-          Form2.RadioGroup6.Visible:=false;
-          Form2.RadioGroup8.Visible:=false;
           end;
 
       if (send_enable) then
@@ -4256,7 +4264,7 @@ begin
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
      settings_type:=dev_type_temp;
-    if (dev_type_temp=9) then begin   //только 300-A блок
+    if (dev_type_temp=9) or (dev_type_temp=5) then begin   //только 300/300-A блок
 
       if (send_enable) then
       begin
@@ -4275,8 +4283,10 @@ begin
         senddata[14] := LO(id_f);
 
         senddata[7] := 0; // data0
-
-        senddata[6] := 18; // формат=18, чтение настройки
+        if (dev_type_temp=5)  then
+        senddata[6] := 19 // формат=19 для SUF-1-300, чтение настройки
+        else
+        senddata[6] := 18; // формат=18, SUF-1-300-A, чтение настройки
 
         clear_result(senddata[6]); // подготовить верхнюю строчку страницы
         senddata[4] := ListBox1.ItemIndex; // номер канала
@@ -4315,7 +4325,7 @@ begin
     N11.Enabled := true;
     N12.Enabled := true;
 
-     if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_5 then begin
+    if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_5 then begin
       N17.Visible:=true;
       N18.Visible:=true;
      end
@@ -4325,11 +4335,17 @@ begin
      end;
 
      if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_8 then begin
-     nooLite2.Visible:=true;
      N17.Visible:=true;
      end
      else begin
      N17.Visible:=false;
+     end;
+
+     //задержка ретрансляции
+     if ((Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_8) or((Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_5)   then begin nooLite2.Visible:=true;
+     nooLite2.Visible:=true;
+     end
+     else begin
      nooLite2.Visible:=false;
      end;
 

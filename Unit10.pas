@@ -43,6 +43,13 @@ send_cmd:=true;
 Form10.Close;
 send_new_settings(18);
 end;
+
+if (settings_mode=19) then begin
+settings_data :=round(Form10.SpinEdit1.Value/10);
+send_cmd:=true;
+Form10.Close;
+send_new_settings(19);
+end;
 end;
 
 procedure TForm10.AdvGlassButton1Click(Sender: TObject);
