@@ -3729,6 +3729,10 @@ begin
         Form2.RadioGroup5.Visible:=false;
         end;
 
+        if (dev_type_temp=6) then begin
+        Form2.RadioGroup2.Visible:=false;
+        end;
+
       if (send_enable) then
       begin
         RadioButton1.Checked := true;
