@@ -20,6 +20,9 @@ type
     SpinEdit1: TSpinEdit;
     SpinEdit2: TSpinEdit;
     SpinEdit3: TSpinEdit;
+    Label5: TLabel;
+    Label7: TLabel;
+    Shape3: TShape;
     procedure SpinEdit1Change(Sender: TObject);
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure SpinEdit2Change(Sender: TObject);
@@ -42,15 +45,7 @@ uses Unit1;
 
 {$R *.dfm}
 
-procedure TForm11.AdvGlassButton12Click(Sender: TObject);
-begin
-if (settings_mode=17) then begin
-settings_data_ext :=byte(Form11.SpinEdit2.Value) + ( byte(Form11.SpinEdit3.Value) shl 8)+ ( byte(Form11.SpinEdit1.Value) shl 16);
-send_cmd:=true;
-Form11.Close;
-send_new_settings_ext(17);
-end;
-end;
+
 
 procedure update_values;
 begin
@@ -62,6 +57,34 @@ if Form11.SpinEdit1.Value>Form11.SpinEdit3.Value then
 Form11.SpinEdit3.Value:=Form11.SpinEdit1.Value;
 Form11.SpinEdit2.MinValue:=Form11.SpinEdit3.Value+1;
 
+if Form11.SpinEdit1.Value>Form11.SpinEdit1.MaxValue then
+Form11.SpinEdit1.Value:=Form11.SpinEdit1.MaxValue;
+
+if Form11.SpinEdit2.Value>Form11.SpinEdit2.MaxValue then
+Form11.SpinEdit2.Value:=Form11.SpinEdit2.MaxValue;
+
+if Form11.SpinEdit3.Value>Form11.SpinEdit3.MaxValue then
+Form11.SpinEdit3.Value:=Form11.SpinEdit3.MaxValue;
+
+if Form11.SpinEdit1.Value<Form11.SpinEdit1.MinValue then
+Form11.SpinEdit1.Value:=Form11.SpinEdit1.MinValue;
+
+if Form11.SpinEdit2.Value<Form11.SpinEdit2.MinValue then
+Form11.SpinEdit2.Value:=Form11.SpinEdit2.MinValue;
+
+if Form11.SpinEdit3.Value<Form11.SpinEdit3.MinValue then
+Form11.SpinEdit3.Value:=Form11.SpinEdit3.MinValue;
+end;
+
+procedure TForm11.AdvGlassButton12Click(Sender: TObject);
+begin
+update_values();
+if (settings_mode=17) then begin
+settings_data_ext :=byte(Form11.SpinEdit2.Value) + ( byte(Form11.SpinEdit3.Value) shl 8)+ ( byte(Form11.SpinEdit1.Value) shl 16);
+send_cmd:=true;
+Form11.Close;
+send_new_settings_ext(17);
+end;
 end;
 
 procedure TForm11.AdvGlassButton1Click(Sender: TObject);
@@ -83,18 +106,18 @@ end;
 
 procedure TForm11.SpinEdit1Change(Sender: TObject);
 begin
- update_values();
+//update_values();
 
 end;
 
 procedure TForm11.SpinEdit2Change(Sender: TObject);
 begin
-update_values();
+//update_values();
 end;
 
 procedure TForm11.SpinEdit3Exit(Sender: TObject);
 begin
-update_values();
+//update_values();
 end;
 
 end.

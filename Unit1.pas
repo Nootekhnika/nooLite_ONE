@@ -3731,6 +3731,7 @@ begin
 
         if (dev_type_temp=6) then begin
         Form2.RadioGroup2.Visible:=false;
+        Form2.RadioGroup4.Visible:=false;
         end;
 
       if (send_enable) then

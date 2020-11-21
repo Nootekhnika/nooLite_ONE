@@ -98,6 +98,45 @@ object Form11: TForm11
     Font.Style = [fsBold]
     ParentFont = False
   end
+  object Label5: TLabel
+    Left = 20
+    Top = 256
+    Width = 308
+    Height = 18
+    Caption = #1053#1077#1076#1086#1087#1091#1089#1090#1080#1084#1099#1077' '#1079#1085#1072#1095#1077#1085#1080#1103' '#1073#1091#1076#1091#1090' '#1087#1077#1088#1077#1089#1095#1080#1090#1072#1085#1099
+    Color = clBtnFace
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 13369344
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label7: TLabel
+    Left = 68
+    Top = 275
+    Width = 194
+    Height = 18
+    Caption = #1087#1086#1089#1083#1077' '#1085#1072#1078#1072#1090#1080#1103' "'#1057#1086#1093#1088#1072#1085#1080#1090#1100'"'
+    Color = clBtnFace
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 13369344
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+  end
+  object Shape3: TShape
+    Left = 10
+    Top = 241
+    Width = 329
+    Height = 68
+    Brush.Style = bsClear
+    Pen.Color = 15728640
+    Pen.Width = 2
+  end
   object AdvGlassButton12: TAdvGlassButton
     Left = 355
     Top = 248
