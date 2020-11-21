@@ -1217,7 +1217,7 @@ begin
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_2
       else if (readdata[7] = 3) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_3
-      else   if (readdata[7] = 4) then
+      else if (readdata[7] = 4) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_4
       else if (readdata[7] = 5) then
         Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_5
