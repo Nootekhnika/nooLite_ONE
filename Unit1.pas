@@ -3697,14 +3697,18 @@ begin
           Form2.RadioGroup7.Visible:=false;
           end;
 
-       if (dev_type_temp=9)or(dev_type_temp=5) then
+       if (dev_type_temp=9) then
           begin
           Form2.RadioGroup8.Visible:=true;
           Form2.RadioGroup9.Visible:=true;
           Form2.RadioGroup6.Visible:=true;
           end
-        else
-          begin
+        else if (dev_type_temp=5) then begin
+          Form2.RadioGroup8.Visible:=true;
+          Form2.RadioGroup9.Visible:=false;
+          Form2.RadioGroup6.Visible:=true;
+        end
+        else begin
           Form2.RadioGroup8.Visible:=false;
           Form2.RadioGroup9.Visible:=false;
           end;
@@ -4342,7 +4346,7 @@ begin
      end;
 
      //задержка ретрансл€ции
-     if ((Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_8) or((Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_5)   then begin nooLite2.Visible:=true;
+     if ((Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_8) or((Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_5)   then begin
      nooLite2.Visible:=true;
      end
      else begin
