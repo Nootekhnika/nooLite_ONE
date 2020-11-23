@@ -44,7 +44,11 @@ uses Unit1;
 
 procedure TForm2.AdvGlassButton12Click(Sender: TObject);
 begin
-  if (RadioGroup6.ItemIndex=0) then begin
+if settings_type=7 then begin
+RadioGroup6.ItemIndex:=1;
+end;
+
+  if (RadioGroup6.ItemIndex=0)then begin
     if MessageDlg  ('На данном блоке включена ретрансляция команд nooLite! Одновременная работа нескольких блоков с этой включённой функцией может привести к сбоям в передаче команд. Всегда используйте только один блок с включённой ретрансляцией. Хотите применить настройки?',
         mtCustom, [mbYes, mbNo], 0) = mrYes then
       begin

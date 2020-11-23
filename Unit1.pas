@@ -923,11 +923,6 @@ begin
         else
           Form2.RadioGroup6.ItemIndex := 1;
 
-        if testbit(settings_data, 6) then
-          Form2.RadioGroup6.ItemIndex := 0
-        else
-          Form2.RadioGroup6.ItemIndex := 1;
-
           if (settings_type=9) or (settings_type=5) then begin
         if testbit(settings_data, 7) then
           Form2.RadioGroup8.ItemIndex := 0
