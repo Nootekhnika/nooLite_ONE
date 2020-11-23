@@ -3699,7 +3699,6 @@ begin
           begin
           Form2.RadioGroup4.Visible:=true;
           Form2.RadioGroup6.Visible:=false;
-          Form2.RadioGroup7.Visible:=false;
           end;
 
        if (dev_type_temp=9) then
