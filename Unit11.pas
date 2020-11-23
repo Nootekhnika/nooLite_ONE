@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Spin, AdvGlassButton, ExtCtrls;
+  Dialogs, StdCtrls, Spin, AdvGlassButton, ExtCtrls, pngimage;
 
 type
   TForm11 = class(TForm)
@@ -22,7 +22,7 @@ type
     SpinEdit3: TSpinEdit;
     Label5: TLabel;
     Label7: TLabel;
-    Shape3: TShape;
+    Image1: TImage;
     procedure SpinEdit1Change(Sender: TObject);
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure SpinEdit2Change(Sender: TObject);
