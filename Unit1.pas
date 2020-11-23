@@ -4361,9 +4361,6 @@ begin
 
      if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_8 then begin
      N17.Visible:=true;
-     end
-     else begin
-     N17.Visible:=false;
      end;
 
      //задержка ретрансл€ции
