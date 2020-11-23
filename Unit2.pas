@@ -22,6 +22,7 @@ type
     RadioGroup7: TRadioGroup;
     RadioGroup8: TRadioGroup;
     RadioGroup9: TRadioGroup;
+    RadioGroup10: TRadioGroup;
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
@@ -91,22 +92,28 @@ end;
   end
   else begin
    settings_data := 0;
-  if RadioGroup1.ItemIndex = 0 then
-    settings_data := settings_data + (1 shl 0);
+
   if RadioGroup2.ItemIndex = 1 then
     settings_data := settings_data + (1 shl 1);
   if RadioGroup3.ItemIndex = 1 then
     settings_data := settings_data + (1 shl 2);
 
   if (settings_type=6) then begin
+  //sensor
   if RadioGroup7.ItemIndex = 1 then
   settings_data := settings_data + (1 shl 3)
   else  if RadioGroup7.ItemIndex = 2 then
   settings_data := settings_data + (1 shl 1);
 
+    //mode
+    if RadioGroup10.ItemIndex = 1 then
+    settings_data := settings_data + (1 shl 0);
     end
-    else begin
-  settings_data := settings_data + ((RadioGroup4.ItemIndex and 3) shl 3);
+    else begin  //for other - last state in memory
+    if RadioGroup1.ItemIndex = 0 then
+    settings_data := settings_data + (1 shl 0);
+
+    settings_data := settings_data + ((RadioGroup4.ItemIndex and 3) shl 3);
     end;
 
   if RadioGroup5.ItemIndex = 0 then

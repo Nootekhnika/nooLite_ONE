@@ -892,13 +892,19 @@ begin
 
 
           if (settings_type=6) then begin
-
+         //sensor
         if testbit(settings_data, 1) then
           Form2.RadioGroup7.ItemIndex := 2
         else if testbit(settings_data, 3) then
           Form2.RadioGroup7.ItemIndex := 1
           else
           Form2.RadioGroup7.ItemIndex := 0;
+
+        //mode
+         if testbit(settings_data, 0) then
+          Form2.RadioGroup10.ItemIndex := 1
+        else
+          Form2.RadioGroup10.ItemIndex := 0
 
           end
           else begin
@@ -3643,6 +3649,7 @@ begin
         Form2.RadioGroup2.Visible:=true;
         Form2.RadioGroup4.Visible:=true;
         Form2.RadioGroup5.Visible:=true;
+        Form2.RadioGroup10.Visible:=false;
 
         if (dev_type_temp=2) then begin
         Form2.RadioGroup4.Visible:=false;
@@ -3726,6 +3733,8 @@ begin
         if (dev_type_temp=6) then begin
         Form2.RadioGroup2.Visible:=false;
         Form2.RadioGroup4.Visible:=false;
+        Form2.RadioGroup10.Visible:=true;
+        Form2.RadioGroup1.Visible:=false;
         end;
 
       if (send_enable) then
