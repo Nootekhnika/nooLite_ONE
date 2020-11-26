@@ -901,10 +901,16 @@ begin
           Form2.RadioGroup7.ItemIndex := 0;
 
         //mode
-         if testbit(settings_data, 0) then
-          Form2.RadioGroup10.ItemIndex := 1
-        else
-          Form2.RadioGroup10.ItemIndex := 0
+         if testbit(settings_data, 0) then begin
+          Form2.RadioGroup10.ItemIndex := 1;
+          Form2.RadioGroup5.Enabled := false;
+         end
+        else begin
+          Form2.RadioGroup10.ItemIndex := 0;
+          Form2.RadioGroup5.Enabled := true;
+
+
+        end;
 
           end
           else begin

@@ -28,6 +28,7 @@ type
     procedure RadioGroup1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
+    procedure RadioGroup10Click(Sender: TObject);
   private
     send_cmd:bool;
   public
@@ -158,6 +159,16 @@ end;
 procedure TForm2.FormShow(Sender: TObject);
 begin
 send_cmd:=false;
+end;
+
+procedure TForm2.RadioGroup10Click(Sender: TObject);
+begin
+  if RadioGroup10.ItemIndex = 0 then begin
+    RadioGroup5.Enabled := true;
+  end
+
+  else
+    RadioGroup5.Enabled := false;
 end;
 
 procedure TForm2.RadioGroup1Click(Sender: TObject);
