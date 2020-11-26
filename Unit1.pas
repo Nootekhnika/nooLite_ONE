@@ -899,6 +899,10 @@ begin
         settings_data := (readdata[8] shl 8) + readdata[7];
         Form2.Show;
 
+
+        if True then
+
+
         if testbit(settings_data, 0) then
         begin
           Form2.RadioGroup1.ItemIndex := 0;
@@ -3738,7 +3742,7 @@ begin
     if (ListBox1.ItemIndex > -1) then
     begin
      dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
-    if ((dev_type_temp=1)or (dev_type_temp=2)or (dev_type_temp=3)or (dev_type_temp=4)or (dev_type_temp=5)or (dev_type_temp=6)or (dev_type_temp=7)or (dev_type_temp=9)) then begin
+    if ((dev_type_temp=1) or (dev_type_temp=2) or (dev_type_temp=3) or (dev_type_temp=4) or (dev_type_temp=5) or (dev_type_temp=6) or (dev_type_temp=7) or (dev_type_temp=9)) then begin
 
         settings_type:=dev_type_temp;
 
@@ -3747,6 +3751,13 @@ begin
         Form2.RadioGroup4.Visible:=true;
         Form2.RadioGroup5.Visible:=true;
         Form2.RadioGroup10.Visible:=false;
+
+        //set position for control - default
+        Form2.RadioGroup3.Top:=122;
+        Form2.RadioGroup3.Left:=213;
+
+        Form2.RadioGroup5.Top:=122;
+        Form2.RadioGroup5.Left:=8;
 
         if (dev_type_temp=2) then begin
         Form2.RadioGroup4.Visible:=false;
@@ -3793,6 +3804,9 @@ begin
           Form2.RadioGroup4.Visible:=false;
           Form2.RadioGroup6.Visible:=false;
           Form2.RadioGroup2.ItemIndex:=1;
+          //change position for control
+          Form2.RadioGroup3.Top:=51;
+          Form2.RadioGroup3.Left:=8;
           end
         else
           begin
@@ -3832,12 +3846,22 @@ begin
         Form2.RadioGroup4.Visible:=false;
         Form2.RadioGroup10.Visible:=true;
         Form2.RadioGroup1.Visible:=false;
+        Form2.RadioGroup3.Top:=122;
+        Form2.RadioGroup3.Left:=8;
+
+        Form2.RadioGroup5.Top:=51;
+        Form2.RadioGroup5.Left:=8;
         end;
 
         if (dev_type_temp=2) then begin
         Form2.RadioGroup2.Visible:=false;
         Form2.RadioGroup4.Visible:=false;
+        end;
 
+        if (dev_type_temp=3) then begin
+        //change position for control
+        Form2.RadioGroup3.Top:=51;
+        Form2.RadioGroup3.Left:=207;
         end;
 
       if (send_enable) then

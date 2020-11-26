@@ -267,7 +267,7 @@ object Form2: TForm2
     Visible = False
   end
   object RadioGroup10: TRadioGroup
-    Left = 213
+    Left = 207
     Top = 51
     Width = 188
     Height = 65
