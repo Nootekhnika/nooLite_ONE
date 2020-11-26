@@ -1420,7 +1420,7 @@ object Form1: TForm1
         OnClick = N18Click
       end
       object N19: TMenuItem
-        Caption = #1058#1077#1088#1084#1086#1089#1090#1072#1090
+        Caption = #1058#1077#1088#1084#1086#1089#1090#1072#1090' ('#1088#1072#1073#1086#1090#1072' '#1087#1086' '#1082#1072#1083#1077#1085#1076#1072#1088#1102')'
         OnClick = N19Click
       end
       object nooLite2: TMenuItem

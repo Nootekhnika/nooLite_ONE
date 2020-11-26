@@ -4362,8 +4362,13 @@ begin
       N18.Visible:=false;
      end;
 
+     //изменение названия для SUF-1-300-A
      if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_8 then begin
      N17.Visible:=true;
+     N17.Caption:='Коррекция диммирования и уровня включения';
+     end
+     else begin
+     N17.Caption:='Коррекция диммирования';
      end;
 
      //задержка ретрансляции
@@ -4374,21 +4379,23 @@ begin
      nooLite2.Visible:=false;
      end;
 
+
     if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_6 then begin
       N19.Visible:=true;
      end
      else begin
       N19.Visible:=false;
      end;
-  end
-  else
-  begin
-    N1.Enabled := false;
-    N2.Enabled := false;
-    N4.Enabled := false;
-    N11.Enabled := false;
-    N12.Enabled := false;
-  end;
+    end
+    else
+    begin
+      N1.Enabled := false;
+      N2.Enabled := false;
+      N4.Enabled := false;
+      N11.Enabled := false;
+      N12.Enabled := false;
+    end;
+
 
 
 end;
