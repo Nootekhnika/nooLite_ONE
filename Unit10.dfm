@@ -18,8 +18,8 @@ object Form10: TForm10
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 8
-    Top = 8
+    Left = 16
+    Top = 10
     Width = 343
     Height = 19
     Caption = #1058#1080#1087' '#1091#1089#1090#1088#1086#1081#1089#1090#1074#1072': '#1057#1080#1083#1086#1074#1086#1081' '#1073#1083#1086#1082' SLF-1-200'
@@ -47,7 +47,7 @@ object Form10: TForm10
     Pen.Width = 2
   end
   object Label3: TLabel
-    Left = 8
+    Left = 16
     Top = 64
     Width = 308
     Height = 19
@@ -58,6 +58,20 @@ object Form10: TForm10
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 16
+    Top = 64
+    Width = 311
+    Height = 19
+    Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1094#1077#1083#1077#1074#1086#1081' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1099', '#176'C'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Visible = False
   end
   object AdvGlassButton12: TAdvGlassButton
     Left = 355
@@ -104,7 +118,7 @@ object Form10: TForm10
     OnClick = AdvGlassButton1Click
   end
   object SpinEdit1: TSpinEdit
-    Left = 347
+    Left = 355
     Top = 61
     Width = 86
     Height = 29
@@ -119,5 +133,37 @@ object Form10: TForm10
     ParentFont = False
     TabOrder = 2
     Value = 0
+  end
+  object SpinEdit2: TSpinEdit
+    Left = 355
+    Top = 61
+    Width = 86
+    Height = 29
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Increment = 10
+    MaxValue = 50
+    MinValue = 5
+    ParentFont = False
+    TabOrder = 3
+    Value = 0
+    Visible = False
+  end
+  object CheckBox1: TCheckBox
+    Left = 16
+    Top = 96
+    Width = 225
+    Height = 17
+    Caption = #1042#1082#1083#1102#1095#1080#1090#1100' '#1087#1086#1089#1083#1077' '#1089#1086#1093#1088#1072#1085#1077#1085#1080#1103
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
   end
 end

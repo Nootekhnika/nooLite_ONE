@@ -117,6 +117,7 @@ type
     N18: TMenuItem;
     N19: TMenuItem;
     nooLite2: TMenuItem;
+    SetTemp: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ComPort1RxChar(Sender: TObject; Count: Integer);
@@ -186,6 +187,7 @@ type
     procedure N18Click(Sender: TObject);
     procedure N19Click(Sender: TObject);
     procedure nooLite2Click(Sender: TObject);
+    procedure SetTempClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -196,6 +198,7 @@ type
 procedure send_termo_data(cmd,pos,dt0,dt1,dt2,dt3:integer);
 procedure send_new_settings(write_pos_settings:integer);
 procedure send_new_settings_ext(write_pos_settings:integer);
+procedure send_new_settings_temperature(temp_value_set:integer; state :boolean);
 procedure send_active();
 
 const
@@ -303,6 +306,7 @@ var
   settings_mode:integer;
 
   settings_type: Integer;
+  settempmode: boolean;
 implementation
 
 uses Unit2, Unit3, Crc32, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10,
@@ -749,6 +753,7 @@ begin
       send_enable := true;
       settings_set := 0;
       showmessage('Нет ответа от выбранного устройства!');
+      settempmode:=false;
       Form1.AdvGlassButton12.Click;
     end
     else if settings_set = 2 then
@@ -850,9 +855,34 @@ begin
   if (readdata[2] = 0) then
   begin // ответ от блока
 
+   if settempmode and (settings_set = 2) then   begin    //установка целевой температуры для SRF-1-3000-T
+   settempmode:=false;
+   settings_set := 0;
+   wait_update_off;
+   showmessage('Настройка устройства завершена!');
+   Form1.AdvGlassButton12.Click;
+   Exit;
+   end;
+
+
     if (readdata[6] = 16) then
     begin // настройка устройства
 
+    if settempmode then   begin    //установка целевой температуры для SRF-1-3000-T
+     Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
+        settings_data := 25; //set default temperature
+        Form10.Show;
+        Form10.Label2.Visible:=false;
+        Form10.SpinEdit1.Visible:=false;
+
+        Form10.Label3.Visible:=true;
+        Form10.SpinEdit2.Visible:=true;
+        Form10.CheckBox1.Visible:=true;
+        Form10.CheckBox1.Checked:=false;
+        Form10.SpinEdit2.Value:= settings_data;
+
+    end
+    else begin
       if settings_set = 2 then
       begin
         settings_set := 0;
@@ -955,6 +985,7 @@ begin
 
       end;
 
+    end;
     end
     else  if (readdata[6] = 17) then //коррекция диммирования
     begin // настройка устройства
@@ -1033,6 +1064,15 @@ begin
         if (settings_type = 9) then begin
         Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
 
+        Form10.Label3.Visible:=false;
+        Form10.SpinEdit2.Visible:=false;
+
+        Form10.Label2.Visible:=true;
+        Form10.SpinEdit1.Visible:=true;
+
+        Form10.CheckBox1.Visible:=false;
+        Form10.CheckBox1.Checked:=false;
+
         settings_data := (readdata[8] shl 8) + readdata[7];
         Form10.Show;
         settings_mode:=18;
@@ -1077,6 +1117,16 @@ begin
         if (settings_type = 5) then begin  //SUF-1-300
         Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
         settings_data := (readdata[8] shl 8) + readdata[7];
+
+        Form10.Label3.Visible:=false;
+        Form10.SpinEdit2.Visible:=false;
+
+        Form10.Label2.Visible:=true;
+        Form10.SpinEdit1.Visible:=true;
+
+        Form10.CheckBox1.Visible:=false;
+        Form10.CheckBox1.Checked:=false;
+
         Form10.Show;
         settings_mode:=19;
         Form10.SpinEdit1.Value:= round(readdata[7]*10);
@@ -3243,7 +3293,7 @@ begin
   error_rx_flag := false;
   stat_send_count := 0;
   stat_send_err := 0;
-
+  settempmode:=false;
   auto_reset := false;
   step_service_boot := 0;
   time_out := 0;
@@ -3340,6 +3390,47 @@ begin
     senddata[10] := ((settings_mask shr 8) and 255); // data1
 
     senddata[6] := write_pos_settings; // формат=16, чтение настройки
+
+    clear_result(senddata[6]); // подготовить верхнюю строчку страницы
+    senddata[4] := settings_channel; // номер канала
+    crc := 0;
+    poswrite := 0;
+    Form1.memo1.Clear;
+    settings_set := 2;
+    hide_update;
+    send_command;
+  end;
+
+end;
+
+procedure send_new_settings_temperature(temp_value_set:integer; state :boolean);
+var
+  id_f: Integer;
+begin
+
+  if (send_enable) then
+  begin
+    Form1.RadioButton1.Checked := true;
+    senddata[1] := 2; // nooLiteF_TX
+
+    senddata[2] := 8; // send_to_address
+    senddata[3] := 0; // reserved
+    senddata[5] := 6; // установка значения
+    id_f := settings_address;
+    senddata[11] := LO(id_f shr 24);
+    senddata[12] := LO(id_f shr 16);
+    senddata[13] := LO(id_f shr 8);
+    senddata[14] := LO(id_f);
+
+    senddata[7] := temp_value_set; // data0
+    senddata[8] := 0; // data1
+    senddata[9] := 0; // data2
+    senddata[10] := 0; // data3
+
+    if state then
+    senddata[6] := 2 //fmt - on
+    else
+    senddata[6] := 1; //just set
 
     clear_result(senddata[6]); // подготовить верхнюю строчку страницы
     senddata[4] := settings_channel; // номер канала
@@ -3492,7 +3583,7 @@ begin
 
         senddata[2] := 8; // send_to_address
         senddata[3] := 0; // reserved
-        senddata[5] := 9; // отвязка
+        senddata[5] := 6; // отвязка
 
         id_f := HexToInt(Form1.AdvStringGrid1.Cells[4,
           AdvStringGrid1.SelectedRow[0]]);
@@ -4308,6 +4399,7 @@ begin
 
       if (send_enable) then
       begin
+        settempmode:=false;
         RadioButton1.Checked := true;
         senddata[1] := 2; // nooLiteF_TX
         senddata[2] := 8; // send_to_address
@@ -4364,6 +4456,7 @@ begin
     N4.Enabled := true;
     N11.Enabled := true;
     N12.Enabled := true;
+    SetTemp.Visible:=true;
 
     if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_5 then begin
       N17.Visible:=true;
@@ -4394,10 +4487,13 @@ begin
 
     if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_6 then begin
       N19.Visible:=true;
+      SetTemp.Visible:=true;
      end
      else begin
       N19.Visible:=false;
+      SetTemp.Visible:=false;
      end;
+
     end
     else
     begin
@@ -4406,6 +4502,7 @@ begin
       N4.Enabled := false;
       N11.Enabled := false;
       N12.Enabled := false;
+      SetTemp.Visible:=false;
     end;
 
 
@@ -4508,6 +4605,63 @@ begin
         ('Нет ответа! Ошибка обновления! Повторите процесс обновления!');
     end;
   end;
+end;
+
+procedure TForm1.SetTempClick(Sender: TObject);
+var
+  id_f: Integer;
+  dev_type_temp:integer;
+begin
+  if AdvStringGrid1.SelectedRow[0] > 0 then
+  begin
+    if (ListBox1.ItemIndex > -1) then
+    begin
+     dev_type_temp:=dev_type[AdvStringGrid1.SelectedRow[0]];
+     settings_type:=dev_type_temp;
+    if (dev_type_temp=6) then begin   //SRF-1-3000-T
+
+      if (send_enable) then
+      begin
+        RadioButton1.Checked := true;
+        senddata[1] := 2; // nooLiteF_TX
+        senddata[2] := 8; // send_to_address
+        senddata[3] := 0; // reserved
+        senddata[5] := 128; // считать состояние
+        settings_name := Form1.AdvStringGrid1.Cells
+          [0, AdvStringGrid1.SelectedRow[0]];
+        id_f := HexToInt(Form1.AdvStringGrid1.Cells[4,
+          AdvStringGrid1.SelectedRow[0]]);
+        senddata[11] := LO(id_f shr 24);
+        senddata[12] := LO(id_f shr 16);
+        senddata[13] := LO(id_f shr 8);
+        senddata[14] := LO(id_f);
+
+        senddata[7] := 0; // data0
+        senddata[6] := 16; // формат=16, чтение настройки
+        settempmode:=true; // установить режим настройки термостата
+        clear_result(senddata[6]); // подготовить верхнюю строчку страницы
+        senddata[4] := ListBox1.ItemIndex; // номер канала
+        crc := 0;
+        poswrite := 0;
+        memo1.Clear;
+        settings_set := 1;
+        hide_update;
+        settings_address := id_f;
+        settings_channel := senddata[4];
+        send_command;
+      end;
+
+    end
+    else begin
+    ShowMessage('Выбранное устройство не имеет функции удалённой настройки!');
+    end;
+    end
+    else
+    begin
+      showmessage('Для данного действия нужно выбрать канал из списка!');
+    end;
+  end;
+
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);

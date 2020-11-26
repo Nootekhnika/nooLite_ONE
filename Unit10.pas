@@ -15,6 +15,9 @@ type
     AdvGlassButton12: TAdvGlassButton;
     AdvGlassButton1: TAdvGlassButton;
     SpinEdit1: TSpinEdit;
+    Label2: TLabel;
+    SpinEdit2: TSpinEdit;
+    CheckBox1: TCheckBox;
     procedure AdvGlassButton12Click(Sender: TObject);
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -37,6 +40,14 @@ uses Unit1;
 procedure TForm10.AdvGlassButton12Click(Sender: TObject);
 begin
 settings_mask:=$FF;
+if settempmode then begin   //set temperature
+settings_data :=round(Form10.SpinEdit1.Value/10);
+send_cmd:=true;
+Form10.Close;
+send_new_settings_temperature(Form10.SpinEdit1.Value, CheckBox1.Checked);
+
+end
+else begin  //set noolite timeout
 if (settings_mode=18) then begin
 settings_data :=round(Form10.SpinEdit1.Value/10);
 send_cmd:=true;
@@ -49,6 +60,7 @@ settings_data :=round(Form10.SpinEdit1.Value/10);
 send_cmd:=true;
 Form10.Close;
 send_new_settings(19);
+end;
 end;
 end;
 

@@ -1427,6 +1427,10 @@ object Form1: TForm1
         Caption = #1047#1072#1076#1077#1088#1078#1082#1072' '#1088#1077#1090#1088#1072#1085#1089#1083#1103#1094#1080#1080' nooLite'
         OnClick = nooLite2Click
       end
+      object SetTemp: TMenuItem
+        Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1094#1077#1083#1077#1074#1086#1081' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1099
+        OnClick = SetTempClick
+      end
     end
     object N10: TMenuItem
       Caption = '-'
