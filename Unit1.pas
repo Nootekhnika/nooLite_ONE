@@ -3659,7 +3659,7 @@ begin
 
         if (dev_type_temp=2) then begin
         Form2.RadioGroup4.Visible:=false;
-        Form2.RadioGroup5.Visible:=false;
+        //Form2.RadioGroup5.Visible:=false;
         Form2.RadioGroup6.Visible:=false;
         end
         else begin
@@ -3741,6 +3741,12 @@ begin
         Form2.RadioGroup4.Visible:=false;
         Form2.RadioGroup10.Visible:=true;
         Form2.RadioGroup1.Visible:=false;
+        end;
+
+        if (dev_type_temp=2) then begin
+        Form2.RadioGroup2.Visible:=false;
+        Form2.RadioGroup4.Visible:=false;
+
         end;
 
       if (send_enable) then
