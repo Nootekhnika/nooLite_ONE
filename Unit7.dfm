@@ -36,9 +36,9 @@ object Form7: TForm7
     object Label1: TLabel
       Left = 158
       Top = 4
-      Width = 134
+      Width = 143
       Height = 19
-      Caption = 'nooLite ONE v1.9b'
+      Caption = 'nooLite ONE v1.91b'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16

@@ -852,37 +852,13 @@ procedure draw_settings();
 var
   state_temp: word;
 begin
+
   if (readdata[2] = 0) then
   begin // ответ от блока
-
-   if settempmode and (settings_set = 2) then   begin    //установка целевой температуры для SRF-1-3000-T
-   settempmode:=false;
-   settings_set := 0;
-   wait_update_off;
-   showmessage('Настройка устройства завершена!');
-   Form1.AdvGlassButton12.Click;
-   Exit;
-   end;
-
 
     if (readdata[6] = 16) then
     begin // настройка устройства
 
-    if settempmode then   begin    //установка целевой температуры для SRF-1-3000-T
-     Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
-        settings_data := 25; //set default temperature
-        Form10.Show;
-        Form10.Label2.Visible:=false;
-        Form10.SpinEdit1.Visible:=false;
-
-        Form10.Label3.Visible:=true;
-        Form10.SpinEdit2.Visible:=true;
-        Form10.CheckBox1.Visible:=true;
-        Form10.CheckBox1.Checked:=false;
-        Form10.SpinEdit2.Value:= settings_data;
-
-    end
-    else begin
       if settings_set = 2 then
       begin
         settings_set := 0;
@@ -893,15 +869,10 @@ begin
       else
       begin
         settings_set := 0;
-
         Form2.Label1.Caption := 'Настройка устройства: ' + settings_name;
 
         settings_data := (readdata[8] shl 8) + readdata[7];
         Form2.Show;
-
-
-        if True then
-
 
         if testbit(settings_data, 0) then
         begin
@@ -989,7 +960,7 @@ begin
 
       end;
 
-    end;
+
     end
     else  if (readdata[6] = 17) then //коррекция диммирования
     begin // настройка устройства
@@ -1136,6 +1107,24 @@ begin
         Form10.SpinEdit1.Value:= round(readdata[7]*10);
 
         end;
+
+      end;
+    end else  if (readdata[6] = 31) then //коррекция уровня включения
+    begin // настройка устройства
+
+      if settempmode then   begin    //установка целевой температуры для SRF-1-3000-T
+        settings_set := 0;
+        Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
+        settings_data := readdata[7]; //set default temperature
+        Form10.Show;
+        Form10.Label2.Visible:=false;
+        Form10.SpinEdit1.Visible:=false;
+
+        Form10.Label3.Visible:=true;
+        Form10.SpinEdit2.Visible:=true;
+        Form10.CheckBox1.Visible:=true;
+        Form10.CheckBox1.Checked:=false;
+        Form10.SpinEdit2.Value:= settings_data;
 
       end;
     end
@@ -4661,7 +4650,7 @@ begin
         senddata[14] := LO(id_f);
 
         senddata[7] := 0; // data0
-        senddata[6] := 16; // формат=16, чтение настройки
+        senddata[6] := 31; // формат=31, чтение температуры
         settempmode:=true; // установить режим настройки термостата
         clear_result(senddata[6]); // подготовить верхнюю строчку страницы
         senddata[4] := ListBox1.ItemIndex; // номер канала
