@@ -41,10 +41,10 @@ procedure TForm10.AdvGlassButton12Click(Sender: TObject);
 begin
 settings_mask:=$FF;
 if settempmode then begin   //set temperature
-settings_data :=round(Form10.SpinEdit1.Value/10);
+settings_data :=Form10.SpinEdit2.Value;
 send_cmd:=true;
 Form10.Close;
-send_new_settings_temperature(Form10.SpinEdit1.Value, CheckBox1.Checked);
+send_new_settings_temperature(Form10.SpinEdit2.Value, CheckBox1.Checked);
 
 end
 else begin  //set noolite timeout

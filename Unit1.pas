@@ -856,6 +856,16 @@ begin
   if (readdata[2] = 0) then
   begin // ответ от блока
 
+
+   if (settempmode) and (settings_set = 2) then   begin    //установка целевой температуры для SRF-1-3000-T
+   settempmode:=false;
+   settings_set := 0;
+   wait_update_off;
+   showmessage('Настройка устройства завершена!');
+   Form1.AdvGlassButton12.Click;
+   Exit;
+   end;
+
     if (readdata[6] = 16) then
     begin // настройка устройства
 
