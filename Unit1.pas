@@ -923,8 +923,6 @@ begin
         else begin
           Form2.RadioGroup10.ItemIndex := 0;
           Form2.RadioGroup5.Enabled := true;
-
-
         end;
 
           end
@@ -3855,12 +3853,14 @@ begin
         if (dev_type_temp=2) then begin
         Form2.RadioGroup2.Visible:=false;
         Form2.RadioGroup4.Visible:=false;
+        Form2.RadioGroup3.Top:=51;
+        Form2.RadioGroup3.Left:=213;
         end;
 
         if (dev_type_temp=3) then begin
         //change position for control
         Form2.RadioGroup3.Top:=51;
-        Form2.RadioGroup3.Left:=207;
+        Form2.RadioGroup3.Left:=213;
         end;
 
       if (send_enable) then
