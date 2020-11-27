@@ -67,6 +67,8 @@ end;
 procedure TForm10.AdvGlassButton1Click(Sender: TObject);
 begin
   send_cmd:=false;
+  settings_set := 0;
+  settempmode:=false;
   Form10.Close;
 
 end;

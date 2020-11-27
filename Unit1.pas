@@ -414,6 +414,9 @@ begin
   end;
   Form1.memo1.SelAttributes.Color := clred;
   Form1.memo1.Lines.Add('TO MTRF: ' + send_str);
+  Form1.memo1.SetFocus;
+  Form1.memo1.SelStart := Form1.memo1.GetTextLen;
+  Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
 end;
 
 function test_port: boolean;
@@ -541,7 +544,9 @@ begin
   end;
   Form1.memo1.SelAttributes.Color := clred;
   Form1.memo1.Lines.Add('TO MTRF: ' + send_str);
-
+  Form1.memo1.SetFocus;
+  Form1.memo1.SelStart := Form1.memo1.GetTextLen;
+  Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
 end;
 
 procedure send_boot_command;
@@ -611,6 +616,9 @@ begin
       Form1.memo1.SelAttributes.Color := clblue;
 
     Form1.memo1.Lines.Add('TO MTRF: ' + send_str);
+    Form1.memo1.SetFocus;
+    Form1.memo1.SelStart := Form1.memo1.GetTextLen;
+    Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
   end;
 
   try
@@ -1121,7 +1129,7 @@ begin
     end else  if (readdata[6] = 31) then //коррекция уровня включения
     begin // настройка устройства
 
-      if settempmode then   begin    //установка целевой температуры для SRF-1-3000-T
+      if settempmode then  begin    //установка целевой температуры для SRF-1-3000-T
         settings_set := 0;
         Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
         settings_data := readdata[7]; //set default temperature
@@ -2656,7 +2664,7 @@ end;
 procedure TForm1.CheckBox4Click(Sender: TObject);
 begin
   if CheckBox4.Checked then
-    Form1.Height := 680
+    Form1.Height := 771
   else
     Form1.Height := 468;
 end;
@@ -2945,8 +2953,9 @@ begin
               begin
                 Form1.memo1.SelAttributes.Color := clgreen;
                 memo1.Lines.Add(show_str);
-                memo1.SelStart := Length(memo1.Lines.Text);
-                memo1.SelLength := 0;
+                Form1.memo1.SetFocus;
+                Form1.memo1.SelStart := Form1.memo1.GetTextLen;
+                Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
               end;
 
               if (boot_mode = 1) then
@@ -3114,8 +3123,11 @@ begin
             // begin
             Form1.memo1.SelAttributes.Color := clgreen;
             memo1.Lines.Add(show_str);
-            memo1.SelStart := Length(memo1.Lines.Text);
-            memo1.SelLength := 0;
+            //memo1.SelStart := Length(memo1.Lines.Text);
+            //memo1.SelLength := 0;
+            memo1.SetFocus;
+            memo1.SelStart := memo1.GetTextLen;
+            memo1.Perform(EM_SCROLLCARET, 0, 0);
             // end;
 
             if ((send_http_enable)and (readdata[1]<4)) then  //убрать из передачи сервисный и режим бутлоадера
@@ -3590,7 +3602,7 @@ begin
 
         senddata[2] := 8; // send_to_address
         senddata[3] := 0; // reserved
-        senddata[5] := 6; // отвязка
+        senddata[5] := 9; // отвязка
 
         id_f := HexToInt(Form1.AdvStringGrid1.Cells[4,
           AdvStringGrid1.SelectedRow[0]]);
@@ -4732,6 +4744,9 @@ begin
       if test_port() then
       begin
         Form1.memo1.Lines.Add('OK');
+        Form1.memo1.SetFocus;
+        Form1.memo1.SelStart := Form1.memo1.GetTextLen;
+        Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
         ComPort1.Open;
         step_service_boot := 1; // подготовка к передаче второй команды
         test_device(); // SERVICE
@@ -4741,6 +4756,9 @@ begin
       end
       else
         Form1.memo1.Lines.Add('Open error');
+        Form1.memo1.SetFocus;
+        Form1.memo1.SelStart := Form1.memo1.GetTextLen;
+        Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
     end
     else
     begin // считывание последнего состояния

@@ -431,7 +431,7 @@ object Form1: TForm1
     Left = 7
     Top = 560
     Width = 963
-    Height = 86
+    Height = 177
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clBlack
     Font.Height = -13
