@@ -3424,7 +3424,12 @@ begin
     senddata[14] := LO(id_f);
 
     senddata[7] := temp_value_set; // data0
+    
+    if state then
+    senddata[8] := 1 // data1
+    else
     senddata[8] := 0; // data1
+    
     senddata[9] := 0; // data2
     senddata[10] := 0; // data3
 
