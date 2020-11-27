@@ -761,6 +761,7 @@ begin
       Form1.Label6.Caption := ''; // спрятать информацию
       Form1.Label6.Font.Color := clblack;
       send_enable := true;
+      settempmode:=false;
       settings_set := 0;
       showmessage
         ('Невозможно завершить настройку. Нет ответа от выбранного устройства!');
@@ -4042,6 +4043,7 @@ begin
         //hide_update;
         senddata[4] := ListBox1.ItemIndex; // номер канала
         settings_channel := senddata[4];
+        settempmode:=false;
         form9.Show;
 end;
 
