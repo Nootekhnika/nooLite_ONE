@@ -1000,7 +1000,6 @@ begin
 
 
         settings_mode:=17;
-       
 
         Form11.SpinEdit1.MaxValue:=100;
         Form11.SpinEdit2.MaxValue:=100;
@@ -1014,7 +1013,7 @@ begin
         Form11.SpinEdit3.Value:= readdata[8];  //start
         Form11.SpinEdit2.Value:= readdata[7];  //max
 
-        {
+        { //removed update after get data
         Form11.SpinEdit3.MaxValue:=Form11.SpinEdit2.Value-1;
         Form11.SpinEdit3.MinValue:=Form11.SpinEdit1.Value;
         if Form11.SpinEdit1.Value>Form11.SpinEdit3.Value then
@@ -1136,10 +1135,9 @@ begin
         end;
 
       end;
-    end else  if (readdata[6] = 31) then //коррекция уровня включения
+    end else  if (readdata[6] = 31) and (settempmode) then //коррекция уровня включения
     begin // настройка устройства
-
-      if settempmode then  begin    //установка целевой температуры для SRF-1-3000-T
+  //установка целевой температуры для SRF-1-3000-T
         settings_set := 0;
         Form10.Label1.Caption := 'Настройка устройства: ' + settings_name;
         settings_data := readdata[7]; //set default temperature
@@ -1152,8 +1150,6 @@ begin
         Form10.CheckBox1.Visible:=true;
         Form10.CheckBox1.Checked:=false;
         Form10.SpinEdit2.Value:= settings_data;
-
-      end;
     end
 
     else begin //остальные форматы

@@ -50,9 +50,11 @@ uses Unit1;
 procedure update_values;
 begin
 
+
 Form11.SpinEdit1.MaxValue:=Form11.SpinEdit2.Value-1;
 Form11.SpinEdit3.MaxValue:=Form11.SpinEdit2.Value-1;
 Form11.SpinEdit3.MinValue:=Form11.SpinEdit1.Value;
+
 if Form11.SpinEdit1.Value>Form11.SpinEdit3.Value then
 Form11.SpinEdit3.Value:=Form11.SpinEdit1.Value;
 Form11.SpinEdit2.MinValue:=Form11.SpinEdit3.Value+1;
