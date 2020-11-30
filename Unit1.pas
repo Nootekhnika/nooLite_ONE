@@ -1000,17 +1000,27 @@ begin
 
 
         settings_mode:=17;
+       
+
+        Form11.SpinEdit1.MaxValue:=100;
+        Form11.SpinEdit2.MaxValue:=100;
+        Form11.SpinEdit3.MaxValue:=100;
+
+        Form11.SpinEdit1.MinValue:=1;
+        Form11.SpinEdit2.MinValue:=2;
+        Form11.SpinEdit3.MinValue:=0;
+
         Form11.SpinEdit1.Value:= readdata[9];  //min
         Form11.SpinEdit3.Value:= readdata[8];  //start
         Form11.SpinEdit2.Value:= readdata[7];  //max
 
-        Form11.SpinEdit1.MaxValue:=Form11.SpinEdit2.Value-1;
+        {
         Form11.SpinEdit3.MaxValue:=Form11.SpinEdit2.Value-1;
         Form11.SpinEdit3.MinValue:=Form11.SpinEdit1.Value;
         if Form11.SpinEdit1.Value>Form11.SpinEdit3.Value then
         Form11.SpinEdit3.Value:=Form11.SpinEdit1.Value;
         Form11.SpinEdit2.MinValue:=Form11.SpinEdit3.Value+1;
-
+        }
         Form11.Show;
        end
        else begin
