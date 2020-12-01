@@ -46,7 +46,7 @@ uses Unit1;
 
 procedure TForm2.AdvGlassButton12Click(Sender: TObject);
 begin
-if settings_type=7 then begin
+if (settings_type=7) or (settings_type=6) then begin
 RadioGroup6.ItemIndex:=1;
 end;
 
