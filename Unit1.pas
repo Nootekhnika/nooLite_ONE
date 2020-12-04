@@ -255,7 +255,7 @@ var
   com_err_open: boolean;
   prdata, savedir: string;
   send_http_enable, log_en: boolean;
-
+   temp_str:integer;
   log_patch, send_http_address: string;
 
   service_find: Integer;
@@ -860,6 +860,7 @@ end;
 procedure draw_settings();
 var
   state_temp: word;
+
 begin
 
   if (readdata[2] = 0) then
@@ -3131,6 +3132,16 @@ begin
             memo1.Lines.Add(show_str);
             //memo1.SelStart := Length(memo1.Lines.Text);
             //memo1.SelLength := 0;
+
+             if (readdata[1]=1) and (readdata[5]=21)   then begin
+      temp_str:=readdata[7] +   ((readdata[8] and 15) shl 8);
+      if testbit(temp_str,11) then
+      temp_str:=4096-temp_str;
+      Form1.memo1.SelAttributes.Color := clBlack;
+      Form1.memo1.Lines.Add('Датчик '+ inttostr(readdata[4])+', Температура: ' + FloatToStr(temp_str/10)+ ' C');
+
+      end;
+
             memo1.SetFocus;
             memo1.SelStart := memo1.GetTextLen;
             memo1.Perform(EM_SCROLLCARET, 0, 0);
