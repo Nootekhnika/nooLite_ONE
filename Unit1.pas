@@ -1147,7 +1147,6 @@ begin
         Form10.Show;
         Form10.Label2.Visible:=false;
         Form10.SpinEdit1.Visible:=false;
-
         Form10.Label3.Visible:=true;
         Form10.SpinEdit2.Visible:=true;
         Form10.CheckBox1.Visible:=true;

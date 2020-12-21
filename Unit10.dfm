@@ -49,9 +49,9 @@ object Form10: TForm10
   object Label3: TLabel
     Left = 16
     Top = 64
-    Width = 308
+    Width = 311
     Height = 19
-    Caption = #1047#1072#1076#1077#1088#1078#1082#1072' '#1088#1077#1090#1088#1072#1085#1089#1083#1103#1094#1080#1080' nooLite, ms'
+    Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1094#1077#1083#1077#1074#1086#1081' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1099', '#176'C'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -60,11 +60,11 @@ object Form10: TForm10
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 16
+    Left = 19
     Top = 64
-    Width = 311
+    Width = 308
     Height = 19
-    Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1094#1077#1083#1077#1074#1086#1081' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1099', '#176'C'
+    Caption = #1047#1072#1076#1077#1088#1078#1082#1072' '#1088#1077#1090#1088#1072#1085#1089#1083#1103#1094#1080#1080' nooLite, ms'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -149,7 +149,7 @@ object Form10: TForm10
     MinValue = 5
     ParentFont = False
     TabOrder = 3
-    Value = 0
+    Value = 5
     Visible = False
   end
   object CheckBox1: TCheckBox
