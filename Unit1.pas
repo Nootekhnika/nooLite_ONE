@@ -917,6 +917,7 @@ begin
 
 
           if (settings_type=6) then begin
+          Form2.RadioGroup5.Enabled := true;
          //sensor
          Form2.RadioGroup2.ItemIndex := 0;
 
@@ -930,11 +931,9 @@ begin
         //mode
          if testbit(settings_data, 0) then begin
           Form2.RadioGroup10.ItemIndex := 1;
-          Form2.RadioGroup5.Enabled := false;
          end
         else begin
           Form2.RadioGroup10.ItemIndex := 0;
-          Form2.RadioGroup5.Enabled := true;
         end;
 
           end

@@ -286,6 +286,5 @@ object Form2: TForm2
     ShowHint = True
     TabOrder = 11
     Visible = False
-    OnClick = RadioGroup10Click
   end
 end
