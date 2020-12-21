@@ -223,6 +223,7 @@ object Form2: TForm2
     ShowHint = True
     TabOrder = 8
     Visible = False
+    OnClick = RadioGroup7Click
   end
   object RadioGroup8: TRadioGroup
     Left = 213
