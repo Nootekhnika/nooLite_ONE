@@ -506,6 +506,7 @@ object Form9: TForm9
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 0
+    OnDblClick = AdvStringGrid1DblClick
     OnKeyDown = AdvStringGrid1KeyDown
     OnKeyPress = AdvStringGrid1KeyPress
     HoverRowCells = []

@@ -100,6 +100,7 @@ type
       Shift: TShiftState);
     procedure AdvStringGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure AdvStringGrid1ClickCell(Sender: TObject; ARow, ACol: Integer);
+    procedure AdvStringGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -186,6 +187,11 @@ end;
 procedure TForm9.AdvStringGrid1ClickCell(Sender: TObject; ARow, ACol: Integer);
 begin
  AdvStringGrid1.Options:= AdvStringGrid1.Options - [goEditing];
+end;
+
+procedure TForm9.AdvStringGrid1DblClick(Sender: TObject);
+begin
+ AdvStringGrid1.Options:= AdvStringGrid1.Options + [goEditing];
 end;
 
 procedure TForm9.AdvStringGrid1EditingDone(Sender: TObject);
