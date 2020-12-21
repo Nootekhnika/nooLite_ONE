@@ -601,6 +601,41 @@ object Form9: TForm9
       30
       30
       30)
+    object Shape31: TShape
+      Left = 222
+      Top = 0
+      Width = 2
+      Height = 240
+      Brush.Color = clBlack
+    end
+    object Shape32: TShape
+      Left = 413
+      Top = 0
+      Width = 2
+      Height = 240
+      Brush.Color = clBlack
+    end
+    object Shape33: TShape
+      Left = 605
+      Top = 0
+      Width = 2
+      Height = 240
+      Brush.Color = clBlack
+    end
+    object Shape34: TShape
+      Left = 798
+      Top = 0
+      Width = 2
+      Height = 240
+      Brush.Color = clBlack
+    end
+    object Shape35: TShape
+      Left = 989
+      Top = 0
+      Width = 2
+      Height = 240
+      Brush.Color = clBlack
+    end
   end
   object Button1: TButton
     Left = 925

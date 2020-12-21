@@ -82,6 +82,11 @@ type
     Label32: TLabel;
     Label33: TLabel;
     Button4: TButton;
+    Shape31: TShape;
+    Shape32: TShape;
+    Shape33: TShape;
+    Shape34: TShape;
+    Shape35: TShape;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -273,6 +278,9 @@ Form9.AdvStringGrid1.Cells[3+6*t, s] := '0';
 Form9.AdvStringGrid1.Cells[4+6*t, s] := '0';
 Form9.AdvStringGrid1.Cells[5+6*t, s] := '0';
 Form9.AdvStringGrid1.Cells[6+6*t, s] := '0';
+
+
+
   end;
   end;
 
