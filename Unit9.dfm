@@ -509,6 +509,8 @@ object Form9: TForm9
     OnDblClick = AdvStringGrid1DblClick
     OnKeyDown = AdvStringGrid1KeyDown
     OnKeyPress = AdvStringGrid1KeyPress
+    ActiveRowShow = True
+    ActiveRowColor = 12975858
     HoverRowCells = []
     OnClickCell = AdvStringGrid1ClickCell
     OnEditingDone = AdvStringGrid1EditingDone
