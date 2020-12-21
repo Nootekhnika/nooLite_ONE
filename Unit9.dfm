@@ -506,7 +506,11 @@ object Form9: TForm9
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 0
-    HoverRowCells = [hcNormal, hcSelected]
+    OnKeyDown = AdvStringGrid1KeyDown
+    OnKeyPress = AdvStringGrid1KeyPress
+    HoverRowCells = []
+    OnClickCell = AdvStringGrid1ClickCell
+    OnEditingDone = AdvStringGrid1EditingDone
     ActiveCellFont.Charset = DEFAULT_CHARSET
     ActiveCellFont.Color = clWindowText
     ActiveCellFont.Height = -11
@@ -647,8 +651,8 @@ object Form9: TForm9
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 787
-    Top = 363
+    Left = 726
+    Top = 362
     Width = 132
     Height = 42
     Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1080#1079' '#1092#1072#1081#1083#1072

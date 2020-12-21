@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, Mask,
- AdvDateTimePicker, Grids,  AdvGrid, AdvObj, BaseGrid, ExtCtrls;
+ AdvDateTimePicker, Grids,  AdvGrid, AdvObj, BaseGrid, ExtCtrls,Clipbrd;
 
 type
   TForm9 = class(TForm)
@@ -95,6 +95,11 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure AdvStringGrid1EditingDone(Sender: TObject);
+    procedure AdvStringGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure AdvStringGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure AdvStringGrid1ClickCell(Sender: TObject; ARow, ACol: Integer);
   private
     { Private declarations }
   public
@@ -176,6 +181,79 @@ end;
 end;
 
 
+end;
+
+procedure TForm9.AdvStringGrid1ClickCell(Sender: TObject; ARow, ACol: Integer);
+begin
+ AdvStringGrid1.Options:= AdvStringGrid1.Options - [goEditing];
+end;
+
+procedure TForm9.AdvStringGrid1EditingDone(Sender: TObject);
+begin
+ AdvStringGrid1.Options:= AdvStringGrid1.Options - [goEditing];
+end;
+
+procedure TForm9.AdvStringGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+ AdvStringGrid1.Options:= AdvStringGrid1.Options + [goEditing];
+end;
+
+procedure TForm9.AdvStringGrid1KeyPress(Sender: TObject; var Key: Char);
+
+
+ var
+   GRect: TGridRect;
+   S, CS, F: string;
+   L, R, C: Byte;
+ begin
+  if Key = ^C then
+    begin
+   GRect := AdvStringGrid1.Selection;
+   S  := '';
+   for R := GRect.Top to GRect.Bottom do
+   begin
+     for C := GRect.Left to GRect.Right do
+     begin
+       if C = GRect.Right then  S := S + (AdvStringGrid1.Cells[C, R])
+       else
+         S := S + AdvStringGrid1.Cells[C, R] + #9;
+     end;
+     S := S + #13#10;
+ end;
+   ClipBoard.AsText := S;
+
+      // Copy code
+    end;
+
+  if Key = ^V then
+    begin
+   GRect := AdvStringGrid1.Selection;
+   L := GRect.Left;
+   R := GRect.Top;
+   S := ClipBoard.AsText;
+   R := R - 1;
+   while Pos(#13, S) > 0 do
+   begin
+     R  := R + 1;
+     C  := L - 1;
+     CS := Copy(S, 1,Pos(#13, S));
+     while Pos(#9, CS) > 0 do
+     begin
+       C := C + 1;
+       if (C <= AdvStringGrid1.ColCount - 1) and (R <= AdvStringGrid1.RowCount - 1) then
+         AdvStringGrid1.Cells[C, R] := Copy(CS, 1,Pos(#9, CS) - 1);
+       F := Copy(CS, 1,Pos(#9, CS) - 1);
+       Delete(CS, 1,Pos(#9, CS));
+     end;
+     if (C <= AdvStringGrid1.ColCount - 1) and (R <= AdvStringGrid1.RowCount - 1) then
+       AdvStringGrid1.Cells[C + 1,R] := Copy(CS, 1,Pos(#13, CS) - 1);
+     Delete(S, 1,Pos(#13, S));
+     if Copy(S, 1,1) = #10 then
+       Delete(S, 1,1);
+   end;
+
+    end;
 end;
 
 procedure TForm9.Button1Click(Sender: TObject);
