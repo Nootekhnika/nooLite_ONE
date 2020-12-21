@@ -239,6 +239,11 @@ procedure TForm9.AdvStringGrid1KeyPress(Sender: TObject; var Key: Char);
    R := GRect.Top;
    S := ClipBoard.AsText;
    R := R - 1;
+   if Length(S)>0 then begin
+    if Copy (S,Length(S),1) <> #10 then
+     S := S + #13#10;
+    end;
+
    while Pos(#13, S) > 0 do
    begin
      R  := R + 1;
