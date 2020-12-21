@@ -106,16 +106,16 @@ end;
   else  if RadioGroup7.ItemIndex = 2 then
   settings_data := settings_data + (1 shl 1);
 
-    //mode
-    if RadioGroup10.ItemIndex = 1 then
-    settings_data := settings_data + (1 shl 0);
-    end
-    else begin  //for other - last state in memory
-    if RadioGroup1.ItemIndex = 0 then
-    settings_data := settings_data + (1 shl 0);
+  //mode
+  if RadioGroup10.ItemIndex = 1 then
+  settings_data := settings_data + (1 shl 0);
 
-    settings_data := settings_data + ((RadioGroup4.ItemIndex and 3) shl 3);
-    end;
+  end
+  else begin  //for other devices- last state in memory
+  if RadioGroup1.ItemIndex = 0 then
+  settings_data := settings_data + (1 shl 0);
+  settings_data := settings_data + ((RadioGroup4.ItemIndex and 3) shl 3);
+  end;
 
   if RadioGroup5.ItemIndex = 0 then
     settings_data := settings_data + (1 shl 5);

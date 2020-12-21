@@ -918,6 +918,8 @@ begin
 
           if (settings_type=6) then begin
          //sensor
+         Form2.RadioGroup2.ItemIndex := 0;
+
         if testbit(settings_data, 1) then
           Form2.RadioGroup7.ItemIndex := 2
         else if testbit(settings_data, 3) then
@@ -3822,7 +3824,6 @@ begin
         if (dev_type_temp=6) then begin
         Form2.RadioGroup4.Visible:=false;
         Form2.RadioGroup6.Visible:=false;
-        Form2.RadioGroup2.ItemIndex:=1;
         Form2.RadioGroup7.Visible:=true;
         end
         else begin
