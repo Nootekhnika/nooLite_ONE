@@ -4393,11 +4393,14 @@ var
   id_f: Integer;
 begin
 
+
   if AdvStringGrid1.SelectedRow[0] > 0 then
   begin
+
     if (ListBox1.ItemIndex > -1) then
     begin
-
+     if Application.MessageBox('¬ы действительно хотите очистить прив€зку nooLite на данном блоке?', 'ѕодтверждение действи€', MB_ICONWARNING + mb_YesNo) = mrYes then
+  begin
       if (send_enable) then
       begin
         RadioButton1.Checked := true;
@@ -4431,6 +4434,7 @@ begin
         wait_update;
         send_command;
       end;
+    end;
 
     end
     else
