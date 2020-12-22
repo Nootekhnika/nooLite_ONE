@@ -975,6 +975,12 @@ begin
 
           end;
 
+        if (settings_type=4) then begin
+        if testbit(settings_data, 7) then
+          Form2.RadioGroup8.ItemIndex := 0
+        else
+          Form2.RadioGroup8.ItemIndex := 1;
+        end;
 
 
       end;
@@ -3777,7 +3783,6 @@ begin
     if ((dev_type_temp=1) or (dev_type_temp=2) or (dev_type_temp=3) or (dev_type_temp=4) or (dev_type_temp=5) or (dev_type_temp=6) or (dev_type_temp=7) or (dev_type_temp=9)) then begin
 
         settings_type:=dev_type_temp;
-
         Form2.RadioGroup1.Visible:=true;
         Form2.RadioGroup2.Visible:=true;
         Form2.RadioGroup4.Visible:=true;
@@ -3790,6 +3795,9 @@ begin
 
         Form2.RadioGroup5.Top:=122;
         Form2.RadioGroup5.Left:=8;
+
+        Form2.RadioGroup8.Top:=193;
+        Form2.RadioGroup8.Left:=213;
 
         if (dev_type_temp=2) then begin
         Form2.RadioGroup4.Visible:=false;
@@ -3893,6 +3901,14 @@ begin
 
         if (dev_type_temp=3) then begin
         //change position for control
+        Form2.RadioGroup3.Top:=51;
+        Form2.RadioGroup3.Left:=213;
+        end;
+
+        if (dev_type_temp=4) then  begin
+        Form2.RadioGroup8.Visible:=true;
+        Form2.RadioGroup8.Top:=122;
+        Form2.RadioGroup8.Left:=213;
         Form2.RadioGroup3.Top:=51;
         Form2.RadioGroup3.Left:=213;
         end;
