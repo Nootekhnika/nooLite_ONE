@@ -101,6 +101,7 @@ type
     procedure AdvStringGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure AdvStringGrid1ClickCell(Sender: TObject; ARow, ACol: Integer);
     procedure AdvStringGrid1DblClick(Sender: TObject);
+    procedure AdvStringGrid1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -138,16 +139,30 @@ end;
 
 end;
 
-procedure set_termo_settings;
+function set_termo_settings:boolean;
 var
 l,d,c:integer;
 Crc_set: Cardinal;
 BufPtr: Pointer;
+  MyClass: TComponent;
 begin
+Result:=true;
 c:=0;
 for d := 1  to 7 do begin
 for l := 1  to 36 do begin
-termo_settings[c]:=strtoint(Form9.AdvStringGrid1.Cells[l, d]);
+
+try
+termo_settings[c]:=strtoint(Form9.AdvStringGrid1.Cells[l, d]);  
+except  
+ Application.MessageBox('В введённых данных присутсвтуют некорректные символы! Допускаются только целые числовые значения.', 'Ошибка', MB_ICONERROR+ MB_OK);
+ Form9.AdvStringGrid1.SelectionColor:=clred;
+Form9.AdvStringGrid1.SelectCells(l, d,l, d);
+
+ Result:=false;
+ Exit;
+ end;
+
+
 inc(c);
 end;
 end;
@@ -201,6 +216,11 @@ end;
 
 end;
 
+procedure TForm9.AdvStringGrid1Click(Sender: TObject);
+begin
+ Form9.AdvStringGrid1.SelectionColor:=$00EACAB6;
+end;
+
 procedure TForm9.AdvStringGrid1ClickCell(Sender: TObject; ARow, ACol: Integer);
 begin
  AdvStringGrid1.Options:= AdvStringGrid1.Options - [goEditing];
@@ -214,6 +234,8 @@ end;
 procedure TForm9.AdvStringGrid1EditingDone(Sender: TObject);
 begin
  AdvStringGrid1.Options:= AdvStringGrid1.Options - [goEditing];
+
+ 
 end;
 
 procedure TForm9.AdvStringGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -303,6 +325,7 @@ end;
 procedure TForm9.Button3Click(Sender: TObject);
 
 begin
+if set_termo_settings()   then begin
 Label27.Visible:=false;
 Label28.Visible:=true;
 close_enable(false);
@@ -311,8 +334,8 @@ ProgressBar1.Position:=0;
 ProgressBar1.Max:=252;
 termo_ansver_mode:=2;
 error_count_send:=2;
-set_termo_settings();
 send_table_data();
+end;
 end;
 
 
