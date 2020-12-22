@@ -4184,8 +4184,7 @@ procedure TForm1.N3Click(Sender: TObject);
 var
   id_f: Integer;
 begin
-  if MessageDlg('¬ы действительно хотите отв€зать данный блок от канала?',
-    mtCustom, [mbYes, mbNo], 0) = mrYes then
+if Application.MessageBox('¬ы действительно хотите отв€зать данный блок от канала?', 'ѕодтверждение действи€', MB_ICONWARNING + mb_YesNo) = mrYes then
   begin
     if AdvStringGrid1.SelectedRow[0] > 0 then
     begin
