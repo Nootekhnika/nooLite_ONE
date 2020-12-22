@@ -102,6 +102,8 @@ type
     procedure AdvStringGrid1ClickCell(Sender: TObject; ARow, ACol: Integer);
     procedure AdvStringGrid1DblClick(Sender: TObject);
     procedure AdvStringGrid1Click(Sender: TObject);
+    procedure AdvStringGrid1SelectionChanged(Sender: TObject; ALeft, ATop,
+      ARight, ABottom: Integer);
   private
     { Private declarations }
   public
@@ -304,6 +306,17 @@ procedure TForm9.AdvStringGrid1KeyPress(Sender: TObject; var Key: Char);
    end;
 
     end;
+end;
+
+procedure TForm9.AdvStringGrid1SelectionChanged(Sender: TObject; ALeft, ATop,
+  ARight, ABottom: Integer);
+begin
+if (   ALeft<>ARight) or ( ATop<> ABottom )then
+AdvStringGrid1.ActiveRowShow:=false
+else
+AdvStringGrid1.ActiveRowShow:=true;
+
+
 end;
 
 procedure TForm9.Button1Click(Sender: TObject);

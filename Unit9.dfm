@@ -516,6 +516,7 @@ object Form9: TForm9
     HoverRowCells = []
     OnClickCell = AdvStringGrid1ClickCell
     OnEditingDone = AdvStringGrid1EditingDone
+    OnSelectionChanged = AdvStringGrid1SelectionChanged
     ActiveCellFont.Charset = DEFAULT_CHARSET
     ActiveCellFont.Color = clWindowText
     ActiveCellFont.Height = -11
