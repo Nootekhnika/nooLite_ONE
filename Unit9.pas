@@ -122,6 +122,22 @@ uses Unit1, Crc32;
 
 {$R *.dfm}
 
+procedure close_enable(state:boolean);
+var
+SysMenu: HMenu;
+begin
+SysMenu:=GetSystemMenu(Form9.Handle,False);
+if state then begin
+Windows.EnableMenuItem(SysMenu,SC_CLOSE,MF_ENABLED);
+Form9.Button4.Enabled:=true;
+end
+else begin
+Windows.EnableMenuItem(SysMenu,SC_CLOSE,MF_DISABLED Or MF_GRAYED);
+Form9.Button4.Enabled:=false;
+end;
+
+end;
+
 procedure set_termo_settings;
 var
 l,d,c:integer;
@@ -176,6 +192,7 @@ else begin
 Form9.ProgressBar1.Position:=0;
 read_index:=0;
 Form9.Label28.Visible:=false;
+close_enable(true);
 end;
 
 end;
@@ -284,9 +301,11 @@ AdvStringGrid1.LoadFromFile(OpenDialog1.FileName);
 end;
 
 procedure TForm9.Button3Click(Sender: TObject);
+
 begin
 Label27.Visible:=false;
 Label28.Visible:=true;
+close_enable(false);
 read_index:=0;
 ProgressBar1.Position:=0;
 ProgressBar1.Max:=252;
