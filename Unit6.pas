@@ -16,6 +16,9 @@ type
     Label1: TLabel;
     CheckBox2: TCheckBox;
     AdvDirectoryEdit1: TAdvDirectoryEdit;
+    Label3: TLabel;
+    CheckBox1: TCheckBox;
+    AdvDirectoryEdit2: TAdvDirectoryEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure but_saveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -46,22 +49,27 @@ begin
   Ini.Writestring('RX_SETTINGS', 'LOG_FILE', AdvDirectoryEdit1.Text);
   Ini.WriteBool('RX_SETTINGS', 'HTTP_EN', CheckBox4.Checked);
   Ini.Writestring('RX_SETTINGS', 'HTTP_ADDR', Edit1.Text);
+
+  Ini.WriteBool('RX_SETTINGS', 'SENSLOG_EN', CheckBox1.Checked);
+  Ini.Writestring('RX_SETTINGS', 'SENSLOG_FILE', AdvDirectoryEdit2.Text);
+
   Ini.Free;
   send_http_enable := CheckBox4.Checked;
   send_http_address := Edit1.Text;
+  senslog_en:=CheckBox1.Checked;
+  senslog_patch:= AdvDirectoryEdit2.Text;
+  if senslog_en then
+  save_sensors_data();
 end;
 
 procedure TForm6.FormShow(Sender: TObject);
 begin
   CheckBox2.Checked := log_en;
   CheckBox4.Checked := send_http_enable;
+  CheckBox1.Checked:= senslog_en;
+ AdvDirectoryEdit2.Text := senslog_patch;
   AdvDirectoryEdit1.Text := log_patch;
   Edit1.Text := send_http_address;
-
-  if CheckBox2.Checked then
-    AdvDirectoryEdit1.Enabled := true
-  else
-    AdvDirectoryEdit1.Enabled := false;
 
 end;
 

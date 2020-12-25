@@ -200,6 +200,7 @@ procedure send_new_settings(write_pos_settings:integer);
 procedure send_new_settings_ext(write_pos_settings:integer);
 procedure send_new_settings_temperature(temp_value_set:integer; state :boolean);
 procedure send_active();
+procedure save_sensors_data;
 
 const
   color_error = $008D8DE0;
@@ -255,8 +256,9 @@ var
   com_err_open: boolean;
   prdata, savedir: string;
   send_http_enable, log_en: boolean;
-   temp_str:integer;
-  log_patch, send_http_address: string;
+  senslog_en: boolean;
+  temp_str:integer;
+  log_patch, send_http_address,senslog_patch: string;
 
   service_find: Integer;
   boot_mode, boot_mode_step: Integer;
@@ -307,12 +309,51 @@ var
 
   settings_type: Integer;
   settempmode: boolean;
+   sensor_temp_data: array [0 .. 64] of real;
+   sensor_humi_data: array [0 .. 64] of real;
+   sensor_batt_state:  array [0 .. 64] of boolean;
+   sensor_rx_ok:  array [0 .. 64] of integer;
 implementation
 
 uses Unit2, Unit3, Crc32, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10,
   Unit11;
 
 {$R *.dfm}
+
+procedure save_sensors_data;
+var
+sens_log:TStringList;
+i :integer;
+batt:string;
+begin
+if (senslog_en) and (senslog_patch<>'')  then begin
+
+sens_log := TStringList.Create;
+sens_log.Clear;
+
+for i := 0 to 63 do
+  begin
+  if sensor_batt_state[i] then
+  batt:='LB'
+  else
+  batt:='OK';
+
+  if sensor_rx_ok[i]=1 then begin   //temp
+  sens_log.Add(inttostr(i)+';'+FloatToStr(sensor_temp_data[i])+';--;'+batt);
+  end
+  else if sensor_rx_ok[i]=2 then begin  //temp and humi
+  sens_log.Add(inttostr(i)+';'+FloatToStr(sensor_temp_data[i])+';'+IntToStr(Round(sensor_humi_data[i]))+';'+batt);
+  end
+  else begin
+  sens_log.Add(inttostr(i)+';--;--;--');
+  end;
+  end;
+
+sens_log.SaveToFile(senslog_patch+'\sens_state.txt');
+sens_log.Free;
+end;
+end;
+
 
 function test_device: boolean;
 var
@@ -2707,7 +2748,10 @@ var
   st_show, ansi_show: string;
   temperature: Integer;
   name_device: string;
+  sensor_id:integer;
+  batt_state:string;
 begin
+  sensor_id:=255;  //no RX
   ComPort1.Read(t, Count);
   if poswrite > 1022 then // переполнение буфера - обнуление
     poswrite := 0;
@@ -3139,19 +3183,50 @@ begin
             //memo1.SelStart := Length(memo1.Lines.Text);
             //memo1.SelLength := 0;
 
-             if (readdata[1]=1) and (readdata[5]=21)   then begin
+      if (readdata[1]=1) and (readdata[5]=21)   then begin  //mode = RX/ CMD=21 /
+
       temp_str:=readdata[7] +   ((readdata[8] and 15) shl 8);
+
       if testbit(temp_str,11) then
       temp_str:=4096-temp_str;
-      Form1.memo1.SelAttributes.Color := clBlack;
-      Form1.memo1.Lines.Add('Датчик '+ inttostr(readdata[4])+', Температура: ' + FloatToStr(temp_str/10)+ ' C');
 
+      if (readdata[4]>=0) and (readdata[4]<=64) then begin
+      sensor_id:= ((readdata[8] shr 4) and 7);
+      sensor_rx_ok[readdata[4]]:=sensor_id;
+
+      if (readdata[8] and 128) <>0 then  begin
+      sensor_batt_state[readdata[4]]:=true;
+      batt_state:=' Батарея разряжена!';
+      end
+      else begin
+      batt_state:='';
+      sensor_batt_state[readdata[4]]:=false;
+      end;
+
+      sensor_temp_data[readdata[4]]:=temp_str/10;
+      sensor_humi_data[readdata[4]]:=readdata[9];
+      end;
+      Form1.memo1.SelAttributes.Color := clBlack;
+
+      if sensor_id=1 then begin
+        Form1.memo1.Lines.Add('Датчик, Канал:'+ inttostr(readdata[4])+', Температура: ' + FloatToStr(temp_str/10)+ ' C'+batt_state);
+
+      end
+      else if sensor_id=2 then begin
+        Form1.memo1.Lines.Add('Датчик, Канал:'+ inttostr(readdata[4])+', Температура: ' + FloatToStr(temp_str/10)+ ' C; Влажность'+Inttostr(readdata[9])+' %'+batt_state);
+      end;
+
+
+
+      save_sensors_data();
       end;
 
             memo1.SetFocus;
             memo1.SelStart := memo1.GetTextLen;
             memo1.Perform(EM_SCROLLCARET, 0, 0);
             // end;
+
+
 
             if ((send_http_enable)and (readdata[1]<4)) then  //убрать из передачи сервисный и режим бутлоадера
             begin // отправка http запроса
@@ -3261,6 +3336,7 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 var
   HM: THandle;
+  i_clear:integer;
 begin
 
   HM := OpenMutex(MUTEX_ALL_ACCESS, false, 'nooLite_F_one');  //запуск копии приложения
@@ -3304,6 +3380,8 @@ begin
       ini.WriteBool('RX_SETTINGS', 'HTTP_EN', false);
       ini.Writestring('RX_SETTINGS', 'LOG_FILE', '');
       ini.Writestring('RX_SETTINGS', 'HTTP_ADDR', '');
+      ini.WriteBool('RX_SETTINGS', 'SENSLOG_EN', false);
+      ini.Writestring('RX_SETTINGS', 'SENSLOG_FILE', '');
       ini.free;
     end;
   end
@@ -3316,6 +3394,8 @@ begin
     ini.WriteBool('RX_SETTINGS', 'HTTP_EN', false);
     ini.Writestring('RX_SETTINGS', 'LOG_FILE', '');
     ini.Writestring('RX_SETTINGS', 'HTTP_ADDR', '');
+    ini.WriteBool('RX_SETTINGS', 'SENSLOG_EN', false);
+    ini.Writestring('RX_SETTINGS', 'SENSLOG_FILE', '');
   end;
 
   ini := TIniFile.Create(savedir);
@@ -3325,6 +3405,10 @@ begin
 
   send_http_address := ini.readstring('RX_SETTINGS', 'HTTP_ADDR', '');
   send_http_enable := ini.readBool('RX_SETTINGS', 'HTTP_EN', false);
+
+  senslog_en:= ini.readBool('RX_SETTINGS', 'SENSLOG_EN', false);
+  senslog_patch:= ini.readstring('RX_SETTINGS', 'SENSLOG_FILE', '');
+
   ini.free;
 
   error_rx_flag := false;
@@ -3338,6 +3422,12 @@ begin
   bind_mode := 0;
   boot_mode := 0;
   boot_loop := 0;
+
+  for i_clear := 0 to 63 do
+  sensor_rx_ok[i_clear]:=0;
+
+  save_sensors_data();
+
   no_ch := 0;
   com_err := false;
   service_find := 1; // поиск адаптеров при старте программы
