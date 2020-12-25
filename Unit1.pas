@@ -330,7 +330,7 @@ if (senslog_en) and (senslog_patch<>'')  then begin
 
 sens_log := TStringList.Create;
 sens_log.Clear;
-
+ sens_log.Add(DateTimeToStr(now));
 for i := 0 to 63 do
   begin
   if sensor_batt_state[i] then
