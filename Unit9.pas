@@ -152,13 +152,13 @@ Result:=true;
 c:=0;
 for d := 1  to 7 do begin
 for l := 1  to 36 do begin
-
+Form9.AdvStringGrid1.Cells[l, d]:=StringReplace(Form9.AdvStringGrid1.Cells[l, d], ' ', '', [rfReplaceAll]);
 try
-termo_settings[c]:=strtoint(Form9.AdvStringGrid1.Cells[l, d]);  
+termo_settings[c]:=strtoint(Form9.AdvStringGrid1.Cells[l, d]);
 except  
  Application.MessageBox('В введённых данных присутсвтуют некорректные символы! Допускаются только целые числовые значения.', 'Ошибка', MB_ICONERROR+ MB_OK);
  Form9.AdvStringGrid1.SelectionColor:=clred;
-Form9.AdvStringGrid1.SelectCells(l, d,l, d);
+ Form9.AdvStringGrid1.SelectCells(l, d,l, d);
 
  Result:=false;
  Exit;
