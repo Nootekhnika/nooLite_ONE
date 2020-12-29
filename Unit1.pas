@@ -313,6 +313,7 @@ var
    sensor_humi_data: array [0 .. 64] of real;
    sensor_batt_state:  array [0 .. 64] of boolean;
    sensor_rx_ok:  array [0 .. 64] of integer;
+   sensor_rx_time:  array [0 .. 64] of TDateTime;
 implementation
 
 uses Unit2, Unit3, Crc32, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10,
@@ -330,7 +331,7 @@ if (senslog_en) and (senslog_patch<>'')  then begin
 
 sens_log := TStringList.Create;
 sens_log.Clear;
- sens_log.Add(DateTimeToStr(now));
+sens_log.Add('Текстовый формат: Время получения данных; ID канала ; Температура ; Влажность; Состояние батареи: OK или LB - если разряжена');
 for i := 0 to 63 do
   begin
   if sensor_batt_state[i] then
@@ -339,13 +340,13 @@ for i := 0 to 63 do
   batt:='OK';
 
   if sensor_rx_ok[i]=1 then begin   //temp
-  sens_log.Add(inttostr(i)+';'+FloatToStr(sensor_temp_data[i])+';--;'+batt);
+  sens_log.Add(DateTimeToStr(sensor_rx_time[i])+ '; '+inttostr(i)+';'+StringReplace(FloatToStr(sensor_temp_data[i]), ',', '.', [rfReplaceAll, rfIgnoreCase])+';--;'+batt);
   end
   else if sensor_rx_ok[i]=2 then begin  //temp and humi
-  sens_log.Add(inttostr(i)+';'+FloatToStr(sensor_temp_data[i])+';'+IntToStr(Round(sensor_humi_data[i]))+';'+batt);
+  sens_log.Add(DateTimeToStr(sensor_rx_time[i])+ '; '+inttostr(i)+';'+StringReplace(FloatToStr(sensor_temp_data[i]), ',', '.', [rfReplaceAll, rfIgnoreCase])+';'+IntToStr(Round(sensor_humi_data[i]))+';'+batt);
   end
   else begin
-  sens_log.Add(inttostr(i)+';--;--;--');
+  //sens_log.Add(inttostr(i)+';--;--;--');
   end;
   end;
 
@@ -3194,9 +3195,11 @@ begin
       sensor_id:= ((readdata[8] shr 4) and 7);
       sensor_rx_ok[readdata[4]]:=sensor_id;
 
+      sensor_rx_time[readdata[4]]:=now();
+
       if (readdata[8] and 128) <>0 then  begin
       sensor_batt_state[readdata[4]]:=true;
-      batt_state:=' Батарея разряжена!';
+      batt_state:=', Батарея разряжена!';
       end
       else begin
       batt_state:='';
@@ -3209,11 +3212,11 @@ begin
       Form1.memo1.SelAttributes.Color := clBlack;
 
       if sensor_id=1 then begin
-        Form1.memo1.Lines.Add('Датчик, Канал:'+ inttostr(readdata[4])+', Температура: ' + FloatToStr(temp_str/10)+ ' C'+batt_state);
+        Form1.memo1.Lines.Add(DateTimeToStr(sensor_rx_time[readdata[4]])+', Датчик, Канал: '+ inttostr(readdata[4])+', Температура: ' + StringReplace(FloatToStr(temp_str/10), ',', '.', [rfReplaceAll, rfIgnoreCase])+ ' °C'+batt_state);
 
       end
       else if sensor_id=2 then begin
-        Form1.memo1.Lines.Add('Датчик, Канал:'+ inttostr(readdata[4])+', Температура: ' + FloatToStr(temp_str/10)+ ' C; Влажность'+Inttostr(readdata[9])+' %'+batt_state);
+        Form1.memo1.Lines.Add(DateTimeToStr(sensor_rx_time[readdata[4]])+', Датчик, Канал:'+ inttostr(readdata[4])+', Температура: ' +StringReplace(FloatToStr(temp_str/10), ',', '.', [rfReplaceAll, rfIgnoreCase])+ ' °C; Влажность: '+Inttostr(readdata[9])+' %'+batt_state);
       end;
 
 
@@ -3425,8 +3428,6 @@ begin
 
   for i_clear := 0 to 63 do
   sensor_rx_ok[i_clear]:=0;
-
-  save_sensors_data();
 
   no_ch := 0;
   com_err := false;
