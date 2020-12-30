@@ -3216,7 +3216,7 @@ begin
 
       end
       else if sensor_id=2 then begin
-        Form1.memo1.Lines.Add(DateTimeToStr(sensor_rx_time[readdata[4]])+', Датчик, Канал:'+ inttostr(readdata[4])+', Температура: ' +StringReplace(FloatToStr(temp_str/10), ',', '.', [rfReplaceAll, rfIgnoreCase])+ ' °C; Влажность: '+Inttostr(readdata[9])+' %'+batt_state);
+        Form1.memo1.Lines.Add(DateTimeToStr(sensor_rx_time[readdata[4]])+', Датчик, Канал: '+ inttostr(readdata[4])+', Температура: ' +StringReplace(FloatToStr(temp_str/10), ',', '.', [rfReplaceAll, rfIgnoreCase])+ ' °C; Влажность: '+Inttostr(readdata[9])+' %'+batt_state);
       end;
 
 
