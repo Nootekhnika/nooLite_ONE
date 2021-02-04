@@ -2465,7 +2465,7 @@ begin
 
     if size_read <> (f_size - 16) then
       showmessage('Ошибка файла. Скачайте его заново!')
-    else if (type_read <> 0) then
+    else if not ((type_read = 0) or (type_read = 8)) then  //added support for MTRF-64-A
       showmessage
         ('Этот файл не подходит для обновления выбранного устройства! Выберите другой!')
     else
