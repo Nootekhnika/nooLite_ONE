@@ -228,6 +228,7 @@ var
   Form1: TForm1;
   readdata: array [0 .. 100] of byte;
   senddata: array [0 .. 100] of byte;
+
   poswrite: Integer;
   togl_byte: byte;
   last_togl: byte;
@@ -259,7 +260,7 @@ var
   senslog_en: boolean;
   temp_str:integer;
   log_patch, send_http_address,senslog_patch: string;
-
+  current_adapter:integer;
   service_find: Integer;
   boot_mode, boot_mode_step: Integer;
 
@@ -2465,7 +2466,7 @@ begin
 
     if size_read <> (f_size - 16) then
       showmessage('Ошибка файла. Скачайте его заново!')
-    else if not ((type_read = 0) or (type_read = 8)) then  //added support for MTRF-64-A
+    else if not (type_read = current_adapter) then  //added support for MTRF-64-A
       showmessage
         ('Этот файл не подходит для обновления выбранного устройства! Выберите другой!')
     else
@@ -3413,7 +3414,7 @@ begin
   senslog_patch:= ini.readstring('RX_SETTINGS', 'SENSLOG_FILE', '');
 
   ini.free;
-
+  current_adapter:=MAXWORD-1; //set to unknown adapter
   error_rx_flag := false;
   stat_send_count := 0;
   stat_send_err := 0;
@@ -4911,6 +4912,10 @@ begin
           Form1.ComPort1.Open;
           Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
           Form1.Label19.Caption := 'B-' + adapter_name.Strings[0];
+          if adapter_name.Strings[0]=DEV_TYPE_0 then 
+          current_adapter:=0
+          else if adapter_name.Strings[0]=DEV_TYPE_9 then
+          current_adapter:=8;
           com_name.Clear;
           adapter_name.Clear;
           boot_name.Clear;
@@ -4925,6 +4930,12 @@ begin
         begin
           Form1.ComPort1.Port := com_name.Strings[0];
           Form1.ComPort1.Open;
+          
+          if adapter_name.Strings[0]=DEV_TYPE_0 then 
+          current_adapter:=0
+          else if adapter_name.Strings[0]=DEV_TYPE_9 then
+          current_adapter:=8;
+          
           Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
           Form1.Label19.Caption := adapter_name.Strings[0] + ' (v' +
             main_ver.Strings[0] + ')';
@@ -4938,6 +4949,7 @@ begin
           Form1.AdvGlassButton13.Enabled := true;
           Form1.AdvGlassButton7.Enabled := true;
           Form1.ListBox1.Enabled := true;
+          
           com_name.Clear;
           main_ver.Clear;
           com_name.Clear;

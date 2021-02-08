@@ -37,8 +37,13 @@ begin
     Form1.ComPort1.Port := com_name.Strings[ListBox1.ItemIndex];
     Form1.ComPort1.Open;
     Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
-    Form1.Label19.Caption := adapter_name.Strings[0] + ' (v' +
+    Form1.Label19.Caption := adapter_name.Strings[ListBox1.ItemIndex] + ' (v' +
       main_ver.Strings[0] + ')';
+
+    if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_0 then
+    current_adapter:=0
+    else if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_9 then
+     current_adapter:=8;
 
     Form1.AdvGlassButton12.Enabled := true;
     Form1.AdvGlassButton8.Enabled := true;
@@ -76,8 +81,13 @@ begin
     Form1.ComPort1.Port := com_name.Strings[ListBox1.ItemIndex];
     Form1.ComPort1.Open;
     Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
-    Form1.Label19.Caption := adapter_name.Strings[0] + ' (v' +
+    Form1.Label19.Caption := adapter_name.Strings[ListBox1.ItemIndex] + ' (v' +
       main_ver.Strings[0] + ')';
+
+    if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_0 then
+    current_adapter:=0
+    else if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_9 then
+     current_adapter:=8;
 
     Form1.AdvGlassButton12.Enabled := true;
     Form1.AdvGlassButton8.Enabled := true;
