@@ -428,7 +428,7 @@ begin
       send_str := send_str + 'CMD:' + inttostr(senddata[index_send]) + '; ';
 
     if (index_send = 6) then
-      send_str := send_str + 'FTM:' + inttostr(senddata[index_send]) + '; ';
+      send_str := send_str + 'FMT:' + inttostr(senddata[index_send]) + '; ';
 
     if (index_send = 7) then
       send_str := send_str + 'D0:' + inttostr(senddata[index_send]) + '; ';
@@ -556,7 +556,7 @@ begin
       send_str := send_str + 'CMD:' + inttostr(senddata[index_send]) + '; ';
 
     if (index_send = 6) then
-      send_str := send_str + 'FTM:' + inttostr(senddata[index_send]) + '; ';
+      send_str := send_str + 'FMT:' + inttostr(senddata[index_send]) + '; ';
 
     if (index_send = 7) then
       send_str := send_str + 'D0:' + inttostr(senddata[index_send]) + '; ';
