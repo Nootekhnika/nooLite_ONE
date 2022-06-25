@@ -3,7 +3,7 @@ object Form6: TForm6
   Top = 0
   BorderStyle = bsDialog
   Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
-  ClientHeight = 231
+  ClientHeight = 395
   ClientWidth = 470
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
@@ -32,7 +32,7 @@ object Form6: TForm6
   end
   object Label1: TLabel
     Left = 16
-    Top = 190
+    Top = 294
     Width = 95
     Height = 18
     Caption = #1055#1091#1090#1100' '#1082' '#1092#1072#1081#1083#1091
@@ -57,9 +57,37 @@ object Form6: TForm6
     Font.Style = []
     ParentFont = False
   end
+  object Label4: TLabel
+    Left = 16
+    Top = 156
+    Width = 174
+    Height = 19
+    Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1072#1076#1072#1087#1090#1077#1088#1072
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Visible = False
+  end
+  object Label5: TLabel
+    Left = 165
+    Top = 296
+    Width = 93
+    Height = 14
+    Caption = '* '#1087#1086' '#1091#1084#1086#1083#1095#1072#1085#1080#1102
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+  end
   object but_save: TAdvGlassButton
     Left = 292
-    Top = 168
+    Top = 343
     Width = 170
     Height = 44
     BackColor = 10012773
@@ -108,8 +136,8 @@ object Form6: TForm6
     Text = '192.168.0.168/'
   end
   object CheckBox2: TCheckBox
-    Left = 16
-    Top = 159
+    Left = 8
+    Top = 263
     Width = 393
     Height = 17
     Caption = #1047#1072#1087#1080#1089#1100' '#1087#1088#1080#1085#1103#1090#1099#1093' '#1076#1072#1085#1085#1099#1093' '#1074' '#1092#1072#1081#1083
@@ -124,7 +152,7 @@ object Form6: TForm6
   end
   object AdvDirectoryEdit1: TAdvDirectoryEdit
     Left = 128
-    Top = 191
+    Top = 316
     Width = 334
     Height = 21
     EmptyTextStyle = []
@@ -202,5 +230,59 @@ object Form6: TForm6
       00000BBBBBBB0B0F00000BBB00000B0F0000F000BBBBBB0F0000FF0BBBBBBB0F
       0000FF0BBB00000F0000FFF000FFFFFF0000}
     BrowseDialogText = 'Select Directory'
+  end
+  object RadioGroup1: TRadioGroup
+    Left = 8
+    Top = 184
+    Width = 149
+    Height = 154
+    Caption = #1057#1082#1086#1088#1086#1089#1090#1100', '#1041#1086#1076
+    Items.Strings = (
+      '9600*'
+      '14400'
+      '19200'
+      '28800'
+      '38400'
+      '57600'
+      '115200')
+    TabOrder = 7
+    Visible = False
+  end
+  object RadioGroup2: TRadioGroup
+    Left = 163
+    Top = 184
+    Width = 182
+    Height = 105
+    Caption = #1063#1091#1074#1089#1090#1074#1080#1090#1077#1083#1100#1085#1086#1089#1090#1100' '#1090#1088#1072#1085#1089#1080#1074#1077#1088#1072
+    Items.Strings = (
+      '0 '#1076#1041
+      '6 '#1076#1041
+      '12 '#1076#1041'*'
+      '18 '#1076#1041)
+    TabOrder = 8
+    Visible = False
+  end
+  object but_set: TAdvGlassButton
+    Left = 8
+    Top = 343
+    Width = 265
+    Height = 44
+    BackColor = 6940136
+    Caption = #1048#1079#1084#1077#1085#1080#1090#1100' '#1085#1072#1089#1090#1088#1086#1081#1082#1080
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ForeColor = 6940136
+    GlowColor = 6940136
+    InnerBorderColor = clBlack
+    OuterBorderColor = 16250871
+    ParentFont = False
+    ShineColor = 6940136
+    TabOrder = 9
+    Version = '1.3.0.0'
+    Visible = False
+    OnClick = but_setClick
   end
 end

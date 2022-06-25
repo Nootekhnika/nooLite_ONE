@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, AdvGlassButton, IniFiles, AdvEdit, AdvEdBtn,
-  AdvDirectoryEdit;
+  AdvDirectoryEdit, ExtCtrls;
 
 type
   TForm6 = class(TForm)
@@ -19,9 +19,15 @@ type
     Label3: TLabel;
     CheckBox1: TCheckBox;
     AdvDirectoryEdit2: TAdvDirectoryEdit;
+    RadioGroup1: TRadioGroup;
+    RadioGroup2: TRadioGroup;
+    Label4: TLabel;
+    but_set: TAdvGlassButton;
+    Label5: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure but_saveClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure but_setClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,6 +46,20 @@ uses Unit1;
 procedure TForm6.but_saveClick(Sender: TObject);
 begin
   Form6.Close;
+end;
+
+procedure TForm6.but_setClick(Sender: TObject);
+var
+tempdata:word;
+begin
+tempdata:=RadioGroup2.ItemIndex;
+if tempdata>3 then
+tempdata:=2;  //default
+settings_data:= RadioGroup1.ItemIndex;
+if settings_data>7 then
+settings_data:=0; //default
+settings_data:=settings_data+ (tempdata shl 8);//pack into one word
+send_new_settings_to_adapter(0);  //rf sens
 end;
 
 procedure TForm6.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -70,6 +90,22 @@ begin
  AdvDirectoryEdit2.Text := senslog_patch;
   AdvDirectoryEdit1.Text := log_patch;
   Edit1.Text := send_http_address;
+
+  if (current_adapter=8) then begin  //MTRF64A
+  Label4.Visible:=true;
+  Label5.Visible:=true;
+  RadioGroup1.Visible:=true;
+  RadioGroup2.Visible:=true;
+  but_set.Visible:=true;
+  end
+  else begin
+  Label4.Visible:=false;
+  Label5.Visible:=false;
+  RadioGroup1.Visible:=false;
+  RadioGroup2.Visible:=false;
+  but_set.Visible:=false;
+  end;
+
 
 end;
 

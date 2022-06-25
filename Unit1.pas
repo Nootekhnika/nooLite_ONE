@@ -120,7 +120,7 @@ type
     SetTemp: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure ComPort1RxChar(Sender: TObject; Count: Integer);
+    procedure RX(Sender: TObject; Count: Integer);
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure AdvGlassButton3Click(Sender: TObject);
     procedure AdvGlassButton4Click(Sender: TObject);
@@ -199,6 +199,7 @@ procedure send_termo_data(cmd,pos,dt0,dt1,dt2,dt3:integer);
 procedure send_new_settings(write_pos_settings:integer);
 procedure send_new_settings_ext(write_pos_settings:integer);
 procedure send_new_settings_temperature(temp_value_set:integer; state :boolean);
+procedure  send_new_settings_to_adapter(write_pos_settings:integer);
 procedure send_active();
 procedure save_sensors_data;
 
@@ -225,11 +226,20 @@ const
 
   CMD_RECIVE_API = 1;
   FORM_CLIENT_HEIGHT=438;
+  COM_BAUDRATE_INDEX_MAX=6;
 var
   Form1: TForm1;
   readdata: array [0 .. 100] of byte;
   senddata: array [0 .. 100] of byte;
+  fillAdapterSettings:boolean = false;
+  setAdapterSettings :boolean = false;
+  COMbaudrates:array [0 .. 6] of TBaudRate = (br9600, br115200, br19200, brCustom, br38400, br57600, br14400);
+  COMbaudratesMTRF:array [0 .. 6] of TBaudRate = (br9600, br14400, br19200, brCustom, br38400, br57600, br115200);
+  COMbaudratesNames:array [0 .. 6] of String = ('9600', '115200', '19200', '28800', '38400', '57600', '14400');
+  COMbaudrateIndex:integer = 0;
+  COMbuadrateFound:integer = 0; //0 no, 1-norm, 2-boot
 
+  mtrfAdditionalSettings: Integer; //value - 0 no, other - device_type
   poswrite: Integer;
   togl_byte: byte;
   last_togl: byte;
@@ -270,7 +280,7 @@ var
   boot_mode_2, boot_mode_step_2: Integer;
   ini: TIniFile;
   com_index: Integer;
-  ts, com_name, adapter_name, boot_name, main_ver, crc_name: TStrings;
+  ts, com_name, adapter_name, boot_name, main_ver, crc_name,baudrates: TStrings;
   ok_com_name: string;
   ok_com_index: Integer;
   com_err: boolean;
@@ -2063,7 +2073,27 @@ end;
 
 procedure TForm1.AdvGlassButton2Click(Sender: TObject);
 begin
-  form6.ShowModal;
+if (current_adapter=8) then  begin // get config for MTRF64A
+
+ if (send_enable) then
+      begin
+        fillAdapterSettings:=true;
+        senddata[1] := 4; // service
+        senddata[2] := 18; //read config
+        senddata[3] := 0; // reserved
+        senddata[4] := 0; // reserved
+        senddata[5] := 0; // reserved
+        senddata[7] := 0; // data0
+        senddata[6] := 0; // fmt
+        send_command;
+      end;
+
+end
+else begin
+form6.ShowModal;
+end;
+
+
 end;
 
 procedure TForm1.AdvGlassButton3Click(Sender: TObject);
@@ -2610,7 +2640,7 @@ begin
   begin // обнаружены COM порты - поиск адаптера
     i_count := 0;
     com_name.Clear;
-    adapter_name.Clear;
+    baudrates.Clear;
     boot_name.Clear;
     main_ver.Clear;
     Timer5.Enabled := false;
@@ -2744,7 +2774,7 @@ begin
   //
 end;
 
-procedure TForm1.ComPort1RxChar(Sender: TObject; Count: Integer);
+procedure TForm1.RX(Sender: TObject; Count: Integer);
 var
   t: array [0 .. 1024] of byte;
   it: Integer;
@@ -2760,6 +2790,7 @@ begin
     poswrite := 0;
   st_show := 'FROM MTRF (data): ';
   ansi_show := 'FROM MTRF (CHAR): ';
+
   for it := 0 to Count - 1 do
   begin // перебор полученного фрагмета и упаковка в буфер
     readdata[poswrite] := t[it];
@@ -2775,14 +2806,19 @@ begin
         if ((readdata[16] = 174) and (crc = readdata[15])) then
         begin // данные приняты верно, обработка принятого пакета
           // memo1.Lines.Add('Resive...');
+
+
           if service_find = 1 then
           begin // сервисный блок
 
             if (readdata[1] = 4) then
             begin // сервисный режим
+
               ok_com_index := i_count;
               com_name.Add(ComPort1.Port);
               boot_name.Add('NORM');
+              COMbuadrateFound:=1;
+              baudrates.Add(inttostr(COMbaudrateIndex-1));
               if (readdata[7] = 0) then // тип
                 name_device := DEV_TYPE_0
               else if (readdata[7] = 1) then
@@ -2810,7 +2846,7 @@ begin
               main_ver.Add(inttostr(readdata[8]));
               Form3.ListBox1.Items.Add(name_device + ' |ADDR:' +
                 inttohex(readdata[11], 2) + inttohex(readdata[12], 2) +
-                inttohex(readdata[13], 2) + inttohex(readdata[14], 2));
+                inttohex(readdata[13], 2) + inttohex(readdata[14], 2)+' |speed:'+COMbaudratesNames[COMbaudrateIndex-1]);
             end
             else if (readdata[1] = 5) then
             begin // режим бутлоадера
@@ -2818,6 +2854,8 @@ begin
               ok_com_index := i_count;
               com_name.Add(ComPort1.Port);
               boot_name.Add('BOOT');
+              COMbuadrateFound:=2;
+              baudrates.Add(inttostr(COMbaudrateIndex-1));
               boot_found := 1 + i_count;
               if (readdata[7] = 0) then // тип
                 name_device := DEV_TYPE_0
@@ -2844,8 +2882,63 @@ begin
               adapter_name.Add(name_device);
               Form3.ListBox1.Items.Add(name_device + ' |ADDR:' +
                 inttohex(readdata[11], 2) + inttohex(readdata[12], 2) +
-                inttohex(readdata[13], 2) + inttohex(readdata[14], 2));
+                inttohex(readdata[13], 2) + inttohex(readdata[14], 2)+' |speed:'+COMbaudratesNames[COMbaudrateIndex-1]);
             end;
+
+           end else if (readdata[1] = 4) then  begin //настройка адаптера  - сервисный режим
+
+              if (readdata[2]=18) then begin //результат чтения
+                   if fillAdapterSettings then begin
+                         if (readdata[6]=0) then begin  //rx sens settings
+                           form6.RadioGroup2.ItemIndex:=readdata[7];
+                             if (send_enable) then
+                              begin
+                                senddata[1] := 4; // service
+                                senddata[2] := 18; //read config
+                                senddata[3] := 0; // reserved
+                                senddata[4] := 0; // reserved
+                                senddata[5] := 0; // reserved
+                                senddata[7] := 0; // data0
+                                senddata[6] := 1; // fmt - settins baudrate
+                                send_command;
+                              end;
+                         end;
+                     if (readdata[6]=1) then begin   //baudrate setting
+                       form6.RadioGroup1.ItemIndex:=readdata[7];
+                       form6.Show;
+                       fillAdapterSettings:=false;
+                     end;
+                   end;
+                   end;
+
+                if (readdata[2]=17) then   begin  // результат записи
+                  if setAdapterSettings then begin
+                       if (readdata[6]=0) then begin  //rx sens settings
+                         if (send_enable) then
+                            begin
+                              senddata[1] := 4; // service
+                              senddata[2] := 17; //write config
+                              senddata[3] := 0; // reserved
+                              senddata[4] := 0; // reserved
+                              senddata[5] := 0; // reserved
+                              senddata[7] := settings_data and 255; // data0
+                              senddata[8] := 0; // data1
+                              senddata[9] := 7; // data2
+                              senddata[10] := 0; // data3
+
+                              senddata[6] := 1; // fmt - settins baudrate
+                              send_command;
+                            end;
+                       end
+                         else if (readdata[6]=1)  then begin
+                          setAdapterSettings:=false;
+                          if readdata[7]<7 then
+                          ComPort1.BaudRate:=COMbaudratesMTRF[readdata[7]];
+                          form6.Close;
+                         end;
+                  end;
+                  end;
+
 
           end
           else
@@ -3033,6 +3126,7 @@ begin
                   com_name.Clear;
                   adapter_name.Clear;
                   boot_name.Clear;
+                  baudrates.Clear;
                   main_ver.Clear;
                   service_find := 0; // выход из режима поиска адаптеров
                   // form4.ShowModal;
@@ -3298,6 +3392,7 @@ begin
   adapter_name.free;
   boot_name.free;
   main_ver.free;
+  baudrates.Free;
   ts.free;
   ComPort1.Close;
   Application.Terminate;
@@ -3343,7 +3438,7 @@ var
   HM: THandle;
   i_clear:integer;
 begin
-  Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
+//  Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
   HM := OpenMutex(MUTEX_ALL_ACCESS, false, 'nooLite_F_one');  //запуск копии приложения
   if (HM <> 0) then
   begin   //пепедача параметров в другое приложение через API и выход
@@ -3365,6 +3460,8 @@ begin
   end;
   application.Terminate;
   end;
+
+  ComPort1.CustomBaudRate:=28800;
 
   if HM = 0 then  //создание флага
   HM:=CreateMutex(nil, false, 'nooLite_F_one');
@@ -3410,7 +3507,6 @@ begin
 
   send_http_address := ini.readstring('RX_SETTINGS', 'HTTP_ADDR', '');
   send_http_enable := ini.readBool('RX_SETTINGS', 'HTTP_EN', false);
-
   senslog_en:= ini.readBool('RX_SETTINGS', 'SENSLOG_EN', false);
   senslog_patch:= ini.readstring('RX_SETTINGS', 'SENSLOG_FILE', '');
 
@@ -3464,6 +3560,7 @@ begin
   adapter_name := TStringList.Create;
   boot_name := TStringList.Create;
   main_ver := TStringList.Create;
+  baudrates:= TStringList.Create;
   ts.Clear;
   if selectcom then
   begin // обнаружены COM порты - поиск адаптера
@@ -3480,9 +3577,7 @@ begin
   end
   else
   begin
-    showmessage
-      ('Адаптер не обнаружен! Подключите адаптер и перезапустите программу!');
-
+    showmessage('Адаптер не обнаружен! Подключите адаптер и перезапустите программу!');
     // Application.Terminate;
   end;
 
@@ -3528,6 +3623,29 @@ begin
     Form1.memo1.Clear;
     settings_set := 2;
     hide_update;
+    send_command;
+  end;
+
+end;
+
+
+procedure send_new_settings_to_adapter(write_pos_settings:integer);
+begin
+
+  if (send_enable) then
+  begin
+   setAdapterSettings:=true;
+    senddata[1] := 4; // service
+    senddata[2] := 17; // запись
+    senddata[3] := 0; // reserved
+    senddata[5] := 0; // запись в память
+    senddata[6] := write_pos_settings;
+    senddata[7] := ((settings_data shr 8) and 255); // data0
+    senddata[8] := 0;
+    senddata[9] := 3;
+    senddata[10] := 0;
+    crc := 0;
+    poswrite := 0;
     send_command;
   end;
 
@@ -4693,6 +4811,7 @@ begin
   end
   else if boot_mode_step = 1 then // фиксация в бутлоадаре
   begin
+   ComPort1.BaudRate:=br9600;
     boot_mode_step := 2;
     send_update(11, 0, false); // get ID
     send_timer.Interval := 500;
@@ -4852,23 +4971,39 @@ procedure TForm1.Timer5Timer(Sender: TObject);
 begin
   if step_service_boot = 0 then
   begin
-    if (i_count) <= (ts.Count - 1) then
+    if (i_count) <= (ts.Count - 1) then  //compare current index and max ports index
     begin
       ComPort1.Close;
       if i_count > 0 then
       begin // мы уже заходили, считываем
 
       end;
-
+       if (COMbuadrateFound>0) then begin  //found actual speea at adapter
+       COMbaudrateIndex:=0;
+       COMbuadrateFound:=0;
+       i_count := i_count + 1;  //go next port
+        Timer5.Enabled := false;
+        Timer5.Interval := timer_delay_send;
+        Timer5.Enabled := true;
+        Exit;
+       end;
       Form1.ComPort1.Port := 'COM' +
         inttostr(strtoint(copy(reg.readstring(ts.Strings[i_count]), 4,
         Length(reg.readstring(ts.Strings[i_count])) - 3)));
 
       Form1.memo1.Lines.Add
         ('COM' + inttostr(strtoint(copy(reg.readstring(ts.Strings[i_count]), 4,
-        Length(reg.readstring(ts.Strings[i_count])) - 3))));
+        Length(reg.readstring(ts.Strings[i_count])) - 3)))+' baudrate='+COMbaudratesNames[COMbaudrateIndex]);
 
+      ComPort1.BaudRate:=COMbaudrates[COMbaudrateIndex];
+      COMbaudrateIndex:=COMbaudrateIndex+1;
+
+      if (COMbaudrateIndex>COM_BAUDRATE_INDEX_MAX) then  begin
+      COMbaudrateIndex:=0;
       i_count := i_count + 1;
+      end;
+
+
       if test_port() then
       begin
         Form1.memo1.Lines.Add('OK');
@@ -4959,13 +5094,11 @@ begin
           reg.free;
           service_find := 0; // выход из режима поиска адаптеров
         end;
-
       end
       else
       begin // да тут их несколько
         Form3.ShowModal;
       end;
-
     end;
 
   end

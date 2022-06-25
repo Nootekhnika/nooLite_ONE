@@ -35,7 +35,10 @@ begin
   if (ListBox1.ItemIndex > -1) then
   begin
     Form1.ComPort1.Port := com_name.Strings[ListBox1.ItemIndex];
+    Form1.ComPort1.BaudRate:=COMbaudrates[strtoint(baudrates.Strings[ListBox1.ItemIndex])];
     Form1.ComPort1.Open;
+
+
     Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
     Form1.Label19.Caption := adapter_name.Strings[ListBox1.ItemIndex] + ' (v' +
       main_ver.Strings[0] + ')';
@@ -79,6 +82,7 @@ begin
   if (ListBox1.ItemIndex > -1) then
   begin
     Form1.ComPort1.Port := com_name.Strings[ListBox1.ItemIndex];
+    Form1.ComPort1.BaudRate:=COMbaudrates[strtoint(baudrates.Strings[ListBox1.ItemIndex])];
     Form1.ComPort1.Open;
     Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
     Form1.Label19.Caption := adapter_name.Strings[ListBox1.ItemIndex] + ' (v' +
