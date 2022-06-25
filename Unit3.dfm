@@ -4,7 +4,7 @@ object Form3: TForm3
   BorderIcons = []
   BorderStyle = bsToolWindow
   ClientHeight = 270
-  ClientWidth = 479
+  ClientWidth = 552
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -31,7 +31,7 @@ object Form3: TForm3
   object AdvGlassButton1: TAdvGlassButton
     Left = 8
     Top = 163
-    Width = 463
+    Width = 536
     Height = 45
     BackColor = 10012773
     Caption = #1042#1099#1073#1088#1072#1090#1100
@@ -53,7 +53,7 @@ object Form3: TForm3
   object ListBox1: TListBox
     Left = 8
     Top = 37
-    Width = 463
+    Width = 536
     Height = 120
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -68,7 +68,7 @@ object Form3: TForm3
   object AdvGlassButton2: TAdvGlassButton
     Left = 8
     Top = 214
-    Width = 463
+    Width = 536
     Height = 45
     BackColor = 9276896
     Caption = #1042#1099#1093#1086#1076

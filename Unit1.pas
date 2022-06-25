@@ -209,8 +209,8 @@ const
   color_on = clYellow;
   color_off = $00000000;
   color_wait = clActiveCaption;
-  timer_delay_send = 100;
-  timer_scan = 1000;
+  timer_delay_send = 300;
+  timer_scan = 300;
 
   DEV_TYPE_0 = 'MTRF-64';
   DEV_TYPE_1 = 'SLF-1-300';
@@ -238,6 +238,7 @@ var
   COMbaudratesNames:array [0 .. 6] of String = ('9600', '115200', '19200', '28800', '38400', '57600', '14400');
   COMbaudrateIndex:integer = 0;
   COMbuadrateFound:integer = 0; //0 no, 1-norm, 2-boot
+  bootRXIndex: integer =0;
 
   mtrfAdditionalSettings: Integer; //value - 0 no, other - device_type
   poswrite: Integer;
@@ -368,7 +369,7 @@ end;
 end;
 
 
-function test_device: boolean;
+function test_device(mode: integer;cmd :integer): boolean;
 var
   crc_send: byte;
   index_send: Integer;
@@ -376,8 +377,8 @@ var
   send_str: string;
 begin
   result := true;
-  senddata[1] := 4; // mtrf_service
-  senddata[2] := 0;
+  senddata[1] := mode; // mode
+  senddata[2] := cmd;
   senddata[3] := 0;
   senddata[4] := 0;
   senddata[5] := 0;
@@ -422,6 +423,8 @@ begin
         send_str := send_str + 'F-RX' + '; ';
       if senddata[index_send] = 4 then
         send_str := send_str + 'SERVICE' + '; ';
+            if senddata[index_send] = 5 then
+        send_str := send_str + 'BOOT' + '; ';
     end;
 
     if (index_send = 2) then
@@ -2811,7 +2814,7 @@ begin
           if service_find = 1 then
           begin // сервисный блок
 
-            if (readdata[1] = 4) then
+            if (readdata[1] = 4) and (bootRXIndex=1) then
             begin // сервисный режим
 
               ok_com_index := i_count;
@@ -2880,9 +2883,10 @@ begin
               else
                 name_device := DEV_TYPE_UNKNOWN;
               adapter_name.Add(name_device);
+
               Form3.ListBox1.Items.Add(name_device + ' |ADDR:' +
                 inttohex(readdata[11], 2) + inttohex(readdata[12], 2) +
-                inttohex(readdata[13], 2) + inttohex(readdata[14], 2)+' |speed:'+COMbaudratesNames[COMbaudrateIndex-1]);
+                inttohex(readdata[13], 2) + inttohex(readdata[14], 2)+' ! Не завершено обновление ПО!');
             end;
 
            end else if (readdata[1] = 4) then  begin //настройка адаптера  - сервисный режим
@@ -5012,7 +5016,11 @@ begin
         Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
         ComPort1.Open;
         step_service_boot := 1; // подготовка к передаче второй команды
-        test_device(); // SERVICE
+
+        boot_mode := 0;
+        bootRXIndex:=0;
+        // send_update(11, 0, false); // GET ID BOOT
+         test_device(4,0); // SERVICE
         Timer5.Enabled := false;
         Timer5.Interval := timer_delay_send;
         Timer5.Enabled := true;
@@ -5107,6 +5115,8 @@ begin
     Timer5.Enabled := false;
     Timer5.Interval := timer_scan;
     Timer5.Enabled := true;
+    bootRXIndex:=1;
+    test_device(4,0); // SERVICE
     send_update(11, 0, false); // GET ID BOOT
     step_service_boot := 0;
   end;

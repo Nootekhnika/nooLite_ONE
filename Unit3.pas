@@ -26,7 +26,7 @@ var
 
 implementation
 
-uses Unit1;
+uses Unit1, Unit4;
 
 {$R *.dfm}
 
@@ -34,6 +34,7 @@ procedure TForm3.AdvGlassButton1Click(Sender: TObject);
 begin
   if (ListBox1.ItemIndex > -1) then
   begin
+
     Form1.ComPort1.Port := com_name.Strings[ListBox1.ItemIndex];
     Form1.ComPort1.BaudRate:=COMbaudrates[strtoint(baudrates.Strings[ListBox1.ItemIndex])];
     Form1.ComPort1.Open;
@@ -59,6 +60,16 @@ begin
     Form1.ListBox1.Enabled := true;
 
     service_find := 0;
+    if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then begin
+    if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
+          mtCustom, [mbYes, mbNo], 0) = mrYes) then
+        begin
+          boot_mode := 1; // входим в режим бутлоадера
+          Form4.Show;
+          boot_mode_step := 3;
+        end;
+    end;
+
 
     Form3.Close;
   end
@@ -104,6 +115,15 @@ begin
     Form1.ListBox1.Enabled := true;
 
     service_find := 0;
+    if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then begin
+    if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
+          mtCustom, [mbYes, mbNo], 0) = mrYes) then
+        begin
+          boot_mode := 1; // входим в режим бутлоадера
+          Form4.Show;
+          boot_mode_step := 3;
+        end;
+    end;
     Form3.Close;
   end
   else
