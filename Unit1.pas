@@ -224,6 +224,7 @@ const
   DEV_TYPE_UNKNOWN = 'Ќеизвестно';
 
   CMD_RECIVE_API = 1;
+  FORM_CLIENT_HEIGHT=438;
 var
   Form1: TForm1;
   readdata: array [0 .. 100] of byte;
@@ -3342,7 +3343,7 @@ var
   HM: THandle;
   i_clear:integer;
 begin
-
+  Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
   HM := OpenMutex(MUTEX_ALL_ACCESS, false, 'nooLite_F_one');  //запуск копии приложени€
   if (HM <> 0) then
   begin   //пепедача параметров в другое приложение через API и выход
