@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, AdvGlassButton, ComCtrls, AdvCircularProgress, StdCtrls;
+  Dialogs, AdvGlassButton, ComCtrls, AdvCircularProgress, StdCtrls, pngimage,
+  ExtCtrls;
 
 type
   TForm5 = class(TForm)
@@ -28,6 +29,9 @@ type
     Label5: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Image1: TImage;
+    Label11: TLabel;
+    Label9: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure AdvGlassButton15Click(Sender: TObject);
