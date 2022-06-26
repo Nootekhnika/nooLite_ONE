@@ -4,7 +4,7 @@ object Form5: TForm5
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = #1054#1073#1085#1086#1074#1083#1077#1085#1080#1077' '#1055#1054' '#1091#1089#1090#1088#1086#1081#1089#1090#1074' nooLite'
-  ClientHeight = 320
+  ClientHeight = 468
   ClientWidth = 731
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET

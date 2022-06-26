@@ -793,7 +793,7 @@ begin
     time_out := 0;
     err_read := 0;
     no_ch := 0;
-    Form1.Timer1.Interval := 100;
+    Form1.Timer1.Interval := 300;
     Form1.Timer1.Enabled := true;
     Form1.Label6.Font.Color := clblack;
     Form1.Label6.Caption := 'Выполнение запроса...';
@@ -2429,6 +2429,7 @@ begin
   boot_type_read := readdata[7];
   // boot_send_address := (readdata[11] shl 24) + (readdata[12] shl 16) +
   // (readdata[13] shl 8) + readdata[14];
+
   Form5.AdvGlassButton2.Enabled := true;
   Form5.AdvCircularProgress1.Enabled := false;
   Form5.AdvCircularProgress1.Visible := false;
@@ -2438,7 +2439,7 @@ begin
   Form5.ProgressBar1.Position := 0;
   Form5.ProgressBar1.Visible := false;
   // Form5.Show;
-  boot_type_read := 2;
+  boot_type_read := 9;
   Form1.Button8.Click; // перевод адаптера в режим обновления ПО
   boot_mode_step_2 := 1;
   boot_mode_2 := 1;
