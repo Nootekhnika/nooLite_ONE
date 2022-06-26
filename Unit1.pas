@@ -2385,7 +2385,7 @@ begin
       stat_send_count := 0;
       stat_send_err := 0;
       error_rx_flag := false;
-      Form5.Label8.Caption := 'STAT: Передано всего:' +
+      Form5.Label8.Caption := 'Передано всего:' +
         inttostr(stat_send_count) + '  Количество ошибок:' +
         inttostr(stat_send_err) + '  Ошибки, %:' +
         inttostr(round(stat_send_err / (stat_send_count + 1) * 100));
@@ -2405,8 +2405,7 @@ end;
 procedure TForm1.Button13Click(Sender: TObject);
 begin
 send_update_air(14, boot_send_address, false);
-sleep(1000);
-Form1.AdvGlassButton12.Click;
+sleep(500);
 end;
 
 procedure TForm1.Button14Click(Sender: TObject);
@@ -2749,7 +2748,7 @@ begin
   boot_mode_set := 0; // обычный режим работы
   memo1.Clear;
   send_command;
-  Form1.AdvGlassButton12.Click;
+ // Form1.AdvGlassButton12.Click;
 end;
 
 procedure TForm1.CheckBox4Click(Sender: TObject);
@@ -2854,12 +2853,14 @@ begin
             end
             else if (readdata[1] = 5) then
             begin // режим бутлоадера
+              if ((readdata[7]=0) or (readdata[7]=8)) then begin
 
               ok_com_index := i_count;
               com_name.Add(ComPort1.Port);
               boot_name.Add('BOOT');
               COMbuadrateFound:=2;
               baudrates.Add(inttostr(COMbaudrateIndex-1));
+
               boot_found := 1 + i_count;
               if (readdata[7] = 0) then // тип
                 name_device := DEV_TYPE_0
@@ -2883,11 +2884,13 @@ begin
                 name_device := DEV_TYPE_8
               else
                 name_device := DEV_TYPE_UNKNOWN;
-              adapter_name.Add(name_device);
 
+              adapter_name.Add(name_device);
+                main_ver.Add(inttostr(readdata[8]));
               Form3.ListBox1.Items.Add(name_device + ' |ADDR:' +
                 inttohex(readdata[11], 2) + inttohex(readdata[12], 2) +
                 inttohex(readdata[13], 2) + inttohex(readdata[14], 2)+' ! Не завершено обновление ПО!');
+              end;
             end;
 
            end else if (readdata[1] = 4) then  begin //настройка адаптера  - сервисный режим
@@ -3220,7 +3223,7 @@ begin
                     begin
 
                       inc(stat_send_count);
-                      Form5.Label8.Caption := 'STAT: Передано всего:' +
+                      Form5.Label8.Caption := 'Передано всего:' +
                         inttostr(stat_send_count) + '  Количество ошибок:' +
                         inttostr(stat_send_err) + '  Ошибки, %:' +
                         inttostr(round(stat_send_err / (stat_send_count +
@@ -3443,7 +3446,7 @@ var
   HM: THandle;
   i_clear:integer;
 begin
-//  Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
+ Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
   HM := OpenMutex(MUTEX_ALL_ACCESS, false, 'nooLite_F_one');  //запуск копии приложения
   if (HM <> 0) then
   begin   //пепедача параметров в другое приложение через API и выход
@@ -3944,17 +3947,55 @@ begin
   begin
     if (ListBox1.ItemIndex > -1) then
     begin
-
+      Form5.Label8.Caption:=''; //clear additional statistic
       if (send_enable) then
       begin
+        //two ways to go to the FW OTA update
+         settings_name := Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]];
+
+
+        if pos('Нет ответа',settings_name)>0 then begin     //broken firmware - go anyway
+        settings_name:=copy(settings_name,0,Length(settings_name)-pos('Нет ответа',settings_name)+1);
+        boot_mode_step_2 := 1;
+        boot_mode_2 := 1;
+        boot_send_address := HexToInt(Edit1.Text);
+        Form5.Label2.Caption := settings_name;
+        Form5.Label4.Caption := inttostr(readdata[8]);
+        boot_type_read := readdata[7];
+        // boot_send_address := (readdata[11] shl 24) + (readdata[12] shl 16) +
+        // (readdata[13] shl 8) + readdata[14];
+
+        Form5.AdvGlassButton2.Enabled := true;
+        Form5.AdvCircularProgress1.Enabled := false;
+        Form5.AdvCircularProgress1.Visible := false;
+        Form5.AdvGlassButton15.Enabled := false;
+        Form5.Label6.Caption := '';
+        Form5.Label16.Caption := '';
+        Form5.ProgressBar1.Position := 0;
+        Form5.ProgressBar1.Visible := false;
+        // Form5.Show;
+        boot_type_read := 0;
+
+        boot_type_read:=dev_type[ AdvStringGrid1.SelectedRow[0]];
+
+        Form1.Button8.Click; // перевод адаптера в режим обновления ПО
+        boot_mode_step_2 := 1;
+        boot_mode_2 := 1;
+        // следующая обработка в режиме бутлоадера
+        Timer6.Enabled := false;
+        Timer6.Interval := 500;
+        Timer6.Enabled := true;
+
+
+        end
+        else begin
         RadioButton1.Checked := true;
         senddata[1] := 2; // nooLiteF_TX
 
         senddata[2] := 8; // send_to_address
         senddata[3] := 0; // reserved
         senddata[5] := 133; // войти в режим обноления ПО
-        settings_name := Form1.AdvStringGrid1.Cells
-          [0, AdvStringGrid1.SelectedRow[0]];
+       
         id_f := HexToInt(Form1.AdvStringGrid1.Cells[4,
           AdvStringGrid1.SelectedRow[0]]);
         senddata[11] := LO(id_f shr 24);
@@ -3976,6 +4017,8 @@ begin
         settings_address := id_f;
         settings_channel := senddata[4];
         send_command;
+        end;
+
       end;
     end
     else
@@ -4859,17 +4902,17 @@ begin
   send_timer_2.Enabled := false;
   if boot_mode_step_2 = 1 then // нет ответа
   begin
-    showmessage('Блок не отвечает/не вошёл в bootloader! Нет ответа от GET ID');
+    showmessage('Блок не отвечает/не вошёл в bootloader!');
     // boot_mode_2 := 0;
     // boot_mode_step_2 := 0;
   end
   else if boot_mode_step_2 = 3 then
   begin
-    showmessage('Ошибка при обновлении ПО!');
+    showmessage('Ошибка при обновлении ПО! Возможно помехи в радиоэфире. Повторите позже.');
   end
   else if boot_mode_step_2 = 5 then
   begin
-    showmessage('Ошибка при обновлении ПО!-Reset-OK');
+    showmessage('Ошибка при обновлении ПО!');
   end
   else if boot_mode_step_2 = 4 then
   begin // прошиваем

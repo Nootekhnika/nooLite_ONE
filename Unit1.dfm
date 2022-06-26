@@ -5,8 +5,8 @@ object Form1: TForm1
   BorderStyle = bsSingle
   BorderWidth = 1
   Caption = 'nooLite ONE'
-  ClientHeight = 747
-  ClientWidth = 1142
+  ClientHeight = 438
+  ClientWidth = 975
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -800,7 +800,7 @@ object Form1: TForm1
     FilterDropDown.Font.Name = 'Tahoma'
     FilterDropDown.Font.Style = []
     FilterDropDownClear = '(All)'
-    FixedColWidth = 127
+    FixedColWidth = 158
     FixedRowHeight = 22
     FixedFont.Charset = DEFAULT_CHARSET
     FixedFont.Color = clWindowText
@@ -853,11 +853,11 @@ object Form1: TForm1
     SortSettings.HeaderMirrorColorTo = 16182488
     Version = '6.2.1.1'
     ColWidths = (
+      158
       127
-      127
-      183
+      155
       69
-      127)
+      126)
   end
   object GroupBox1: TGroupBox
     Left = 213

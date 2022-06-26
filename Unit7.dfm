@@ -38,7 +38,7 @@ object Form7: TForm7
       Top = 4
       Width = 174
       Height = 19
-      Caption = 'nooLite ONE v1.95 betta'
+      Caption = 'nooLite ONE v1.97 betta'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16

@@ -4,7 +4,7 @@ object Form5: TForm5
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = #1054#1073#1085#1086#1074#1083#1077#1085#1080#1077' '#1055#1054' '#1091#1089#1090#1088#1086#1081#1089#1090#1074' nooLite'
-  ClientHeight = 468
+  ClientHeight = 360
   ClientWidth = 731
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
@@ -15,7 +15,6 @@ object Form5: TForm5
   FormStyle = fsStayOnTop
   OldCreateOrder = False
   Position = poScreenCenter
-  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object Label16: TLabel
@@ -159,10 +158,10 @@ object Form5: TForm5
   end
   object Label8: TLabel
     Left = 8
-    Top = 336
-    Width = 56
+    Top = 328
+    Width = 48
     Height = 23
-    Caption = 'STAT:'
+    Caption = '        '
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -19

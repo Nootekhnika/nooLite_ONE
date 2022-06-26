@@ -36,6 +36,7 @@ begin
   begin
 
     Form1.ComPort1.Port := com_name.Strings[ListBox1.ItemIndex];
+
     Form1.ComPort1.BaudRate:=COMbaudrates[strtoint(baudrates.Strings[ListBox1.ItemIndex])];
     Form1.ComPort1.Open;
 
@@ -60,6 +61,7 @@ begin
     Form1.ListBox1.Enabled := true;
 
     service_find := 0;
+
     if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then begin
     if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
           mtCustom, [mbYes, mbNo], 0) = mrYes) then
