@@ -3953,9 +3953,8 @@ begin
         //two ways to go to the FW OTA update
          settings_name := Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]];
 
-
         if pos('Нет ответа',settings_name)>0 then begin     //broken firmware - go anyway
-        settings_name:=copy(settings_name,0,Length(settings_name)-pos('Нет ответа',settings_name)+1);
+        settings_name:=copy(settings_name,0,Length(settings_name)-pos('Нет ответа',settings_name)+2);
         boot_mode_step_2 := 1;
         boot_mode_2 := 1;
         boot_send_address := HexToInt(Edit1.Text);
@@ -3995,7 +3994,7 @@ begin
         senddata[2] := 8; // send_to_address
         senddata[3] := 0; // reserved
         senddata[5] := 133; // войти в режим обноления ПО
-       
+
         id_f := HexToInt(Form1.AdvStringGrid1.Cells[4,
           AdvStringGrid1.SelectedRow[0]]);
         senddata[11] := LO(id_f shr 24);
@@ -4903,8 +4902,9 @@ begin
   if boot_mode_step_2 = 1 then // нет ответа
   begin
     showmessage('Блок не отвечает/не вошёл в bootloader!');
-    // boot_mode_2 := 0;
-    // boot_mode_step_2 := 0;
+    boot_mode_2 := 0;
+    boot_mode_step_2 := 0;
+    boot_mode_set := 0;
   end
   else if boot_mode_step_2 = 3 then
   begin
