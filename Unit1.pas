@@ -3951,19 +3951,14 @@ begin
       if (send_enable) then
       begin
         //two ways to go to the FW OTA update
-         settings_name := Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]];
-
+        settings_name := Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]];
         if pos('Нет ответа',settings_name)>0 then begin     //broken firmware - go anyway
         settings_name:=copy(settings_name,0,Length(settings_name)-pos('Нет ответа',settings_name)+2);
         boot_mode_step_2 := 1;
         boot_mode_2 := 1;
-        boot_send_address := HexToInt(Edit1.Text);
         Form5.Label2.Caption := settings_name;
-        Form5.Label4.Caption := inttostr(readdata[8]);
-        boot_type_read := readdata[7];
-        // boot_send_address := (readdata[11] shl 24) + (readdata[12] shl 16) +
-        // (readdata[13] shl 8) + readdata[14];
-
+        Form5.Label4.Caption := '--';
+        boot_send_address := HexToInt(Form1.AdvStringGrid1.Cells[4, AdvStringGrid1.SelectedRow[0]]);
         Form5.AdvGlassButton2.Enabled := true;
         Form5.AdvCircularProgress1.Enabled := false;
         Form5.AdvCircularProgress1.Visible := false;
@@ -3973,10 +3968,7 @@ begin
         Form5.ProgressBar1.Position := 0;
         Form5.ProgressBar1.Visible := false;
         // Form5.Show;
-        boot_type_read := 0;
-
-        boot_type_read:=dev_type[ AdvStringGrid1.SelectedRow[0]];
-
+        boot_type_read:=dev_type[AdvStringGrid1.SelectedRow[0]];
         Form1.Button8.Click; // перевод адаптера в режим обновления ПО
         boot_mode_step_2 := 1;
         boot_mode_2 := 1;
@@ -3984,7 +3976,6 @@ begin
         Timer6.Enabled := false;
         Timer6.Interval := 500;
         Timer6.Enabled := true;
-
 
         end
         else begin
