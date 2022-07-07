@@ -2772,7 +2772,7 @@ begin
       com_err := true;
       showmessage
         ('Адаптер был отключён! Подключите адаптер и перезапустите программу!');
-      // Application.Terminate;
+       Halt;
     end;
   end;
   //
