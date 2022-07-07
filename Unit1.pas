@@ -4901,10 +4901,18 @@ begin
   else if boot_mode_step_2 = 3 then
   begin
     showmessage('Ошибка при обновлении ПО! Возможно помехи в радиоэфире. Повторите позже.');
+    Form5.AdvCircularProgress1.Enabled := false;
+    Form5.AdvCircularProgress1.Visible := false;
+    Form5.Label6.Caption := '';
+    Form5.Label8.Caption := '';
   end
   else if boot_mode_step_2 = 5 then
   begin
     showmessage('Ошибка при обновлении ПО!');
+    Form5.AdvCircularProgress1.Enabled := false;
+    Form5.AdvCircularProgress1.Visible := false;
+    Form5.Label6.Caption := '';
+    Form5.Label8.Caption := '';
   end
   else if boot_mode_step_2 = 4 then
   begin // прошиваем
@@ -4932,6 +4940,10 @@ begin
       // memo1.Lines.Add('Нет ответа!');
       showmessage
         ('Нет ответа! Ошибка обновления! Повторите процесс обновления!');
+          Form5.AdvCircularProgress1.Enabled := false;
+          Form5.AdvCircularProgress1.Visible := false;
+          Form5.Label6.Caption := '';
+          Form5.Label8.Caption := '';
     end;
   end;
 end;
