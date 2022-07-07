@@ -334,6 +334,7 @@ uses Unit2, Unit3, Crc32, Unit4, Unit5, Unit6, Unit7, Unit8, Unit9, Unit10,
 
 {$R *.dfm}
 
+
 procedure save_sensors_data;
 var
 sens_log:TStringList;

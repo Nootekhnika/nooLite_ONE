@@ -5,7 +5,7 @@ object Form1: TForm1
   BorderStyle = bsSingle
   BorderWidth = 1
   Caption = 'nooLite ONE'
-  ClientHeight = 439
+  ClientHeight = 660
   ClientWidth = 978
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
@@ -407,7 +407,7 @@ object Form1: TForm1
       'B_CMD_WRITE'
       'B_CMD_RESET_OK'
       'B_CMD_EXIT_BOOT'
-      #1052#1072#1088#1096#1088#1091#1090#1080#1079#1072#1094#1080#1103' noolite-F'
+      '-'
       #1053#1072#1089#1090#1088#1086#1081#1082#1072' ('#1079#1072#1087#1080#1089#1100')'
       #1053#1072#1089#1090#1088#1086#1081#1082#1072' ('#1095#1090#1077#1085#1080#1077')')
   end
