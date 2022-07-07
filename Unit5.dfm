@@ -94,7 +94,7 @@ object Form5: TForm5
   object Label2: TLabel
     Left = 173
     Top = 8
-    Width = 16
+    Width = 179
     Height = 23
     Caption = '--'
     Font.Charset = DEFAULT_CHARSET

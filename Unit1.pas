@@ -1475,7 +1475,7 @@ begin
         ' - Нет ответа '
     else
       Form1.AdvStringGrid1.Cells[0, step_recive] := DEV_TYPE_UNKNOWN +
-        ' - Нет ответа';
+        ' - Нет ответа ';
 
     Form1.AdvStringGrid1.Cells[1, step_recive] := '--';
     Form1.AdvStringGrid1.Cells[2, step_recive] := '--';
@@ -3953,8 +3953,8 @@ begin
       begin
         //two ways to go to the FW OTA update
         settings_name := Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]];
-        if pos('Нет ответа',settings_name)>0 then begin     //broken firmware - go anyway
-        settings_name:=copy(settings_name,0,Length(settings_name)-pos('Нет ответа',settings_name)+2);
+        if pos('- Нет ответа',settings_name)>0 then begin     //broken firmware - go anyway
+        settings_name:=copy(settings_name,1,pos(' - ',settings_name));
         boot_mode_step_2 := 1;
         boot_mode_2 := 1;
         Form5.Label2.Caption := settings_name;
