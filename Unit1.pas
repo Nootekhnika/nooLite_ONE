@@ -3587,7 +3587,7 @@ begin
   else
   begin
     showmessage('Адаптер не обнаружен! Подключите адаптер и перезапустите программу!');
-    // Application.Terminate;
+    Application.Terminate;
   end;
 
 end;
