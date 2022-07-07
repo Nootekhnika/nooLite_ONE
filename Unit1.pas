@@ -5149,6 +5149,7 @@ begin
           reg.CloseKey;
           reg.free;
           service_find := 0; // выход из режима поиска адаптеров
+          AdvGlassButton12.Click;
         end;
       end
       else

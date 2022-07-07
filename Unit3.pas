@@ -70,6 +70,9 @@ begin
           Form4.Show;
           boot_mode_step := 3;
         end;
+    end
+    else begin
+      Form1.AdvGlassButton12.Click;
     end;
 
 
@@ -125,6 +128,9 @@ begin
           Form4.Show;
           boot_mode_step := 3;
         end;
+    end
+    else begin
+      Form1.AdvGlassButton12.Click;
     end;
     Form3.Close;
   end
