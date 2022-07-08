@@ -226,7 +226,7 @@ const
 
   CMD_RECIVE_API = 1;
   FORM_CLIENT_HEIGHT=438;
-  COM_BAUDRATE_INDEX_MAX=6;
+  COM_BAUDRATE_INDEX_MAX=7;
 var
   Form1: TForm1;
   readdata: array [0 .. 100] of byte;
