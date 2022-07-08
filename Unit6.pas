@@ -91,7 +91,7 @@ begin
   AdvDirectoryEdit1.Text := log_patch;
   Edit1.Text := send_http_address;
 
-  if (current_adapter=8) then begin  //MTRF64A
+  if ((current_adapter=8)and(adapterFirmware>0)) then begin  //MTRF64A
   Label4.Visible:=true;
   Label5.Visible:=true;
   RadioGroup1.Visible:=true;

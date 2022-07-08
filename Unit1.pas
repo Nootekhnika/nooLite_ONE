@@ -239,7 +239,7 @@ var
   COMbaudrateIndex:integer = 0;
   COMbuadrateFound:integer = 0; //0 no, 1-norm, 2-boot
   bootRXIndex: integer =0;
-
+  adapterFirmware:integer;
   mtrfAdditionalSettings: Integer; //value - 0 no, other - device_type
   poswrite: Integer;
   togl_byte: byte;
@@ -2077,7 +2077,7 @@ end;
 
 procedure TForm1.AdvGlassButton2Click(Sender: TObject);
 begin
-if (current_adapter=8) then  begin // get config for MTRF64A
+if ((current_adapter=8)and(adapterFirmware>0)) then  begin // get config for MTRF64A
 
  if (send_enable) then
       begin
@@ -5131,6 +5131,7 @@ begin
           Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
           Form1.Label19.Caption := adapter_name.Strings[0] + ' (v' +
             main_ver.Strings[0] + ')';
+            adapterFirmware:=strtoint(main_ver.Strings[0]);
 
           Form1.AdvGlassButton12.Enabled := true;
           Form1.AdvGlassButton8.Enabled := true;

@@ -43,7 +43,8 @@ begin
 
     Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
     Form1.Label19.Caption := adapter_name.Strings[ListBox1.ItemIndex] + ' (v' +
-      main_ver.Strings[0] + ')';
+      main_ver.Strings[ListBox1.ItemIndex] + ')';
+      adapterFirmware:=strtoint(main_ver.Strings[ListBox1.ItemIndex]);
 
     if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_0 then
     current_adapter:=0
@@ -102,8 +103,8 @@ begin
     Form1.ComPort1.Open;
     Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
     Form1.Label19.Caption := adapter_name.Strings[ListBox1.ItemIndex] + ' (v' +
-      main_ver.Strings[0] + ')';
-
+      main_ver.Strings[ListBox1.ItemIndex] + ')';
+     adapterFirmware:=strtoint(main_ver.Strings[ListBox1.ItemIndex]);
     if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_0 then
     current_adapter:=0
     else if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_9 then
