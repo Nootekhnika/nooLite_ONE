@@ -244,7 +244,7 @@ var
   poswrite: Integer;
   togl_byte: byte;
   last_togl: byte;
-
+  deleteAddressAction:boolean=false;
   crc: byte;
   show_str: string;
   step_recive: Integer;
@@ -794,6 +794,14 @@ begin
     time_out := 0;
     err_read := 0;
     no_ch := 0;
+  if deleteAddressAction then  begin
+    Form1.Timer1.Interval :=500;
+    Form1.Timer1.Enabled := true;
+    send_enable := true;
+    Form1.Label6.Font.Color := clblack;
+    Form1.Label6.Caption := '¬ыполнение запроса...';
+    end
+ else   
     Form1.Timer1.Interval := 300;
     Form1.Timer1.Enabled := true;
     Form1.Label6.Font.Color := clblack;
@@ -847,8 +855,17 @@ begin
     begin
       if (no_ch = 0) then
       begin
+      if deleteAddressAction then  begin
+       send_enable:=true;
+       deleteAddressAction:=false;
+       Form1.AdvGlassButton12.Click(); 
+      end
+      else begin
         Form1.Label6.Font.Color := clred;
         Form1.Label6.Caption := '  выбранному каналу ничего не прив€зано';
+      end;
+
+   
       end
       else
       begin
@@ -1628,9 +1645,7 @@ begin
       crc := 0;
       poswrite := 0;
       memo1.Clear;
-
       wait_update;
-
       send_command;
     end;
 
@@ -4485,8 +4500,10 @@ if Application.MessageBox('¬ы действительно хотите отв€зать данный блок от канал
           crc := 0;
           poswrite := 0;
           memo1.Clear;
+          deleteAddressAction:=true;
           wait_update;
           send_command;
+          
         end;
 
       end
