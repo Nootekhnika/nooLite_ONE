@@ -4923,6 +4923,7 @@ begin
     boot_mode_2 := 0;
     boot_mode_step_2 := 0;
     boot_mode_set := 0;
+    Button9.Click;
   end
   else if boot_mode_step_2 = 3 then
   begin
