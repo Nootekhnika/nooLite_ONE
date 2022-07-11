@@ -1865,7 +1865,7 @@ begin
         BlockRead(myFile, b8, 1);
         BlockRead(myFile, b0, 1);
         if size_read <> (f_size - 16) then
-          showmessage('Ошибка файла. Скачайте его заново!');
+          showmessage('Ошибка обновления. Проверьте соответствие файла типу устройства и повторите заново.');
 
       end;
     end;
@@ -2013,7 +2013,7 @@ begin
       BlockRead(myFile, b8, 1);
       BlockRead(myFile, b0, 1);
       if size_read <> (f_size - 16) then
-        showmessage('Ошибка файла. Скачайте его заново!');
+        showmessage('Ошибка обновления. Проверьте соответствие файла типу устройства и повторите заново.');
     end;
   end;
 end;
@@ -2327,7 +2327,7 @@ begin
     BlockRead(myFile, b8, 1);
     BlockRead(myFile, b0, 1);
     if size_read <> (f_size - 16) then
-      showmessage('Ошибка файла. Скачайте его заново!')
+      showmessage('Ошибка обновления. Проверьте соответствие файла типу устройства и повторите заново.')
     else if (type_read <> boot_type_read) then
       showmessage
         ('Этот файл не подходит для обновления выбранного устройства! Выберите другой!')
@@ -2390,7 +2390,7 @@ begin
     BlockRead(myFile, b0, 1);
 
     if size_read <> (f_size - 16) then
-      showmessage('Ошибка файла. Скачайте его заново!')
+      showmessage('Ошибка обновления. Проверьте соответствие файла типу устройства и повторите заново.')
     else
     begin
       Form5.ProgressBar1.Visible := true;
@@ -2524,7 +2524,7 @@ begin
     BlockRead(myFile, b0, 1);
 
     if size_read <> (f_size - 16) then
-      showmessage('Ошибка файла. Скачайте его заново!')
+      showmessage('Ошибка обновления. Проверьте соответствие файла типу устройства и повторите заново.')
     else if not (type_read = current_adapter) then  //added support for MTRF-64-A
       showmessage
         ('Этот файл не подходит для обновления выбранного устройства! Выберите другой!')
@@ -2587,7 +2587,7 @@ begin
     BlockRead(myFile, b0, 1);
 
     if size_read <> (f_size - 16) then
-      showmessage('Ошибка файла. Скачайте его заново!')
+      showmessage('Ошибка обновления. Проверьте соответствие файла типу устройства и повторите заново.')
     else
     begin
       Form4.ProgressBar1.Visible := true;
@@ -4909,7 +4909,7 @@ begin
       end;
       // memo1.Lines.Add('Нет ответа!');
       showmessage
-        ('Нет ответа! Ошибка обновления! Сотрите память в адаптере и повторите запись');
+        ('Ошибка обновления. Повторите заново.');
     end;
   end;
 end;
@@ -4926,7 +4926,7 @@ begin
   end
   else if boot_mode_step_2 = 3 then
   begin
-    showmessage('Ошибка при обновлении ПО! Возможно помехи в радиоэфире. Повторите позже.');
+    showmessage('Ошибка обновления. Повторите заново.');
     Form5.AdvCircularProgress1.Enabled := false;
     Form5.AdvCircularProgress1.Visible := false;
     Form5.Label6.Caption := '';
