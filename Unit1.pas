@@ -275,7 +275,6 @@ var
   current_adapter:integer;
   service_find: Integer;
   boot_mode, boot_mode_step: Integer;
-
   send_http_full_address:string;
 
   boot_mode_2, boot_mode_step_2: Integer;
@@ -2778,10 +2777,20 @@ end;
 
 procedure TForm1.CheckBox4Click(Sender: TObject);
 begin
-  if CheckBox4.Checked then
-    Form1.Height := 771
-  else
-    Form1.Height := 468;
+  if CheckBox4.Checked then begin
+      if screen.Height<770 then begin
+          Form1.ClientHeight:=676;
+          memo1.Height:=113;
+      end
+      else begin
+         Form1.ClientHeight := 743;
+         memo1.Height:=177;
+      end;
+  end
+  else begin
+    Form1.ClientHeight := FORM_CLIENT_HEIGHT;
+    memo1.Height:=177;
+  end;
 end;
 
 procedure TForm1.ComPort1Exception(Sender: TObject;
@@ -3472,6 +3481,7 @@ var
   i_clear:integer;
 begin
  Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
+
   HM := OpenMutex(MUTEX_ALL_ACCESS, false, 'nooLite_F_one');  //запуск копии приложения
   if (HM <> 0) then
   begin   //пепедача параметров в другое приложение через API и выход
