@@ -276,7 +276,7 @@ var
   service_find: Integer;
   boot_mode, boot_mode_step: Integer;
   send_http_full_address:string;
-
+  manualBaudrateChange:boolean=false;
   boot_mode_2, boot_mode_step_2: Integer;
   ini: TIniFile;
   com_index: Integer;
@@ -2086,6 +2086,11 @@ begin
   poswrite := 0;
 
   memo1.Clear;
+  //checking manual baudrate speed change
+  if ((senddata[1]=4)and(ComboBox3.ItemIndex=17)and(senddata[6]=1))  then begin
+  manualBaudrateChange:=true;
+  end;
+
   send_command;
 end;
 
@@ -2954,6 +2959,16 @@ begin
                    end;
 
                 if (readdata[2]=17) then   begin  // результат записи
+
+                if (manualBaudrateChange) then  begin
+                  if (readdata[6]=1)  then begin
+                          manualBaudrateChange:=false;
+                          if readdata[7]<7 then
+                          ComPort1.BaudRate:=COMbaudratesMTRF[readdata[7]];
+                         end;
+                end;
+
+
                   if setAdapterSettings then begin
                        if (readdata[6]=0) then begin  //rx sens settings
                          if (send_enable) then
