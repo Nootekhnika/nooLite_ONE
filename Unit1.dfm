@@ -5,7 +5,7 @@ object Form1: TForm1
   BorderStyle = bsSingle
   BorderWidth = 1
   Caption = 'nooLite ONE'
-  ClientHeight = 740
+  ClientHeight = 439
   ClientWidth = 976
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
