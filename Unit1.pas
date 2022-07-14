@@ -209,8 +209,8 @@ const
   color_on = clYellow;
   color_off = $00000000;
   color_wait = clActiveCaption;
-  timer_delay_send = 300;
-  timer_scan = 300;
+  timer_delay_send = 200;
+  timer_scan = 200;
 
   DEV_TYPE_0 = 'MTRF-64';
   DEV_TYPE_1 = 'SLF-1-300';
@@ -226,7 +226,7 @@ const
 
   CMD_RECIVE_API = 1;
   FORM_CLIENT_HEIGHT=438;
-  COM_BAUDRATE_INDEX_MAX=7;
+  COM_BAUDRATE_INDEX_MAX=6;
 var
   Form1: TForm1;
   readdata: array [0 .. 100] of byte;
@@ -236,6 +236,7 @@ var
   COMbaudrates:array [0 .. 6] of TBaudRate = (br9600, br115200, br19200, brCustom, br38400, br57600, br14400);
   COMbaudratesMTRF:array [0 .. 6] of TBaudRate = (br9600, br14400, br19200, brCustom, br38400, br57600, br115200);
   COMbaudratesNames:array [0 .. 6] of String = ('9600', '115200', '19200', '28800', '38400', '57600', '14400');
+
   COMbaudrateIndex:integer = 0;
   COMbuadrateFound:integer = 0; //0 no, 1-norm, 2-boot
   bootRXIndex: integer =0;
@@ -244,6 +245,7 @@ var
   poswrite: Integer;
   togl_byte: byte;
   last_togl: byte;
+
   deleteAddressAction:boolean=false;
   crc: byte;
   show_str: string;
@@ -2673,9 +2675,11 @@ begin
     baudrates.Clear;
     boot_name.Clear;
     main_ver.Clear;
+    step_service_boot:=0;
     Timer5.Enabled := false;
     Timer5.Interval := timer_scan;
     Timer5.Enabled := true;
+
     // ComPort1.Open;
     // AdvSmoothStatusIndicator1.Appearance.Fill.Color:= color_good;
   end
@@ -2858,7 +2862,7 @@ begin
               com_name.Add(ComPort1.Port);
               boot_name.Add('NORM');
               COMbuadrateFound:=1;
-              baudrates.Add(inttostr(COMbaudrateIndex-1));
+              baudrates.Add(inttostr(COMbaudrateIndex));
               if (readdata[7] = 0) then // тип
                 name_device := DEV_TYPE_0
               else if (readdata[7] = 1) then
@@ -2886,7 +2890,8 @@ begin
               main_ver.Add(inttostr(readdata[8]));
               Form3.ListBox1.Items.Add(name_device + ' |ADDR:' +
                 inttohex(readdata[11], 2) + inttohex(readdata[12], 2) +
-                inttohex(readdata[13], 2) + inttohex(readdata[14], 2)+' |speed:'+COMbaudratesNames[COMbaudrateIndex-1]);
+                inttohex(readdata[13], 2) + inttohex(readdata[14], 2)+' |speed:'+COMbaudratesNames[COMbaudrateIndex]);
+
             end
             else if (readdata[1] = 5) then
             begin // режим бутлоадера
@@ -2896,8 +2901,7 @@ begin
               com_name.Add(ComPort1.Port);
               boot_name.Add('BOOT');
               COMbuadrateFound:=2;
-              baudrates.Add(inttostr(COMbaudrateIndex-1));
-
+              baudrates.Add(inttostr(COMbaudrateIndex));
               boot_found := 1 + i_count;
               if (readdata[7] = 0) then // тип
                 name_device := DEV_TYPE_0
@@ -2927,6 +2931,7 @@ begin
               Form3.ListBox1.Items.Add(name_device + ' |ADDR:' +
                 inttohex(readdata[11], 2) + inttohex(readdata[12], 2) +
                 inttohex(readdata[13], 2) + inttohex(readdata[14], 2)+' ! Не завершено обновление ПО!');
+
               end;
             end;
 
@@ -3637,6 +3642,7 @@ begin
     adapter_name.Clear;
     boot_name.Clear;
     main_ver.Clear;
+    baudrates.Clear;
     Timer5.Enabled := false;
     Timer5.Interval := timer_scan;
     Timer5.Enabled := true;
@@ -5083,54 +5089,45 @@ end;
 
 procedure TForm1.Timer5Timer(Sender: TObject);
 begin
-  if step_service_boot = 0 then
-  begin
-    if (i_count) <= (ts.Count - 1) then  //compare current index and max ports index
-    begin
+if step_service_boot = 2  then   begin
+  Timer5.Enabled := false;
+  if (COMbuadrateFound>0) then begin  //found actual speea at adapter
+     COMbaudrateIndex:=0;
+     COMbuadrateFound:=0;
+     i_count := i_count + 1;  //go next port
+     step_service_boot:=0;
+     Timer5.Interval := 50;
+     Timer5.Enabled := true;
+     Exit;
+  end;
+
+  step_service_boot:=0;
+  COMbaudrateIndex:=COMbaudrateIndex+1;
+  if (COMbaudrateIndex>COM_BAUDRATE_INDEX_MAX) then  begin
+  COMbaudrateIndex:=0;
+  i_count := i_count + 1;
+  end;
+  Timer5.Interval := 50;
+  Timer5.Enabled := true;
+    Exit;
+end;
+  if step_service_boot = 0 then  begin
+    if ((i_count) <= (ts.Count-1)) then  begin//compare current index and max ports index
       ComPort1.Close;
-      if i_count > 0 then
-      begin // мы уже заходили, считываем
-
-      end;
-       if (COMbuadrateFound>0) then begin  //found actual speea at adapter
-       COMbaudrateIndex:=0;
-       COMbuadrateFound:=0;
-       i_count := i_count + 1;  //go next port
-        Timer5.Enabled := false;
-        Timer5.Interval := timer_delay_send;
-        Timer5.Enabled := true;
-        Exit;
-       end;
-      Form1.ComPort1.Port := 'COM' +
-        inttostr(strtoint(copy(reg.readstring(ts.Strings[i_count]), 4,
-        Length(reg.readstring(ts.Strings[i_count])) - 3)));
-
-      Form1.memo1.Lines.Add
-        ('COM' + inttostr(strtoint(copy(reg.readstring(ts.Strings[i_count]), 4,
-        Length(reg.readstring(ts.Strings[i_count])) - 3)))+' baudrate='+COMbaudratesNames[COMbaudrateIndex]);
-
       ComPort1.BaudRate:=COMbaudrates[COMbaudrateIndex];
-      COMbaudrateIndex:=COMbaudrateIndex+1;
-
-      if (COMbaudrateIndex>COM_BAUDRATE_INDEX_MAX) then  begin
-      COMbaudrateIndex:=0;
-      i_count := i_count + 1;
-      end;
-
-
-      if test_port() then
-      begin
+      Form1.ComPort1.Port := 'COM' +  inttostr(strtoint(copy(reg.readstring(ts.Strings[i_count]), 4,  Length(reg.readstring(ts.Strings[i_count])) - 3)));
+      Form1.memo1.Lines.Add('COM' + inttostr(strtoint(copy(reg.readstring(ts.Strings[i_count]), 4, Length(reg.readstring(ts.Strings[i_count])) - 3)))+' baudrate='+COMbaudratesNames[COMbaudrateIndex]);
+      if test_port() then  begin
         Form1.memo1.Lines.Add('OK');
         Form1.memo1.SetFocus;
         Form1.memo1.SelStart := Form1.memo1.GetTextLen;
         Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
         ComPort1.Open;
         step_service_boot := 1; // подготовка к передаче второй команды
-
         boot_mode := 0;
         bootRXIndex:=0;
         // send_update(11, 0, false); // GET ID BOOT
-         test_device(4,0); // SERVICE
+        test_device(4,0); // SERVICE
         Timer5.Enabled := false;
         Timer5.Interval := timer_delay_send;
         Timer5.Enabled := true;
@@ -5157,7 +5154,6 @@ begin
       end
       else if (com_name.Count = 1) then
       begin // один нашли
-
         if (boot_found > 0) and
           (MessageDlg('Обнаружен адаптер в режиме обновления ПО! Обновить ПО?',
           mtCustom, [mbYes, mbNo], 0) = mrYes) then
@@ -5189,7 +5185,7 @@ begin
           current_adapter:=0
           else if adapter_name.Strings[0]=DEV_TYPE_9 then
           current_adapter:=8;
-          
+
           Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
           Form1.Label19.Caption := adapter_name.Strings[0] + ' (v' +
             main_ver.Strings[0] + ')';
@@ -5204,7 +5200,7 @@ begin
           Form1.AdvGlassButton13.Enabled := true;
           Form1.AdvGlassButton7.Enabled := true;
           Form1.ListBox1.Enabled := true;
-          
+
           com_name.Clear;
           main_ver.Clear;
           com_name.Clear;
@@ -5230,7 +5226,7 @@ begin
     bootRXIndex:=1;
     test_device(4,0); // SERVICE
     send_update(11, 0, false); // GET ID BOOT
-    step_service_boot := 0;
+    step_service_boot := 2;
   end;
 
 end;
