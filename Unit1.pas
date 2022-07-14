@@ -2096,8 +2096,7 @@ end;
 
 procedure TForm1.AdvGlassButton2Click(Sender: TObject);
 begin
-if ((current_adapter=8)and(adapterFirmware>0)) then  begin // get config for MTRF64A
-
+if (current_adapter=8) then  begin // get config for MTRF64A
  if (send_enable) then
       begin
         fillAdapterSettings:=true;
@@ -2110,7 +2109,6 @@ if ((current_adapter=8)and(adapterFirmware>0)) then  begin // get config for MTR
         senddata[6] := 0; // fmt
         send_command;
       end;
-
 end
 else begin
 form6.ShowModal;
@@ -2938,6 +2936,7 @@ begin
                    if fillAdapterSettings then begin
                          if (readdata[6]=0) then begin  //rx sens settings
                            form6.RadioGroup2.ItemIndex:=readdata[7];
+                           if adapterFirmware>0 then begin //get baudrate config
                              if (send_enable) then
                               begin
                                 senddata[1] := 4; // service
@@ -2949,6 +2948,11 @@ begin
                                 senddata[6] := 1; // fmt - settins baudrate
                                 send_command;
                               end;
+                           end
+                           else begin
+                           form6.Show;
+                           fillAdapterSettings:=false;
+                           end;
                          end;
                      if (readdata[6]=1) then begin   //baudrate setting
                        form6.RadioGroup1.ItemIndex:=readdata[7];
@@ -2971,6 +2975,8 @@ begin
 
                   if setAdapterSettings then begin
                        if (readdata[6]=0) then begin  //rx sens settings
+
+                       if (adapterFirmware>0) then begin
                          if (send_enable) then
                             begin
                               senddata[1] := 4; // service
@@ -2982,10 +2988,14 @@ begin
                               senddata[8] := 0; // data1
                               senddata[9] := 7; // data2
                               senddata[10] := 0; // data3
-
                               senddata[6] := 1; // fmt - settins baudrate
                               send_command;
                             end;
+                       end
+                       else begin  //finish here
+                        setAdapterSettings:=false;
+                        form6.Close;
+                       end;
                        end
                          else if (readdata[6]=1)  then begin
                           setAdapterSettings:=false;

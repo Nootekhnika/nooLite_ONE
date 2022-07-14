@@ -87,16 +87,25 @@ begin
   CheckBox2.Checked := log_en;
   CheckBox4.Checked := send_http_enable;
   CheckBox1.Checked:= senslog_en;
- AdvDirectoryEdit2.Text := senslog_patch;
+  AdvDirectoryEdit2.Text := senslog_patch;
   AdvDirectoryEdit1.Text := log_patch;
   Edit1.Text := send_http_address;
 
-  if ((current_adapter=8)and(adapterFirmware>0)) then begin  //MTRF64A
+  if (current_adapter=8) then begin  //MTRF64A
+  but_set.Visible:=true;
   Label4.Visible:=true;
   Label5.Visible:=true;
-  RadioGroup1.Visible:=true;
   RadioGroup2.Visible:=true;
-  but_set.Visible:=true;
+  if (adapterFirmware>0) then begin    //baudrate and sensivity
+  RadioGroup1.Visible:=true;
+  RadioGroup2.Left:=163;
+  Label5.Left:=165;
+  end
+  else begin    //sensivity
+  RadioGroup1.Visible:=false;
+  RadioGroup2.Left:=8;
+  Label5.Left:=10;
+  end;
   end
   else begin
   Label4.Visible:=false;
