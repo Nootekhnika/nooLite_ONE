@@ -3510,7 +3510,7 @@ var
   HM: THandle;
   i_clear:integer;
 begin
- Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
+  Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
 
   HM := OpenMutex(MUTEX_ALL_ACCESS, false, 'nooLite_F_one');  //запуск копии приложения
   if (HM <> 0) then
@@ -5132,11 +5132,16 @@ end;
         Timer5.Interval := timer_delay_send;
         Timer5.Enabled := true;
       end
-      else
+      else begin
         Form1.memo1.Lines.Add('Open error');
         Form1.memo1.SetFocus;
         Form1.memo1.SelStart := Form1.memo1.GetTextLen;
         Form1.memo1.Perform(EM_SCROLLCARET, 0, 0);
+        COMbaudrateIndex:=0;
+        COMbuadrateFound:=0;
+        i_count := i_count + 1;  //go next port
+        Exit;
+      end;
     end
     else
     begin // считывание последнего состояния
