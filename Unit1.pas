@@ -5159,6 +5159,7 @@ end;
           mtCustom, [mbYes, mbNo], 0) = mrYes) then
         begin
           Form1.ComPort1.Port := com_name.Strings[0];
+          Form1.ComPort1.BaudRate:=br9600;
           Form1.ComPort1.Open;
           Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
           Form1.Label19.Caption := 'B-' + adapter_name.Strings[0];
@@ -5179,9 +5180,9 @@ end;
         else if (boot_found = 0) then
         begin
           Form1.ComPort1.Port := com_name.Strings[0];
+          Form1.ComPort1.BaudRate:=COMbaudrates[strtoint(baudrates.Strings[0])];
           Form1.ComPort1.Open;
-          
-          if adapter_name.Strings[0]=DEV_TYPE_0 then 
+          if adapter_name.Strings[0]=DEV_TYPE_0 then
           current_adapter:=0
           else if adapter_name.Strings[0]=DEV_TYPE_9 then
           current_adapter:=8;
