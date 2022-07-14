@@ -42,6 +42,9 @@ begin
 
 
     Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
+        if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then
+    Form1.Label19.Caption :='Обновление ПО ' + adapter_name.Strings[ListBox1.ItemIndex]
+      else
     Form1.Label19.Caption := adapter_name.Strings[ListBox1.ItemIndex] + ' (v' +
       main_ver.Strings[ListBox1.ItemIndex] + ')';
       adapterFirmware:=strtoint(main_ver.Strings[ListBox1.ItemIndex]);
@@ -102,6 +105,9 @@ begin
     Form1.ComPort1.BaudRate:=COMbaudrates[strtoint(baudrates.Strings[ListBox1.ItemIndex])];
     Form1.ComPort1.Open;
     Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
+    if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then
+    Form1.Label19.Caption :='Обновление ПО ' + adapter_name.Strings[ListBox1.ItemIndex]
+      else
     Form1.Label19.Caption := adapter_name.Strings[ListBox1.ItemIndex] + ' (v' +
       main_ver.Strings[ListBox1.ItemIndex] + ')';
      adapterFirmware:=strtoint(main_ver.Strings[ListBox1.ItemIndex]);
