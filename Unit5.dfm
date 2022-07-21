@@ -4,7 +4,7 @@ object Form5: TForm5
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = #1054#1073#1085#1086#1074#1083#1077#1085#1080#1077' '#1055#1054' '#1091#1089#1090#1088#1086#1081#1089#1090#1074' nooLite'
-  ClientHeight = 320
+  ClientHeight = 322
   ClientWidth = 731
   Color = 16250871
   Font.Charset = DEFAULT_CHARSET
@@ -319,7 +319,7 @@ object Form5: TForm5
   end
   object Label11: TLabel
     Left = 85
-    Top = 265
+    Top = 257
     Width = 71
     Height = 18
     Caption = #1042#1085#1080#1084#1072#1085#1080#1077'!'
@@ -334,12 +334,25 @@ object Form5: TForm5
   end
   object Label9: TLabel
     Left = 85
-    Top = 289
-    Width = 640
+    Top = 278
+    Width = 442
     Height = 18
-    Caption = 
-      #1042#1086' '#1074#1088#1077#1084#1103' '#1086#1073#1085#1086#1074#1083#1077#1085#1080#1103' '#1080#1089#1082#1083#1102#1095#1080#1090#1077' '#1087#1077#1088#1077#1076#1072#1095#1091' '#1082#1086#1084#1072#1085#1076' '#1089' '#1091#1089#1090#1088#1086#1081#1089#1090#1074' nooLit' +
-      'e '#1080' '#1076#1072#1085#1085#1086#1081' '#1087#1088#1086#1075#1088#1072#1084#1084#1099'.'
+    Caption = #1042#1086' '#1074#1088#1077#1084#1103' '#1086#1073#1085#1086#1074#1083#1077#1085#1080#1103' '#1080#1089#1082#1083#1102#1095#1080#1090#1077' '#1087#1077#1088#1077#1076#1072#1095#1091' '#1082#1086#1084#1072#1085#1076' '#1089' '#1091#1089#1090#1088#1086#1081#1089#1090#1074' '
+    Color = clBtnFace
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label10: TLabel
+    Left = 85
+    Top = 296
+    Width = 245
+    Height = 18
+    Caption = #1080' '#1087#1088#1086#1075#1088#1072#1084#1084#1085#1099#1093' '#1087#1088#1080#1083#1086#1078#1077#1085#1080#1081' nooLite'
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack

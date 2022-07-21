@@ -32,6 +32,7 @@ type
     Image1: TImage;
     Label11: TLabel;
     Label9: TLabel;
+    Label10: TLabel;
     procedure AdvGlassButton1Click(Sender: TObject);
     procedure AdvGlassButton15Click(Sender: TObject);
     procedure AdvGlassButton2Click(Sender: TObject);
