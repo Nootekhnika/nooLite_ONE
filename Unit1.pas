@@ -226,6 +226,7 @@ const
 
   CMD_RECIVE_API = 1;
   FORM_CLIENT_HEIGHT=438;
+  FORM_CLIENT_WIDTH=974;
   COM_BAUDRATE_INDEX_MAX=6;
 var
   Form1: TForm1;
@@ -2036,6 +2037,8 @@ begin
   Form1.AdvGlassButton10.Enabled := false;
   Form1.AdvGlassButton13.Enabled := false;
   Form1.AdvGlassButton7.Enabled := false;
+  Form1.AdvGlassButton1.Enabled:=false;
+  Form1.AdvGlassButton17.Enabled:=false;
   Form1.ListBox1.Enabled := false;
 
   auto_reset := false;
@@ -3268,6 +3271,17 @@ begin
                     (readdata[12] shl 16) + (readdata[13] shl 8) + readdata[14];
                   Form5.Label7.Caption := inttohex(boot_send_address, 8);
                   Form5.Show;
+                  Form1.AdvGlassButton12.Enabled := false;
+                  Form1.AdvGlassButton8.Enabled := false;
+                  Form1.AdvGlassButton9.Enabled := false;
+
+                  Form1.AdvGlassButton11.Enabled := false;
+                  Form1.AdvGlassButton10.Enabled := false;
+                  Form1.AdvGlassButton13.Enabled := false;
+                  Form1.AdvGlassButton7.Enabled := false;
+                  Form1.AdvGlassButton1.Enabled:=false;
+                  Form1.AdvGlassButton17.Enabled:=false;
+                  Form1.ListBox1.Enabled := false;
                   boot_mode_step_2 := 2;
                 end
                 else if (boot_mode_step_2 = 3) then
@@ -3521,7 +3535,7 @@ var
   i_clear:integer;
 begin
   Form1.ClientHeight:=FORM_CLIENT_HEIGHT;
-
+  Form1.ClientWidth:=FORM_CLIENT_WIDTH;
   HM := OpenMutex(MUTEX_ALL_ACCESS, false, 'nooLite_F_one');  //запуск копии приложения
   if (HM <> 0) then
   begin   //пепедача параметров в другое приложение через API и выход
@@ -5241,7 +5255,8 @@ end;
           Form1.AdvGlassButton13.Enabled := true;
           Form1.AdvGlassButton7.Enabled := true;
           Form1.ListBox1.Enabled := true;
-
+          Form1.AdvGlassButton1.Enabled:=true;
+          Form1.AdvGlassButton17.Enabled:=true;
           com_name.Clear;
           main_ver.Clear;
           com_name.Clear;

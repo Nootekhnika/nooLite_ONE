@@ -63,6 +63,8 @@ begin
     Form1.AdvGlassButton13.Enabled := true;
     Form1.AdvGlassButton7.Enabled := true;
     Form1.ListBox1.Enabled := true;
+    Form1.AdvGlassButton1.Enabled:=true;
+    Form1.AdvGlassButton17.Enabled:=true;
 
     service_find := 0;
 
@@ -125,7 +127,8 @@ begin
     Form1.AdvGlassButton13.Enabled := true;
     Form1.AdvGlassButton7.Enabled := true;
     Form1.ListBox1.Enabled := true;
-
+    Form1.AdvGlassButton1.Enabled:=true;
+    Form1.AdvGlassButton17.Enabled:=true;
     service_find := 0;
     if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then begin
     if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
