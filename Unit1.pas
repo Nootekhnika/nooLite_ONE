@@ -239,6 +239,7 @@ var
 
   COMbaudrateIndex:integer = 0;
   COMbuadrateFound:integer = 0; //0 no, 1-norm, 2-boot
+  backCnannelIndex:integer = 0;
   bootRXIndex: integer =0;
   adapterFirmware:integer;
   mtrfAdditionalSettings: Integer; //value - 0 no, other - device_type
@@ -2652,7 +2653,7 @@ begin
   service_find := 1; // поиск адаптеров при старте программы
   send_enable := true;
   Form1.Label6.Caption := ''; // спрятать статусную строку
-  ListBox1.ItemIndex := 0;
+  ListBox1.ItemIndex := backCnannelIndex;
   clear_result(0);
   crc := 0;
   poswrite := 0;
@@ -3670,6 +3671,7 @@ procedure TForm1.ListBox1Click(Sender: TObject);
 begin
   AdvGlassButton12.Click;
   SpinEdit1.Value:=ListBox1.ItemIndex;
+  backCnannelIndex:=ListBox1.ItemIndex;
 end;
 
 
