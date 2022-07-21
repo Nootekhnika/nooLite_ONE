@@ -44,7 +44,9 @@ end;
 
 procedure TForm4.AdvGlassButton1Click(Sender: TObject);
 begin
+if MessageDlg('Вы действительно хотите остановить обновление ПО?',  mtCustom, [mbYes, mbNo], 0) = mrYes then begin
 Form4.Close;
+end;
 end;
 
 procedure TForm4.AdvGlassButton2Click(Sender: TObject);

@@ -66,6 +66,9 @@ end;
 
 procedure TForm5.AdvGlassButton1Click(Sender: TObject);
 begin
+
+if MessageDlg('Вы действительно хотите остановить обновление ПО?',  mtCustom, [mbYes, mbNo], 0) = mrYes then begin
+
   boot_mode_2 := 0;
   boot_mode_set := 0;
   boot_mode_step_2 := 0;
@@ -85,6 +88,7 @@ begin
   Form1.Button6.Click;
 
 Form5.Close;
+end;
 end;
 
 procedure TForm5.AdvGlassButton2Click(Sender: TObject);
