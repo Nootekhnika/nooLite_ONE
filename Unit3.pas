@@ -63,6 +63,7 @@ begin
     Form1.AdvGlassButton13.Enabled := true;
     Form1.AdvGlassButton7.Enabled := true;
     Form1.ListBox1.Enabled := true;
+    Form1.AdvGlassButton2.Enabled:=true;
     Form1.AdvGlassButton1.Enabled:=true;
     Form1.AdvGlassButton17.Enabled:=true;
 
@@ -127,6 +128,7 @@ begin
     Form1.AdvGlassButton13.Enabled := true;
     Form1.AdvGlassButton7.Enabled := true;
     Form1.ListBox1.Enabled := true;
+    Form1.AdvGlassButton2.Enabled:=true;
     Form1.AdvGlassButton1.Enabled:=true;
     Form1.AdvGlassButton17.Enabled:=true;
     service_find := 0;

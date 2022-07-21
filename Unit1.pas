@@ -2040,6 +2040,7 @@ begin
   Form1.AdvGlassButton1.Enabled:=false;
   Form1.AdvGlassButton17.Enabled:=false;
   Form1.ListBox1.Enabled := false;
+  Form1.AdvGlassButton2.Enabled:=false;
 
   auto_reset := false;
   boot_mode_step := 0;
@@ -2166,6 +2167,21 @@ begin
     bind_count := 5; // 5-1sec
     Form1.Label6.Font.Color := clblack;
     Form1.Label6.Caption := 'Привязка...';
+
+     Form1.AdvGlassButton12.Enabled := false;
+  Form1.AdvGlassButton8.Enabled := false;
+  Form1.AdvGlassButton9.Enabled := false;
+
+  Form1.AdvGlassButton11.Enabled := false;
+  Form1.AdvGlassButton10.Enabled := false;
+  Form1.AdvGlassButton13.Enabled := false;
+  Form1.AdvGlassButton7.Enabled := false;
+  Form1.AdvGlassButton1.Enabled:=false;
+  Form1.AdvGlassButton17.Enabled:=false;
+  Form1.AdvGlassButton2.Enabled:=false;
+  Form1.ListBox1.Enabled := false;
+
+
   end
   else
   begin
@@ -3116,6 +3132,20 @@ begin
                         bind_mode := 0;
                         Timer2.Enabled := false;
                         AdvGlassButton7.BackgroundColor := $0092F5F8;
+                          Form1.AdvGlassButton12.Enabled := true;
+                          Form1.AdvGlassButton8.Enabled := true;
+                          Form1.AdvGlassButton9.Enabled := true;
+
+                          Form1.AdvGlassButton11.Enabled := true;
+                          Form1.AdvGlassButton10.Enabled := true;
+                          Form1.AdvGlassButton13.Enabled := true;
+                          Form1.AdvGlassButton7.Enabled := true;
+                          Form1.ListBox1.Enabled := true;
+                          Form1.AdvGlassButton2.Enabled:=true;
+                          Form1.AdvGlassButton1.Enabled:=true;
+                          Form1.AdvGlassButton17.Enabled:=true;
+
+
                         if (readdata[7] = 0) then // тип
                           Form1.Label6.Caption := Form1.Label6.Caption +
                             DEV_TYPE_0
@@ -3282,6 +3312,7 @@ begin
                   Form1.AdvGlassButton1.Enabled:=false;
                   Form1.AdvGlassButton17.Enabled:=false;
                   Form1.ListBox1.Enabled := false;
+                  Form1.AdvGlassButton2.Enabled:=false;
                   boot_mode_step_2 := 2;
                 end
                 else if (boot_mode_step_2 = 3) then
@@ -5255,6 +5286,7 @@ end;
           Form1.AdvGlassButton13.Enabled := true;
           Form1.AdvGlassButton7.Enabled := true;
           Form1.ListBox1.Enabled := true;
+          Form1.AdvGlassButton2.Enabled:=true;
           Form1.AdvGlassButton1.Enabled:=true;
           Form1.AdvGlassButton17.Enabled:=true;
           com_name.Clear;
@@ -5329,6 +5361,19 @@ begin
       bind_mode := 0;
       Timer2.Enabled := false;
       AdvGlassButton7.BackgroundColor := $0092F5F8;
+          Form1.AdvGlassButton12.Enabled := true;
+          Form1.AdvGlassButton8.Enabled := true;
+          Form1.AdvGlassButton9.Enabled := true;
+
+          Form1.AdvGlassButton11.Enabled := true;
+          Form1.AdvGlassButton10.Enabled := true;
+          Form1.AdvGlassButton13.Enabled := true;
+          Form1.AdvGlassButton7.Enabled := true;
+          Form1.ListBox1.Enabled := true;
+          Form1.AdvGlassButton2.Enabled:=true;
+          Form1.AdvGlassButton1.Enabled:=true;
+          Form1.AdvGlassButton17.Enabled:=true;
+
       Form1.Label6.Font.Color := clblack;
       Form1.Label6.Caption := '';
     end;
