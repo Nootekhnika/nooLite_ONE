@@ -58,6 +58,7 @@ uses Unit1;
 procedure TForm5.AdvGlassButton15Click(Sender: TObject);
 begin
   boot_mode_step_2 := 3;
+  startedUpdate:=true;
   Form1.Button12.Click; // очистить память
   Form1.send_timer_2.Interval := 3000;
   Form1.send_timer_2.Enabled := true;
@@ -66,6 +67,7 @@ end;
 
 procedure TForm5.AdvGlassButton1Click(Sender: TObject);
 begin
+if startedUpdate then begin
 
 if MessageDlg('Вы действительно хотите остановить обновление ПО?',  mtCustom, [mbYes, mbNo], 0) = mrYes then begin
 
@@ -88,6 +90,30 @@ if MessageDlg('Вы действительно хотите остановить обновление ПО?',  mtCustom, [m
   Form1.Button6.Click;
 
 Form5.Close;
+end;
+end
+else begin
+  boot_mode_2 := 0;
+  boot_mode_set := 0;
+  boot_mode_step_2 := 0;
+
+  AdvGlassButton2.Enabled := true;
+  AdvCircularProgress1.Enabled := false;
+  AdvCircularProgress1.Visible := false;
+  AdvGlassButton15.Enabled := false;
+  Label6.Caption := '';
+  Label16.Caption := '';
+  ProgressBar1.Position := 0;
+  ProgressBar1.Visible := false;
+  Form1.Button13.Click;
+  Sleep(1000);
+  Form1.Button9.Click;
+  Sleep(100);
+  Form1.Button6.Click;
+
+Form5.Close;
+
+
 end;
 end;
 

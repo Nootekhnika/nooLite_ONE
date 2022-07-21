@@ -40,13 +40,18 @@ procedure TForm4.AdvGlassButton15Click(Sender: TObject);
 begin
   Form1.memo1.Clear;
   Form1.Button3.Click;
+  startedUpdate:=true;
 end;
 
 procedure TForm4.AdvGlassButton1Click(Sender: TObject);
 begin
+if startedUpdate then begin
 if MessageDlg('Вы действительно хотите остановить обновление ПО?',  mtCustom, [mbYes, mbNo], 0) = mrYes then begin
 Form4.Close;
 end;
+end
+else
+Form4.Close;
 end;
 
 procedure TForm4.AdvGlassButton2Click(Sender: TObject);

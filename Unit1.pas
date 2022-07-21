@@ -247,7 +247,7 @@ var
   poswrite: Integer;
   togl_byte: byte;
   last_togl: byte;
-
+  startedUpdate: boolean = false;
   deleteAddressAction:boolean=false;
   crc: byte;
   show_str: string;
@@ -3246,6 +3246,7 @@ begin
                   service_find := 0; // выход из режима поиска адаптеров
                   // form4.ShowModal;
                   Form4.Show;
+                  startedUpdate:=false;
                   // Form1.Visible:=false;
                   // ShowMessage('1');
                   // memo1.Lines.Add('Вошли в bootloader');
@@ -3301,6 +3302,7 @@ begin
                     (readdata[12] shl 16) + (readdata[13] shl 8) + readdata[14];
                   Form5.Label7.Caption := inttohex(boot_send_address, 8);
                   Form5.Show;
+                  startedUpdate:=false;
                   Form1.AdvGlassButton12.Enabled := false;
                   Form1.AdvGlassButton8.Enabled := false;
                   Form1.AdvGlassButton9.Enabled := false;
@@ -5260,6 +5262,7 @@ end;
           boot_mode := 1; // входим в режим бутлоадера
           // form4.ShowModal;
           Form4.Show;
+          startedUpdate:=false;
           boot_mode_step := 3;
         end
         else if (boot_found = 0) then
