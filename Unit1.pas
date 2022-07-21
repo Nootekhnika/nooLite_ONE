@@ -4921,6 +4921,13 @@ begin
   if boot_mode_step = 0 then // нет ответа
   begin
     showmessage('Адаптер не отвечает!');
+    Form5.AdvCircularProgress1.Enabled := false;
+    Form5.AdvCircularProgress1.Visible := false;
+    Form5.Label6.Caption := '';
+    Form5.Label8.Caption := '';
+    Form4.AdvCircularProgress1.Enabled := false;
+    Form4.AdvCircularProgress1.Visible := false;
+    Form4.Label6.Caption := '';
     boot_mode := 0;
     boot_mode_step := 0;
   end
@@ -4939,6 +4946,7 @@ begin
   else if boot_mode_step = 3 then
   begin
     showmessage('Ошибка при обновлении ПО!');
+
   end
   else if boot_mode_step = 4 then
   begin // прошиваем
@@ -4960,6 +4968,13 @@ begin
       // memo1.Lines.Add('Нет ответа!');
       showmessage
         ('Ошибка обновления. Повторите заново.');
+    Form5.AdvCircularProgress1.Enabled := false;
+    Form5.AdvCircularProgress1.Visible := false;
+    Form5.Label6.Caption := '';
+    Form5.Label8.Caption := '';
+    Form4.AdvCircularProgress1.Enabled := false;
+    Form4.AdvCircularProgress1.Visible := false;
+    Form4.Label6.Caption := '';
     end;
   end;
 end;
@@ -4982,6 +4997,9 @@ begin
     Form5.AdvCircularProgress1.Visible := false;
     Form5.Label6.Caption := '';
     Form5.Label8.Caption := '';
+    Form4.AdvCircularProgress1.Enabled := false;
+    Form4.AdvCircularProgress1.Visible := false;
+    Form4.Label6.Caption := '';
   end
   else if boot_mode_step_2 = 5 then
   begin
@@ -4990,6 +5008,9 @@ begin
     Form5.AdvCircularProgress1.Visible := false;
     Form5.Label6.Caption := '';
     Form5.Label8.Caption := '';
+    Form4.AdvCircularProgress1.Enabled := false;
+    Form4.AdvCircularProgress1.Visible := false;
+    Form4.Label6.Caption := '';
   end
   else if boot_mode_step_2 = 4 then
   begin // прошиваем
@@ -5021,7 +5042,10 @@ begin
           Form5.AdvCircularProgress1.Visible := false;
           Form5.Label6.Caption := '';
           Form5.Label8.Caption := '';
-    end;
+          Form4.AdvCircularProgress1.Enabled := false;
+          Form4.AdvCircularProgress1.Visible := false;
+          Form4.Label6.Caption := '';
+     end;
   end;
 end;
 
