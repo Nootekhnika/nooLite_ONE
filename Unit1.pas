@@ -2283,6 +2283,10 @@ procedure TForm1.Button10Click(Sender: TObject);
 begin
   if (OpenDialog1.Execute) then
     filename_bin := OpenDialog1.FileName;
+ if filename_bin = '' then
+  begin
+    Exit;
+  end ;
         if not FileExists(filename_bin) then  begin
       showmessage('Некорректный путь к файлу! Откройте файл заново.');
       Exit;
@@ -2478,6 +2482,11 @@ procedure TForm1.Button1Click(Sender: TObject);
 begin
   if (OpenDialog1.Execute) then
     filename_bin := OpenDialog1.FileName;
+      if filename_bin = '' then
+  begin
+    Exit;
+  end ;
+
     if not FileExists(filename_bin) then  begin
       showmessage('Некорректный путь к файлу! Откройте файл заново.');
       Exit;
