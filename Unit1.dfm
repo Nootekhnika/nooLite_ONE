@@ -902,7 +902,7 @@ object Form1: TForm1
     Width = 196
     Height = 40
     BackColor = 6940136
-    Caption = #1055#1088#1080#1074#1103#1079#1082#1072
+    Caption = #1055#1088#1080#1074#1103#1079#1082#1072' nooLite-F'
     Enabled = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
