@@ -3264,6 +3264,7 @@ begin
                   // memo1.Lines.Add('Reset-ok');
                   boot_mode_step := 0;
                   Form4.Label6.Caption := 'Обновление завершено!';
+                  startedUpdate:=false;
                   Form4.AdvCircularProgress1.Position := 0;
                   Form4.AdvCircularProgress1.Enabled := false;
                   Form4.AdvCircularProgress1.Visible := false;
@@ -3330,6 +3331,7 @@ begin
                   memo1.Lines.Add('Reset-ok');
                   boot_mode_step_2 := 0;
                   Form5.Label6.Caption := 'Обновление завершено!';
+                  startedUpdate:=false;
                   Form5.AdvCircularProgress1.Position := 0;
                   Form5.AdvCircularProgress1.Enabled := false;
                   Form5.AdvCircularProgress1.Visible := false;
@@ -4977,6 +4979,7 @@ begin
     Form4.AdvCircularProgress1.Enabled := false;
     Form4.AdvCircularProgress1.Visible := false;
     Form4.Label6.Caption := '';
+    startedUpdate:=false;
     boot_mode := 0;
     boot_mode_step := 0;
   end
@@ -5024,6 +5027,7 @@ begin
     Form4.AdvCircularProgress1.Enabled := false;
     Form4.AdvCircularProgress1.Visible := false;
     Form4.Label6.Caption := '';
+    startedUpdate:=false;
     end;
   end;
 end;
@@ -5049,6 +5053,7 @@ begin
     Form4.AdvCircularProgress1.Enabled := false;
     Form4.AdvCircularProgress1.Visible := false;
     Form4.Label6.Caption := '';
+    startedUpdate:=false;
   end
   else if boot_mode_step_2 = 5 then
   begin
@@ -5060,6 +5065,7 @@ begin
     Form4.AdvCircularProgress1.Enabled := false;
     Form4.AdvCircularProgress1.Visible := false;
     Form4.Label6.Caption := '';
+    startedUpdate:=false;
   end
   else if boot_mode_step_2 = 4 then
   begin // прошиваем
@@ -5094,6 +5100,7 @@ begin
           Form4.AdvCircularProgress1.Enabled := false;
           Form4.AdvCircularProgress1.Visible := false;
           Form4.Label6.Caption := '';
+          startedUpdate:=false;
      end;
   end;
 end;
