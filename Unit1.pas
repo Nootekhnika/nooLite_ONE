@@ -5306,7 +5306,8 @@ end;
           reg.CloseKey;
           reg.free;
           service_find := 0; // выход из режима поиска адаптеров
-          AdvGlassButton12.Click;
+          Form1.Label6.Font.Color := clHotLight;
+          Form1.Label6.Caption:='Нажмите "Считать состояние"';
         end;
       end
       else

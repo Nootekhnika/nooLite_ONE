@@ -79,10 +79,9 @@ begin
         end;
     end
     else begin
-      Form1.AdvGlassButton12.Click;
+      Form1.Label6.Font.Color := clHotLight;
+      Form1.Label6.Caption:='Нажмите "Считать состояние"';
     end;
-
-
     Form3.Close;
   end
   else
@@ -142,7 +141,8 @@ begin
         end;
     end
     else begin
-      Form1.AdvGlassButton12.Click;
+      Form1.Label6.Font.Color := clHotLight;
+      Form1.Label6.Caption:='Нажмите "Считать состояние"';
     end;
     Form3.Close;
   end
