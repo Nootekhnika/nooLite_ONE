@@ -53,8 +53,22 @@ begin
     current_adapter:=0
     else if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_9 then
      current_adapter:=8;
+    service_find := 0;
 
-    Form1.AdvGlassButton12.Enabled := true;
+    if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then begin
+    if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
+          mtCustom, [mbYes, mbNo], 0) = mrYes) then
+        begin
+          boot_mode := 1; // входим в режим бутлоадера
+          Form4.Show;
+          boot_mode_step := 3;
+        end
+        else begin
+        Form1.AdvGlassButton17.Enabled:=true;
+        end;
+    end
+    else begin
+         Form1.AdvGlassButton12.Enabled := true;
     Form1.AdvGlassButton8.Enabled := true;
     Form1.AdvGlassButton9.Enabled := true;
 
@@ -67,18 +81,6 @@ begin
     Form1.AdvGlassButton1.Enabled:=true;
     Form1.AdvGlassButton17.Enabled:=true;
 
-    service_find := 0;
-
-    if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then begin
-    if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
-          mtCustom, [mbYes, mbNo], 0) = mrYes) then
-        begin
-          boot_mode := 1; // входим в режим бутлоадера
-          Form4.Show;
-          boot_mode_step := 3;
-        end;
-    end
-    else begin
       Form1.Label6.Font.Color := clHotLight;
       Form1.Label6.Caption:='Нажмите "Считать состояние"';
     end;
@@ -117,8 +119,21 @@ begin
     current_adapter:=0
     else if adapter_name.Strings[ListBox1.ItemIndex]=DEV_TYPE_9 then
      current_adapter:=8;
-
-    Form1.AdvGlassButton12.Enabled := true;
+    service_find := 0;
+    if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then begin
+    if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
+          mtCustom, [mbYes, mbNo], 0) = mrYes) then
+        begin
+          boot_mode := 1; // входим в режим бутлоадера
+          Form4.Show;
+          boot_mode_step := 3;
+        end
+        else begin
+        Form1.AdvGlassButton17.Enabled:=true;
+        end;
+    end
+    else begin
+       Form1.AdvGlassButton12.Enabled := true;
     Form1.AdvGlassButton8.Enabled := true;
     Form1.AdvGlassButton9.Enabled := true;
 
@@ -130,17 +145,7 @@ begin
     Form1.AdvGlassButton2.Enabled:=true;
     Form1.AdvGlassButton1.Enabled:=true;
     Form1.AdvGlassButton17.Enabled:=true;
-    service_find := 0;
-    if  boot_name.Strings[ListBox1.ItemIndex]='BOOT' then begin
-    if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
-          mtCustom, [mbYes, mbNo], 0) = mrYes) then
-        begin
-          boot_mode := 1; // входим в режим бутлоадера
-          Form4.Show;
-          boot_mode_step := 3;
-        end;
-    end
-    else begin
+
       Form1.Label6.Font.Color := clHotLight;
       Form1.Label6.Caption:='Нажмите "Считать состояние"';
     end;

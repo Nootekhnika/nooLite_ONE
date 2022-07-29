@@ -237,7 +237,6 @@ var
   COMbaudrates:array [0 .. 6] of TBaudRate = (br9600, br115200, br19200, brCustom, br38400, br57600, br14400);
   COMbaudratesMTRF:array [0 .. 6] of TBaudRate = (br9600, br14400, br19200, brCustom, br38400, br57600, br115200);
   COMbaudratesNames:array [0 .. 6] of String = ('9600', '115200', '19200', '28800', '38400', '57600', '14400');
-
   COMbaudrateIndex:integer = 0;
   COMbuadrateFound:integer = 0; //0 no, 1-norm, 2-boot
   backCnannelIndex:integer = 0;
@@ -2028,7 +2027,6 @@ end;
 
 procedure TForm1.AdvGlassButton17Click(Sender: TObject);
 begin
-
   Form1.AdvGlassButton12.Enabled := false;
   Form1.AdvGlassButton8.Enabled := false;
   Form1.AdvGlassButton9.Enabled := false;
@@ -2048,7 +2046,6 @@ begin
   send_update(0, 0, false); // принудительная перезагрузка
   send_timer.Interval := 500;
   send_timer.Enabled := true;
-
 end;
 
 procedure TForm1.AdvGlassButton1Click(Sender: TObject);
@@ -4982,6 +4979,7 @@ begin
     startedUpdate:=false;
     boot_mode := 0;
     boot_mode_step := 0;
+    Button5.Click;
   end
   else if boot_mode_step = 1 then // фиксация в бутлоадаре
   begin
@@ -5248,8 +5246,8 @@ end;
       end
       else if (com_name.Count = 1) then
       begin // один нашли
-        if (boot_found > 0) and
-          (MessageDlg('Обнаружен адаптер в режиме обновления ПО! Обновить ПО?',
+        if (boot_found > 0) then    begin
+        if (MessageDlg('Обнаружен адаптер в режиме обновления ПО! Обновить ПО?',
           mtCustom, [mbYes, mbNo], 0) = mrYes) then
         begin
           Form1.ComPort1.Port := com_name.Strings[0];
@@ -5271,6 +5269,10 @@ end;
           Form4.Show;
           startedUpdate:=false;
           boot_mode_step := 3;
+        end
+        else begin
+        Form1.AdvGlassButton17.Enabled:=true;
+        end;
         end
         else if (boot_found = 0) then
         begin
