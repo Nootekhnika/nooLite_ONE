@@ -240,6 +240,7 @@ var
   COMbaudrateIndex:integer = 0;
   COMbuadrateFound:integer = 0; //0 no, 1-norm, 2-boot
   backCnannelIndex:integer = 0;
+  cancelUpdate:boolean = false;
   bootRXIndex: integer =0;
   adapterFirmware:integer;
   mtrfAdditionalSettings: Integer; //value - 0 no, other - device_type
@@ -2027,6 +2028,11 @@ end;
 
 procedure TForm1.AdvGlassButton17Click(Sender: TObject);
 begin
+if cancelUpdate then begin
+cancelUpdate:=false;
+Form4.Show;
+end
+else begin
   Form1.AdvGlassButton12.Enabled := false;
   Form1.AdvGlassButton8.Enabled := false;
   Form1.AdvGlassButton9.Enabled := false;
@@ -2046,6 +2052,7 @@ begin
   send_update(0, 0, false); // принудительная перезагрузка
   send_timer.Interval := 500;
   send_timer.Enabled := true;
+end;
 end;
 
 procedure TForm1.AdvGlassButton1Click(Sender: TObject);
@@ -2662,6 +2669,7 @@ begin
   err_read := 0;
   bind_mode := 0;
   boot_mode := 0;
+  cancelUpdate:=false;
   boot_loop := 0;
   no_ch := 0;
   Form3.ListBox1.Clear;
@@ -5255,7 +5263,7 @@ end;
           Form1.ComPort1.Open;
           Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
           Form1.Label19.Caption := 'Обновление ПО  ' + adapter_name.Strings[0];
-          if adapter_name.Strings[0]=DEV_TYPE_0 then 
+          if adapter_name.Strings[0]=DEV_TYPE_0 then
           current_adapter:=0
           else if adapter_name.Strings[0]=DEV_TYPE_9 then
           current_adapter:=8;
@@ -5272,6 +5280,28 @@ end;
         end
         else begin
         Form1.AdvGlassButton17.Enabled:=true;
+
+          Form1.ComPort1.Port := com_name.Strings[0];
+          Form1.ComPort1.BaudRate:=br9600;
+          Form1.ComPort1.Open;
+          Form1.AdvSmoothStatusIndicator1.Appearance.Fill.Color := color_good;
+          Form1.Label19.Caption := 'Обновление ПО  ' + adapter_name.Strings[0];
+          if adapter_name.Strings[0]=DEV_TYPE_0 then
+          current_adapter:=0
+          else if adapter_name.Strings[0]=DEV_TYPE_9 then
+          current_adapter:=8;
+          com_name.Clear;
+          adapter_name.Clear;
+          boot_name.Clear;
+          main_ver.Clear;
+          service_find := 0; // выход из режима поиска адаптеров
+          boot_mode := 1; // входим в режим бутлоадера
+          // form4.ShowModal;
+          startedUpdate:=false;
+          boot_mode_step := 3;
+
+
+
         end;
         end
         else if (boot_found = 0) then

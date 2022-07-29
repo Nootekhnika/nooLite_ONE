@@ -59,12 +59,16 @@ begin
     if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
           mtCustom, [mbYes, mbNo], 0) = mrYes) then
         begin
+          cancelUpdate:=false;
           boot_mode := 1; // входим в режим бутлоадера
           Form4.Show;
           boot_mode_step := 3;
         end
         else begin
         Form1.AdvGlassButton17.Enabled:=true;
+        cancelUpdate:=true;
+        boot_mode := 1; // входим в режим бутлоадера
+        boot_mode_step := 3;
         end;
     end
     else begin
@@ -124,12 +128,16 @@ begin
     if (MessageDlg('Выбран адаптер в режиме обновления ПО! Обновить ПО?',
           mtCustom, [mbYes, mbNo], 0) = mrYes) then
         begin
+          cancelUpdate:=false;
           boot_mode := 1; // входим в режим бутлоадера
           Form4.Show;
           boot_mode_step := 3;
         end
         else begin
         Form1.AdvGlassButton17.Enabled:=true;
+        cancelUpdate:=true;
+        boot_mode := 1; // входим в режим бутлоадера
+        boot_mode_step := 3;
         end;
     end
     else begin
