@@ -2030,6 +2030,7 @@ procedure TForm1.AdvGlassButton17Click(Sender: TObject);
 begin
 if cancelUpdate then begin
 cancelUpdate:=false;
+Form1.AdvGlassButton17.Enabled:=false;
 Form4.Show;
 end
 else begin
