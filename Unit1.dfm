@@ -808,6 +808,7 @@ object Form1: TForm1
     FixedFont.Name = 'Tahoma'
     FixedFont.Style = [fsBold]
     FloatFormat = '%.2f'
+    IntelliZoom = False
     Look = glSoft
     PrintSettings.DateFormat = 'dd/mm/yyyy'
     PrintSettings.Font.Charset = DEFAULT_CHARSET
