@@ -5273,14 +5273,13 @@ end;
           main_ver.Clear;
           service_find := 0; // выход из режима поиска адаптеров
           boot_mode := 1; // входим в режим бутлоадера
-          // form4.ShowModal;
           Form4.Show;
           startedUpdate:=false;
           boot_mode_step := 3;
         end
         else begin
-        Form1.AdvGlassButton17.Enabled:=true;
-
+          cancelUpdate:=true;
+          Form1.AdvGlassButton17.Enabled:=true;
           Form1.ComPort1.Port := com_name.Strings[0];
           Form1.ComPort1.BaudRate:=br9600;
           Form1.ComPort1.Open;
@@ -5296,12 +5295,8 @@ end;
           main_ver.Clear;
           service_find := 0; // выход из режима поиска адаптеров
           boot_mode := 1; // входим в режим бутлоадера
-          // form4.ShowModal;
           startedUpdate:=false;
           boot_mode_step := 3;
-
-
-
         end;
         end
         else if (boot_found = 0) then
