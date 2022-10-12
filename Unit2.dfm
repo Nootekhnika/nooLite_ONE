@@ -127,7 +127,7 @@ object Form2: TForm2
   end
   object AdvGlassButton12: TAdvGlassButton
     Left = 379
-    Top = 320
+    Top = 324
     Width = 140
     Height = 56
     BackColor = 10012773
