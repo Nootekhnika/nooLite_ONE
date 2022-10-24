@@ -315,7 +315,6 @@ object Form1: TForm1
     Font.Height = -13
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
-    ItemIndex = 0
     ParentFont = False
     TabOrder = 1
     Text = 'OFF=0'
@@ -347,7 +346,6 @@ object Form1: TForm1
       'Shadow_Set_Bright=24'
       'Temporary_On=25'
       'Modes=26'
-      'Send_Temp_Humi=21'
       'CMD_Read_State=128'
       'CMD_Write_State=129'
       'CMD_Send_State=130'
