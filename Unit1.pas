@@ -4934,6 +4934,7 @@ begin
     N11.Enabled := true;
     N12.Enabled := true;
     SetTemp.Visible:=true;
+    nooLite1.Enabled:=true;
 
     if (Form1.AdvStringGrid1.Cells[0, AdvStringGrid1.SelectedRow[0]])=DEV_TYPE_5 then begin
       N17.Visible:=true;
@@ -4980,6 +4981,7 @@ begin
       N11.Enabled := false;
       N12.Enabled := false;
       SetTemp.Visible:=false;
+      nooLite1.Enabled:=false;
     end;
 
 
