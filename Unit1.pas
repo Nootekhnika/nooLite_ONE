@@ -4297,15 +4297,6 @@ begin
         Form2.RadioGroup3.Left:=213;
         end;
 
-
-        if (dev_type_temp=10) then begin  //temporary
-        Form2.RadioGroup1.Visible:=false;
-        Form2.RadioGroup5.Visible:=false;
-        Form2.RadioGroup3.Top:=51;
-        Form2.RadioGroup3.Left:=8;
-        end;
-
-
         if (dev_type_temp=3) then begin
         //change position for control
         Form2.RadioGroup3.Top:=51;
