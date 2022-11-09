@@ -346,6 +346,7 @@ object Form1: TForm1
       'Shadow_Set_Bright=24'
       'Temporary_On=25'
       'Modes=26'
+      '---'
       'CMD_Read_State=128'
       'CMD_Write_State=129'
       'CMD_Send_State=130'
